@@ -1,5 +1,7 @@
 # dsh-mcp — drive an already-running DSH instance from any MCP client
 
+**中文文档：[README.zh-CN.md](README.zh-CN.md)**
+
 `dsh-mcp` is an **MCP (Model Context Protocol) server** that is *not* part of DSH. It is a **remote-control
 client** for a DSH host: mount it in any MCP-capable AI client (Claude Desktop, Cursor, another DSH
 session, a custom MCP host) and that AI can list sessions, read event-level history, **create sessions,
@@ -24,7 +26,7 @@ MCP host  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<method> (JSO
 ## 1. Install
 
 ```bash
-cd /root/Aub/t2-dsh-mcp
+cd dsh-mcp
 npm install                       # one dependency: @modelcontextprotocol/sdk@1.30.0 (pinned)
 node --version                    # v20+ (developed and tested on v24.19.0)
 ```
@@ -53,7 +55,7 @@ node src/index.js --help
   "mcpServers": {
     "dsh": {
       "command": "node",
-      "args": ["/root/Aub/t2-dsh-mcp/src/index.js", "--base", "http://127.0.0.1:3080"],
+      "args": ["/path/to/dsh-mcp/src/index.js", "--base", "http://127.0.0.1:3080"],
       "env": { "DSH_TIMEOUT_MS": "60000" }
     }
   }
@@ -149,7 +151,7 @@ take an explicit budget.
 
 ```
 dsh_host_info                                                          # confirm the target
-dsh_dispatch_task  { task: "在 /tmp 写 hello.txt 并回复 DONE", workspace: "/root/Aub" }
+dsh_dispatch_task  { task: "在 /tmp 写 hello.txt 并回复 DONE", workspace: "/path/to/project" }
   → { session_id: "session-…", baseline_updated_at: 179…, next_call: { tool: "dsh_wait_for_turn", … } }
 dsh_wait_for_turn  { session_id: "session-…", timeout_ms: 300000, baseline_updated_at: 179… }
   → { settled: true, last_assistant_text: "DONE", turns: 1, tool_calls: 1 }

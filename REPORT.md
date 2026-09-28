@@ -1,6 +1,6 @@
 # T2 · DSH MCP Server — 设计决策、实测输出与坑位
 
-**交付路径**：`/root/Aub/t2-dsh-mcp/`
+**交付路径**：`<WORKSPACE>/dsh-mcp/`
 **被控目标**：真实 DSH 宿主 `http://127.0.0.1:3080`（host version `0.0.1`，provider `local-gateway`）
 **状态**：完成。MCP 协议测试 **13/13 通过**；对真实 DSH 的端到端测试 **26/26 通过**（合计 39 项，全部真跑）。
 
@@ -24,7 +24,7 @@ MCP host ──stdio 或 streamable HTTP(MCP)──▶ dsh-mcp ──POST /api/<
 ## 2. 结构（严格按要求，另加 1 个配置文件）
 
 ```
-t2-dsh-mcp/
+dsh-mcp/
 ├── package.json          type:module，依赖钉死 @modelcontextprotocol/sdk@1.30.0
 ├── README.md             安装/配置/23 个工具用法与示例/已知限制
 ├── src/
@@ -133,7 +133,7 @@ HTTP 传输默认只绑 `127.0.0.1`，绑到外部地址会打 warning，并可�
 | 我们比它多做了 | `wait` 竞态兜底（updatedAt baseline + 转录兜底）、`subagent.history` → `session.history` 自动回落、结构化 `isError` 错误模型、重试安全策略、`--print-config` 来源追踪、HTTP 传输 | 都是在真实 DSH 上跑测试时暴露出来的问题，不是凭想象加的 |
 
 **没碰过的东西**：DSH 自身源码（`/root/.nvm/.../@deepseek-ai/dsh/`）、
-`/root/.dsh/skills/dsh-agent-console/`、`/root/Temp/.dsh/skills/`。全部只读引用。
+`/root/.dsh/skills/dsh-agent-console/`、`<WORKSPACE>/skills/`。全部只读引用。
 
 ## 5. Tools（23 个，`tools/list` 实际返回 23）
 
@@ -171,7 +171,7 @@ HTTP 传输默认只绑 `127.0.0.1`，绑到外部地址会打 warning，并可�
 命令与产物：
 
 ```bash
-cd /root/Aub/t2-dsh-mcp
+cd <WORKSPACE>/dsh-mcp
 node --test --test-reporter=spec test/protocol.test.mjs   # → test/output/protocol.txt
 node --test --test-reporter=spec test/e2e.test.mjs        # → test/output/e2e.txt  (2743 行 / 101 KB)
 npm test                                                  # → test/output/npm-test.txt
@@ -430,8 +430,8 @@ ping ok in 12 ms
   "workspaces": [
     {
       "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-      "title": "Aub",
-      "path": "/root/Aub",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 28,
       "session_ids": [
         "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
@@ -468,8 +468,8 @@ ping ok in 12 ms
     },
     {
       "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
-      "title": "EveryThing2API",
-      "path": "/root/EveryThing2API",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 6,
       "session_ids": [
         "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
@@ -492,7 +492,7 @@ ping ok in 12 ms
   "returned": 5,
   "total_sessions_on_host": 668,
   "filter": {
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "running_only": false
   },
   "sessions": [
@@ -501,7 +501,7 @@ ping ok in 12 ms
       "updated_at": 1790181011282,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
       "origin": "subagent",
       "agent_preset": "standard",
@@ -512,7 +512,7 @@ ping ok in 12 ms
       "updated_at": 1790181006607,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -523,7 +523,7 @@ ping ok in 12 ms
       "updated_at": 1790180986617,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -534,7 +534,7 @@ ping ok in 12 ms
       "updated_at": 1790180975436,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -545,7 +545,7 @@ ping ok in 12 ms
       "updated_at": 1790180963659,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -553,7 +553,7 @@ ping ok in 12 ms
     }
   ]
 }
-sessions in /root/Aub: 5 of 45 matching (host total 668)
+sessions in <WORKSPACE>: 5 of 45 matching (host total 668)
 
 --- dsh_list_sessions (running_only) (2461 ms) ---
 {
@@ -570,7 +570,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790180513275,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -580,7 +580,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790180513262,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -590,7 +590,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790180198256,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -600,7 +600,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790180198242,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -610,7 +610,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790179770154,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-69dd0612-342d-48b9-8b7e-101530e96c93",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -620,7 +620,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790178949380,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -630,7 +630,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790178835490,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -640,7 +640,7 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
       "updated_at": 1790178835373,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": n
   … (payload truncated here; full JSON in test/output/e2e.txt)
@@ -650,8 +650,8 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
   "created": false,
   "already_registered": true,
   "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-  "path": "/root/Aub",
-  "title": "Aub",
+  "path": "<WORKSPACE>",
+  "title": "<WORKSPACE_NAME>",
   "session_ids": [
     "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
     "session-13e257c8-0d39-4aac-92ac-a27acc34aabd",
@@ -692,9 +692,9 @@ sessions in /root/Aub: 5 of 45 matching (host total 668)
   "ok": false,
   "error": {
     "kind": "bad-directory",
-    "message": "directory does not exist on the DSH host: /root/Aub/definitely-not-a-real-dir-e2e",
+    "message": "directory does not exist on the DSH host: <WORKSPACE>/definitely-not-a-real-dir-e2e",
     "details": {
-      "path": "/root/Aub/definitely-not-a-real-dir-e2e"
+      "path": "<WORKSPACE>/definitely-not-a-real-dir-e2e"
     }
   },
   "hint": "workspace.create never mkdirs: create the directory on the DSH host first (or let dsh_create_session / dsh_dispatch_task claim an existing one)."
@@ -707,7 +707,7 @@ local pre-check produced a structured bad-directory error instead of a raw RPC f
   "agent_preset": "standard",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -781,7 +781,7 @@ local pre-check produced a structured bad-directory error instead of a raw RPC f
     "updatedAt": 1790181164439,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 42,
@@ -925,7 +925,7 @@ paged backwards: 0 events, seq range null..null, has_more=false
     "updatedAt": 1790181164439,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 42,
@@ -1113,7 +1113,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
     "running": false,
     "blank": false,
     "parentSessionId": "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 43,
@@ -1213,7 +1213,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
   "returned": 40,
   "total_sessions_on_host": 671,
   "filter": {
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "running_only": false
   },
   "sessions": [
@@ -1222,7 +1222,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790181184128,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
       "origin": null,
       "agent_preset": "standard"
@@ -1232,7 +1232,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790181164439,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1242,7 +1242,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790181011282,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1252,7 +1252,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790181006607,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1262,7 +1262,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790180986617,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1272,7 +1272,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790180975436,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1282,7 +1282,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790180963659,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1292,7 +1292,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
       "updated_at": 1790180938626,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
       "origin": null,
       "agent_preset": "standard"
@@ -1365,7 +1365,7 @@ subagents of session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7: 0 []
   "session_id": "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1421,7 +1421,7 @@ dispatch_task returned in 2039 ms; next_call = {"tool":"dsh_wait_for_turn","argu
     "updatedAt": 1790181199240,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 20,
@@ -1494,7 +1494,7 @@ dispatch_task returned in 2039 ms; next_call = {"tool":"dsh_wait_for_turn","argu
   "session_id": "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1532,7 +1532,7 @@ run_task settled after 2 polls; answer = "RUN-OK"
   "session_id": "session-5f1942da-5eaa-408e-8506-d4f03f597373",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1619,7 +1619,7 @@ continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-5f1
     "updatedAt": 1790181218162,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 33,
@@ -1689,8 +1689,8 @@ continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-5f1
   "workspaces": [
     {
       "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-      "title": "Aub",
-      "path": "/root/Aub",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 33,
       "session_ids": [
         "session-5f1942da-5eaa-408e-8506-d4f03f597373",
@@ -1732,8 +1732,8 @@ continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-5f1
     },
     {
       "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
-      "title": "EveryThing2API",
-      "path": "/root/EveryThing2API",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 6,
       "session_ids": [
         "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
@@ -1757,8 +1757,8 @@ continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-5f1
   "workspaces": [
     {
       "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-      "title": "Aub",
-      "path": "/root/Aub",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 33,
       "session_ids": [
         "session-5f1942da-5eaa-408e-8506-d4f03f597373",
@@ -1800,8 +1800,8 @@ continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-5f1
     },
     {
       "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
-      "title": "EveryThing2API",
-      "path": "/root/EveryThing2API",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 6,
       "session_ids": [
         "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
@@ -1898,7 +1898,7 @@ CLI flag precedence proven: env DSH_BASE=http://127.0.0.1:1 was ignored in favou
   "returned": 3,
   "total_sessions_on_host": 674,
   "filter": {
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "running_only": false
   },
   "sessions": [
@@ -1907,7 +1907,7 @@ CLI flag precedence proven: env DSH_BASE=http://127.0.0.1:1 was ignored in favou
       "updated_at": 1790181218162,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1917,7 +1917,7 @@ CLI flag precedence proven: env DSH_BASE=http://127.0.0.1:1 was ignored in favou
       "updated_at": 1790181209503,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1927,14 +1927,14 @@ CLI flag precedence proven: env DSH_BASE=http://127.0.0.1:1 was ignored in favou
       "updated_at": 1790181199240,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
     }
   ]
 }
-HTTP transport drove the real DSH: 3 sessions in /root/Aub
+HTTP transport drove the real DSH: 3 sessions in <WORKSPACE>
 
 --- dsh_dispatch_task (spawn a subagent) (2533 ms) ---
 {
@@ -1942,7 +1942,7 @@ HTTP transport drove the real DSH: 3 sessions in /root/Aub
   "session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1999,7 +1999,7 @@ HTTP transport drove the real DSH: 3 sessions in /root/Aub
     "updatedAt": 1790181236843,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 51,
@@ -2262,12 +2262,11 @@ test
 ## 10. 复现步骤
 
 ```bash
-source /root/Aub/creds.env                 # DSH_BASE=http://127.0.0.1:3080
-cd /root/Aub/t2-dsh-mcp && npm install
+cd <WORKSPACE>/dsh-mcp && npm install
 node src/index.js --print-config           # 看解析结果与来源
 node --test --test-reporter=spec test/protocol.test.mjs
 node --test --test-reporter=spec test/e2e.test.mjs
 ```
 
 > e2e 会真建 6 个会话（S5/S5b/S13b/S14/S16/S17/S22），跑完自动 archive；
-> 若中途 Ctrl-C，请手动 `node /root/.dsh/skills/dsh-agent-console/scripts/dsh-api.mjs sessions --cwd /root/Aub | grep "T2 e2e"` 后逐个 `archive --session <id>`。
+> 若中途 Ctrl-C，请手动 `node /root/.dsh/skills/dsh-agent-console/scripts/dsh-api.mjs sessions --cwd <WORKSPACE> | grep "T2 e2e"` 后逐个 `archive --session <id>`。

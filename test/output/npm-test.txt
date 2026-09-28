@@ -41,8 +41,8 @@ ping ok in 10 ms
   "workspaces": [
     {
       "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-      "title": "Aub",
-      "path": "/root/Aub",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 34,
       "session_ids": [
         "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
@@ -85,8 +85,8 @@ ping ok in 10 ms
     },
     {
       "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
-      "title": "EveryThing2API",
-      "path": "/root/EveryThing2API",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 6,
       "session_ids": [
         "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
@@ -101,8 +101,8 @@ ping ok in 10 ms
     },
     {
       "workspace_id": "60e4e49f-1da4-46b1-861d-7be8ee1752b6",
-      "title": "MusicAIBuilder",
-      "path": "/root/MusicAIBuilder",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 15,
       "session_ids": [
         "session-9e63eb43-99d0-4ad4-bd2a-21f5916894af",
@@ -126,8 +126,8 @@ ping ok in 10 ms
     },
     {
       "workspace_id": "490fcb1d-cbd4-4b36-bec4-93c991a103e8",
-      "title": "OAO",
-      "path": "/root/OAO",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 3,
       "session_ids": [
         "session-5a75b767-bda6-4710-8024-4e7e3811cec3",
@@ -140,7 +140,7 @@ ping ok in 10 ms
     {
       "workspace_id": "06521792-b3a3-4692-8d94-8f365762467f",
       "title": "Temp",
-      "path": "/root/Temp",
+      "path": "<WORKSPACE>",
       "session_count": 64,
       "session_ids": [
         "session-af7ed7d9-e66a-43da-82e2-4d461879926c",
@@ -213,8 +213,8 @@ ping ok in 10 ms
     },
     {
       "workspace_id": "7ce3adf8-4254-4df8-9ec4-e5d1743cd5df",
-      "title": "Gido",
-      "path": "/root/Gido",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 7,
       "session_ids": [
         "session-1c316789-7686-4da4-b6ee-c22151a133bf",
@@ -230,8 +230,8 @@ ping ok in 10 ms
     },
     {
       "workspace_id": "8d5d9fed-b103-44f6-b1be-0e93cdd2b489",
-      "title": "Reviser",
-      "path": "/root/Reviser",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 9,
       "session_ids": [
         "session-1be17c6f-5024-4299-98e4-cede53987489",
@@ -249,7 +249,7 @@ ping ok in 10 ms
     }
   ]
 }
-workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
+workspaces: 7, archived: 61, <WORKSPACE> id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
 ✔ S3 dsh_list_workspaces contains the Aub workspace (22.807524ms)
 --- dsh_list_sessions (5920 ms) ---
 {
@@ -257,7 +257,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
   "returned": 5,
   "total_sessions_on_host": 676,
   "filter": {
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "running_only": false
   },
   "sessions": [
@@ -266,7 +266,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
       "updated_at": 1790181241527,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
       "origin": "subagent",
       "agent_preset": "standard",
@@ -277,7 +277,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
       "updated_at": 1790181236843,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -288,7 +288,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
       "updated_at": 1790181218162,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -299,7 +299,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
       "updated_at": 1790181209503,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -310,7 +310,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
       "updated_at": 1790181199240,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard",
@@ -318,7 +318,7 @@ workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
     }
   ]
 }
-sessions in /root/Aub: 5 of 52 matching (host total 676)
+sessions in <WORKSPACE>: 5 of 52 matching (host total 676)
 --- dsh_list_sessions (running_only) (3278 ms) ---
 {
   "total_matching": 13,
@@ -334,7 +334,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790180513275,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -344,7 +344,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790180513262,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -354,7 +354,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790180198256,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -364,7 +364,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790180198242,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -374,7 +374,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790179770154,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-69dd0612-342d-48b9-8b7e-101530e96c93",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -384,7 +384,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790178949380,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -394,7 +394,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790178835490,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -404,7 +404,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790178835373,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -414,7 +414,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790178824943,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -424,7 +424,7 @@ sessions in /root/Aub: 5 of 52 matching (host total 676)
       "updated_at": 1790178824802,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -438,8 +438,8 @@ running_only=true -> 10 of 13 matching (host total 676)
   "created": false,
   "already_registered": true,
   "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-  "path": "/root/Aub",
-  "title": "Aub",
+  "path": "<WORKSPACE>",
+  "title": "<WORKSPACE_NAME>",
   "session_ids": [
     "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
     "session-5f1942da-5eaa-408e-8506-d4f03f597373",
@@ -485,9 +485,9 @@ running_only=true -> 10 of 13 matching (host total 676)
   "ok": false,
   "error": {
     "kind": "bad-directory",
-    "message": "directory does not exist on the DSH host: /root/Aub/definitely-not-a-real-dir-e2e",
+    "message": "directory does not exist on the DSH host: <WORKSPACE>/definitely-not-a-real-dir-e2e",
     "details": {
-      "path": "/root/Aub/definitely-not-a-real-dir-e2e"
+      "path": "<WORKSPACE>/definitely-not-a-real-dir-e2e"
     }
   },
   "hint": "workspace.create never mkdirs: create the directory on the DSH host first (or let dsh_create_session / dsh_dispatch_task claim an existing one)."
@@ -500,7 +500,7 @@ local pre-check produced a structured bad-directory error instead of a raw RPC f
   "agent_preset": "standard",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -580,7 +580,7 @@ created + renamed test session: session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342
     "updatedAt": 1790181350057,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 39,
@@ -753,7 +753,7 @@ paged backwards: 0 events, seq range null..null, has_more=false
     "updatedAt": 1790181350057,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 39,
@@ -958,7 +958,7 @@ subagents of session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342: 0 []
     "running": false,
     "blank": false,
     "parentSessionId": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 40,
@@ -1082,7 +1082,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
   "returned": 40,
   "total_sessions_on_host": 679,
   "filter": {
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "running_only": false
   },
   "sessions": [
@@ -1091,7 +1091,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181369352,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
       "origin": null,
       "agent_preset": "standard"
@@ -1101,7 +1101,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181350057,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1111,7 +1111,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181241527,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1121,7 +1121,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181236843,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1131,7 +1131,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181218162,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1141,7 +1141,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181209503,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1151,7 +1151,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181199240,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1161,7 +1161,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181184128,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
       "origin": null,
       "agent_preset": "standard"
@@ -1171,7 +1171,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181164439,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1181,7 +1181,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181011282,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1191,7 +1191,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790181006607,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1201,7 +1201,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180986617,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1211,7 +1211,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180975436,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1221,7 +1221,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180963659,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1231,7 +1231,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180938626,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
       "origin": null,
       "agent_preset": "standard"
@@ -1241,7 +1241,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180909995,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1251,7 +1251,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180653355,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1261,7 +1261,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180647238,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1271,7 +1271,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180629425,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1281,7 +1281,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180619880,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1291,7 +1291,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180610313,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1301,7 +1301,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180561989,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
       "origin": null,
       "agent_preset": "standard"
@@ -1311,7 +1311,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180540584,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1321,7 +1321,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180513275,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1331,7 +1331,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180513262,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1341,7 +1341,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180401246,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1351,7 +1351,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180381658,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1361,7 +1361,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180367356,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1371,7 +1371,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180359413,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
       "origin": null,
       "agent_preset": "standard"
@@ -1381,7 +1381,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180345437,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1391,7 +1391,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180198256,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1401,7 +1401,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180198242,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1411,7 +1411,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180151949,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1421,7 +1421,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180143888,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1431,7 +1431,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180135427,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1441,7 +1441,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790180116091,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -1451,7 +1451,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790179770154,
       "running": true,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-69dd0612-342d-48b9-8b7e-101530e96c93",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1461,7 +1461,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790179614903,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1471,7 +1471,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790179015477,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "session-66f97059-ff65-4df7-8585-64724acc2899",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1481,7 +1481,7 @@ forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8
       "updated_at": 1790178954872,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": "34de7dc1-5148-42b6-b187-a6cf95f9e1d2",
       "origin": "subagent",
       "agent_preset": "standard"
@@ -1561,7 +1561,7 @@ subagent transcript returned 39 events, 4 text messages
   "session_id": "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1617,7 +1617,7 @@ dispatch_task returned in 2954 ms; next_call = {"tool":"dsh_wait_for_turn","argu
     "updatedAt": 1790181387739,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 20,
@@ -1706,7 +1706,7 @@ dispatched task answer: "DISPATCH-OK"
   "session_id": "session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1744,7 +1744,7 @@ run_task settled after 3 polls; answer = "RUN-OK"
   "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -1828,7 +1828,7 @@ continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-d4c
     "updatedAt": 1790181414609,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 29,
@@ -1916,8 +1916,8 @@ after cancel: running=false, last assistant text = ""
   "workspaces": [
     {
       "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-      "title": "Aub",
-      "path": "/root/Aub",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 39,
       "session_ids": [
         "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
@@ -1965,8 +1965,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
-      "title": "EveryThing2API",
-      "path": "/root/EveryThing2API",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 6,
       "session_ids": [
         "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
@@ -1981,8 +1981,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "60e4e49f-1da4-46b1-861d-7be8ee1752b6",
-      "title": "MusicAIBuilder",
-      "path": "/root/MusicAIBuilder",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 15,
       "session_ids": [
         "session-9e63eb43-99d0-4ad4-bd2a-21f5916894af",
@@ -2006,8 +2006,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "490fcb1d-cbd4-4b36-bec4-93c991a103e8",
-      "title": "OAO",
-      "path": "/root/OAO",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 3,
       "session_ids": [
         "session-5a75b767-bda6-4710-8024-4e7e3811cec3",
@@ -2020,7 +2020,7 @@ after cancel: running=false, last assistant text = ""
     {
       "workspace_id": "06521792-b3a3-4692-8d94-8f365762467f",
       "title": "Temp",
-      "path": "/root/Temp",
+      "path": "<WORKSPACE>",
       "session_count": 64,
       "session_ids": [
         "session-af7ed7d9-e66a-43da-82e2-4d461879926c",
@@ -2093,8 +2093,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "7ce3adf8-4254-4df8-9ec4-e5d1743cd5df",
-      "title": "Gido",
-      "path": "/root/Gido",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 7,
       "session_ids": [
         "session-1c316789-7686-4da4-b6ee-c22151a133bf",
@@ -2110,8 +2110,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "8d5d9fed-b103-44f6-b1be-0e93cdd2b489",
-      "title": "Reviser",
-      "path": "/root/Reviser",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 9,
       "session_ids": [
         "session-1be17c6f-5024-4299-98e4-cede53987489",
@@ -2143,8 +2143,8 @@ after cancel: running=false, last assistant text = ""
   "workspaces": [
     {
       "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-      "title": "Aub",
-      "path": "/root/Aub",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 39,
       "session_ids": [
         "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
@@ -2192,8 +2192,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
-      "title": "EveryThing2API",
-      "path": "/root/EveryThing2API",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 6,
       "session_ids": [
         "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
@@ -2208,8 +2208,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "60e4e49f-1da4-46b1-861d-7be8ee1752b6",
-      "title": "MusicAIBuilder",
-      "path": "/root/MusicAIBuilder",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 15,
       "session_ids": [
         "session-9e63eb43-99d0-4ad4-bd2a-21f5916894af",
@@ -2233,8 +2233,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "490fcb1d-cbd4-4b36-bec4-93c991a103e8",
-      "title": "OAO",
-      "path": "/root/OAO",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 3,
       "session_ids": [
         "session-5a75b767-bda6-4710-8024-4e7e3811cec3",
@@ -2247,7 +2247,7 @@ after cancel: running=false, last assistant text = ""
     {
       "workspace_id": "06521792-b3a3-4692-8d94-8f365762467f",
       "title": "Temp",
-      "path": "/root/Temp",
+      "path": "<WORKSPACE>",
       "session_count": 64,
       "session_ids": [
         "session-af7ed7d9-e66a-43da-82e2-4d461879926c",
@@ -2320,8 +2320,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "7ce3adf8-4254-4df8-9ec4-e5d1743cd5df",
-      "title": "Gido",
-      "path": "/root/Gido",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 7,
       "session_ids": [
         "session-1c316789-7686-4da4-b6ee-c22151a133bf",
@@ -2337,8 +2337,8 @@ after cancel: running=false, last assistant text = ""
     },
     {
       "workspace_id": "8d5d9fed-b103-44f6-b1be-0e93cdd2b489",
-      "title": "Reviser",
-      "path": "/root/Reviser",
+      "title": "<WORKSPACE_NAME>",
+      "path": "<WORKSPACE>",
       "session_count": 9,
       "session_ids": [
         "session-1be17c6f-5024-4299-98e4-cede53987489",
@@ -2445,7 +2445,7 @@ HTTP server stderr: [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
   "returned": 3,
   "total_sessions_on_host": 682,
   "filter": {
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "running_only": false
   },
   "sessions": [
@@ -2454,7 +2454,7 @@ HTTP server stderr: [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
       "updated_at": 1790181414609,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -2464,7 +2464,7 @@ HTTP server stderr: [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
       "updated_at": 1790181398967,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
@@ -2474,14 +2474,14 @@ HTTP server stderr: [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
       "updated_at": 1790181387739,
       "running": false,
       "blank": false,
-      "cwd": "/root/Aub",
+      "cwd": "<WORKSPACE>",
       "parent_session_id": null,
       "origin": null,
       "agent_preset": "standard"
     }
   ]
 }
-HTTP transport drove the real DSH: 3 sessions in /root/Aub
+HTTP transport drove the real DSH: 3 sessions in <WORKSPACE>
 ✔ S21 the same tools over streamable HTTP drive the real DSH (3903.261906ms)
 --- dsh_dispatch_task (spawn a subagent) (2335 ms) ---
 {
@@ -2489,7 +2489,7 @@ HTTP transport drove the real DSH: 3 sessions in /root/Aub
   "session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
   "workspace": {
     "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
-    "path": "/root/Aub",
+    "path": "<WORKSPACE>",
     "created": false,
     "matched": "path"
   },
@@ -2545,7 +2545,7 @@ HTTP transport drove the real DSH: 3 sessions in /root/Aub
     "updatedAt": 1790181438241,
     "running": false,
     "blank": false,
-    "cwd": "/root/Aub",
+    "cwd": "<WORKSPACE>",
     "agentPreset": "standard",
     "projections": {
       "asOfSeq": 91,

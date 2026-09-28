@@ -29,7 +29,7 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SERVER = join(HERE, '..', 'src', 'index.js');
 const DSH_BASE = process.env.DSH_BASE ?? process.env.DSH_WEB_URL ?? 'http://127.0.0.1:3080';
-const WORKSPACE_PATH = process.env.E2E_WORKSPACE ?? '/root/Aub';
+const WORKSPACE_PATH = process.env.E2E_WORKSPACE ?? '<WORKSPACE>';
 const ARTIFACT = '/tmp/mcp-e2e.txt';
 const WAIT_BUDGET_MS = Number(process.env.E2E_WAIT_MS ?? 300_000);
 
@@ -160,7 +160,7 @@ test('S4b dsh_create_workspace is idempotent for the Aub path and rejects a miss
 	const bad = await call(
 		primary.client,
 		'dsh_create_workspace',
-		{ path: '/root/Aub/definitely-not-a-real-dir-e2e' },
+		{ path: '<WORKSPACE>/definitely-not-a-real-dir-e2e' },
 		{ expectError: true, label: 'dsh_create_workspace (missing dir, expect isError)' },
 	);
 	assert.equal(bad.error.kind, 'bad-directory');

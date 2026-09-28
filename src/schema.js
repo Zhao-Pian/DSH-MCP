@@ -95,7 +95,7 @@ export const TOOL_SCHEMAS = [
 		inputSchema: {
 			type: 'object',
 			properties: {
-				cwd: str('Only sessions whose cwd equals this path, e.g. "/root/Aub".'),
+				cwd: str('Only sessions whose cwd equals this path, e.g. "/path/to/project".'),
 				limit: int('Maximum number of sessions to return (default 20, max 200).', { default: 20, minimum: 1, maximum: 200 }),
 				running_only: bool('Only sessions with an active turn (default false).', { default: false }),
 				include_titles: bool('Resolve each session title from its history projection (default false).', { default: false }),
@@ -147,7 +147,7 @@ export const TOOL_SCHEMAS = [
 		inputSchema: {
 			type: 'object',
 			properties: {
-				workspace: str('Workspace path (e.g. "/root/Aub") or workspaceId. Creates the workspace if the path is not registered yet.'),
+				workspace: str('Workspace path (e.g. "/path/to/project") or workspaceId. Creates the workspace if the path is not registered yet.'),
 				cwd: str('Working directory for an ungrouped session. Mutually exclusive with workspace.'),
 				session_id: str('Optional explicit session id to claim.'),
 				agent_preset: str('Optional agent preset name.'),
@@ -346,7 +346,7 @@ export const TOOL_SCHEMAS = [
 		annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
 		inputSchema: {
 			type: 'object',
-			properties: { path: str('Absolute path of an existing directory, e.g. "/root/Aub".') },
+			properties: { path: str('Absolute path of an existing directory, e.g. "/path/to/project".') },
 			required: ['path'],
 			additionalProperties: false,
 		},
