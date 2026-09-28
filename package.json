@@ -1,15 +1,36 @@
 {
-  "name": "dsh-mcp",
+  "name": "dsh-remote-mcp",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
-  "description": "MCP server that drives an already-running DSH instance over its /api RPC surface (stdio + streamable HTTP).",
+  "description": "MCP server that drives an already-running DSH instance over its /api RPC surface (stdio + streamable HTTP). 23 tools to list sessions, dispatch tasks, wait for turns and read answers back.",
   "license": "MIT",
   "bin": {
-    "dsh-mcp": "./src/index.js"
+    "dsh-remote-mcp": "./src/index.js"
   },
   "engines": {
     "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "dsh",
+    "remote-control",
+    "agent",
+    "claude-desktop",
+    "cursor"
+  ],
+  "files": [
+    "src/",
+    "README.md",
+    "README.zh-CN.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zhao-Pian/DSH-MCP.git"
+  },
+  "homepage": "https://github.com/Zhao-Pian/DSH-MCP#readme",
+  "bugs": {
+    "url": "https://github.com/Zhao-Pian/DSH-MCP/issues"
   },
   "scripts": {
     "start": "node src/index.js",

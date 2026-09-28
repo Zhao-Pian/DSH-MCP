@@ -25,6 +25,15 @@ MCP host  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<method> (JSO
 
 ## 1. Install
 
+Published on npm as **`dsh-remote-mcp`** (the bare name `dsh-mcp` is taken by an unrelated package):
+
+```bash
+npx -y dsh-remote-mcp --base http://127.0.0.1:3080        # run without installing
+npm install -g dsh-remote-mcp                              # or install globally
+```
+
+From a source checkout:
+
 ```bash
 cd dsh-mcp
 npm install                       # one dependency: @modelcontextprotocol/sdk@1.30.0 (pinned)

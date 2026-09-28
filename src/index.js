@@ -14,6 +14,7 @@
  * stdout is protocol-only. Every log line goes to stderr.
  */
 import { createServer } from 'node:http';
+import { realpathSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -152,7 +153,11 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
 	}
 }
 
-const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+// Run only when executed as the entry point. Comparing argv[1] to import.meta.url verbatim breaks under
+// npm's bin symlinks and `npx`, where argv[1] is the link (node_modules/.bin/<name>) and import.meta.url is
+// the resolved target — realpath both sides so both invocation styles agree.
+const entryPath = process.argv[1] ? realpathSync(process.argv[1]) : null;
+const invokedDirectly = entryPath && import.meta.url === pathToFileURL(entryPath).href;
 if (invokedDirectly) {
 	main().then(
 		(code) => {

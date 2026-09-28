@@ -22,6 +22,15 @@ MCP 宿主  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<method>（
 
 ## 1. 安装
 
+已发布到 npm，包名为 **`dsh-remote-mcp`**（裸名 `dsh-mcp` 已被他人的无关包占用）：
+
+```bash
+npx -y dsh-remote-mcp --base http://127.0.0.1:3080        # 免安装直接运行
+npm install -g dsh-remote-mcp                              # 或全局安装
+```
+
+从源码运行：
+
 ```bash
 cd dsh-mcp
 npm install                       # 仅一个依赖：@modelcontextprotocol/sdk@1.30.0（已锁定版本）
