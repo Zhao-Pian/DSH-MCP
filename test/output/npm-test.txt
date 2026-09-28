@@ -1,0 +1,2874 @@
+
+> dsh-mcp@0.1.0 test
+> node --test --test-reporter=spec "test/*.test.mjs"
+
+--- dsh_host_info (147 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "base_url_source": "env:DSH_BASE",
+  "version": "0.0.1",
+  "cwd": "/root",
+  "provider": "local-gateway",
+  "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+  "attachedSessions": 53,
+  "canOpenPath": false
+}
+host: version=0.0.1 provider=local-gateway model=deepseek-ai/DeepSeek-V4.1-Flash attached=53 base_url_source=env:DSH_BASE
+✔ S1 dsh_host_info reports the live host and the base URL actually used (1163.30307ms)
+--- dsh_ping (19 ms) ---
+{
+  "ok": true,
+  "base": "http://127.0.0.1:3080",
+  "elapsedMs": 10,
+  "value": {
+    "version": "0.0.1",
+    "cwd": "/root",
+    "provider": "local-gateway",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "attachedSessions": 53,
+    "canOpenPath": false
+  },
+  "timeout_ms": 30000,
+  "retries": 2,
+  "hint": "DSH answered host.describe — the configured base URL is live."
+}
+ping ok in 10 ms
+✔ S2 dsh_ping confirms reachability with latency (20.282883ms)
+--- dsh_list_workspaces (22 ms) ---
+{
+  "count": 7,
+  "archived_session_count": 61,
+  "workspaces": [
+    {
+      "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+      "title": "Aub",
+      "path": "/root/Aub",
+      "session_count": 34,
+      "session_ids": [
+        "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+        "session-5f1942da-5eaa-408e-8506-d4f03f597373",
+        "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
+        "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
+        "session-899f3937-1d7e-4586-8d26-6cb29d002085",
+        "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
+        "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
+        "session-13e257c8-0d39-4aac-92ac-a27acc34aabd",
+        "session-4a38a158-4713-4e32-8361-4dfcea5e5521",
+        "session-8b7dfa09-0349-45ff-a97d-efe65e85f6f8",
+        "session-4581816d-7686-4b06-91f1-f78b33b9b3b3",
+        "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
+        "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
+        "session-6a07946a-3b1f-4058-8b10-aa67316e3caf",
+        "session-ae1d84d8-a65f-4754-a3d9-a6da5680b48c",
+        "session-9dee1c41-0505-472e-a9a6-93eb1a0d610b",
+        "session-4d8f96ff-0090-4607-9b79-2d640e82bc87",
+        "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
+        "session-4ebc764c-a8ad-48bf-8b21-dcc3ba366b7e",
+        "session-01dc2df9-f66b-433a-b225-e16a09959325",
+        "session-51efc307-4b7e-4e11-90ec-6c5a6b4674a0",
+        "session-09f0dc13-7697-4f1e-84c4-428f640d8bc2",
+        "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
+        "session-96b2cb2a-bb0d-4b67-a9cf-a7a14514a051",
+        "session-58b8716f-1a11-40af-9540-204b39c2ced4",
+        "session-6ecbcd4f-bc99-432b-8a40-15930d48d435",
+        "session-2bc263c0-0cd7-43cf-ad51-dd08bbf48a65",
+        "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+        "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+        "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
+        "session-c76501ca-780c-4f42-9731-7e84d3d2e9b2",
+        "session-1d91a912-32de-41bd-937f-95002ca37bf0",
+        "session-66f97059-ff65-4df7-8585-64724acc2899",
+        "session-2456fd15-3995-48ee-ab47-e646a275e685"
+      ],
+      "created_at": "2026-09-23T15:28:36.876Z",
+      "updated_at": "2026-09-23T16:33:53.642Z"
+    },
+    {
+      "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
+      "title": "EveryThing2API",
+      "path": "/root/EveryThing2API",
+      "session_count": 6,
+      "session_ids": [
+        "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
+        "session-01368ab0-8124-4c51-9f6c-487eb339114f",
+        "session-a5623935-de94-4246-936e-85580dcebc74",
+        "session-b0e9f285-e23d-446a-b04b-1277a5c15686",
+        "session-f42a4d0c-0a6f-48bd-b910-f23627d795e7",
+        "session-e366ffe9-ad60-410f-b256-9aaf504d274b"
+      ],
+      "created_at": "2026-09-04T15:26:16.175Z",
+      "updated_at": "2026-09-05T14:42:40.050Z"
+    },
+    {
+      "workspace_id": "60e4e49f-1da4-46b1-861d-7be8ee1752b6",
+      "title": "MusicAIBuilder",
+      "path": "/root/MusicAIBuilder",
+      "session_count": 15,
+      "session_ids": [
+        "session-9e63eb43-99d0-4ad4-bd2a-21f5916894af",
+        "session-d2ae4cb1-4746-4a68-a5dc-34a324a270b2",
+        "session-b73176af-5d79-4277-be3f-4c3fb439ca95",
+        "session-9b04c4f2-37c0-4ddc-bd4f-3327f153309a",
+        "session-70853595-6d4a-46f6-8bfd-8cbc523b6188",
+        "session-3bd91309-50c0-4c41-a0ec-c6a3677e7988",
+        "session-8524c58d-475a-4f0f-8b92-274f343faa8a",
+        "session-3675c15f-9e13-4e4d-b042-ae50138c9da8",
+        "session-c2a128e5-14b0-4470-aebd-9e0b494e504f",
+        "session-7ec0403c-1a5e-4f31-a0cf-99432cc4dda5",
+        "session-32a4a0a4-3c8f-44a2-ac73-b2e4c25173de",
+        "session-5d5d514e-897b-4bd4-990e-4be2565ce73e",
+        "session-5370de34-38ff-4a06-b6c2-add649ca4b85",
+        "session-cb8f8237-cddb-46df-945b-0f77c6f433a1",
+        "session-3e8c5310-8fdb-4915-aad5-2cbb34141edb"
+      ],
+      "created_at": "2026-08-24T04:12:41.123Z",
+      "updated_at": "2026-08-26T07:40:38.577Z"
+    },
+    {
+      "workspace_id": "490fcb1d-cbd4-4b36-bec4-93c991a103e8",
+      "title": "OAO",
+      "path": "/root/OAO",
+      "session_count": 3,
+      "session_ids": [
+        "session-5a75b767-bda6-4710-8024-4e7e3811cec3",
+        "session-1ab6bdd0-8503-4d87-8b37-78f1b4fa0be3",
+        "session-6bc7f995-c454-451b-99a8-6805baaa289a"
+      ],
+      "created_at": "2026-08-15T08:01:45.242Z",
+      "updated_at": "2026-08-15T08:23:43.015Z"
+    },
+    {
+      "workspace_id": "06521792-b3a3-4692-8d94-8f365762467f",
+      "title": "Temp",
+      "path": "/root/Temp",
+      "session_count": 64,
+      "session_ids": [
+        "session-af7ed7d9-e66a-43da-82e2-4d461879926c",
+        "session-c49fd9f9-0cac-494f-b51b-a508e22b1f49",
+        "session-a7bd707c-c792-4009-827b-0f4f9bd1d74f",
+        "session-1e1734d2-0a69-4470-be1b-430e25507602",
+        "session-7b8ba2a2-ab4f-47a3-941e-f5d370a8da88",
+        "session-33cf2fd6-5387-4292-81c2-5e1e95aadbdb",
+        "session-ae8ef431-6766-4afb-b1e4-a076174e3e47",
+        "session-467bda48-c602-407e-9838-f373eafe3046",
+        "session-f85d41bb-44c5-4e1a-946f-3ea1557bd3a3",
+        "session-7b14c2f6-edd0-4bed-b927-76052278d50f",
+        "session-db07e783-7f05-4a79-a31d-202b6d0b95ac",
+        "session-d553ad6f-12bf-4d6b-9efc-216d8c5a594c",
+        "session-79f85a1a-c0c8-452e-8c42-c80e562e0dce",
+        "session-961b2f9b-6da5-408d-a169-46b528c4f054",
+        "session-fbca9dea-f220-49a3-9851-115f95306c8f",
+        "session-3a9774f8-1c02-421f-a564-5860c58047eb",
+        "session-2ca3caf8-b5de-4887-86c2-e6cf845a3cb5",
+        "session-a3b4a77b-997e-4164-bbc9-219b8c9c2ccf",
+        "session-4bd4df0a-ef3c-4659-95ec-b669497148d1",
+        "session-8411e627-644e-475c-a546-6f0f1e89fd2f",
+        "session-2ac40cbb-88be-4e20-80b3-cf197202b06a",
+        "session-dacfbce9-5329-4200-9100-65d0a0dcbd3d",
+        "session-7809a4cf-6bb1-4b82-aad8-30a3d1e3b517",
+        "session-acaee952-e00d-4a37-82cc-365d9bad78a8",
+        "session-8dcb5971-3ad3-43f4-b483-cbf33f390d27",
+        "session-131a07a9-00f0-46c9-ab51-aa4bc8bd7393",
+        "session-ed051783-66d0-4b5a-97cd-834753d9ce20",
+        "session-a4e70035-1cd1-4f41-b344-7321be11f2a8",
+        "session-baecadde-4520-44bf-bf6c-41f463c8e019",
+        "session-c152dc49-c704-4d04-9a00-a722308483ee",
+        "session-8f1aafd2-84d4-4405-926c-0751e6751f42",
+        "session-5eab4c23-b30a-4885-bd96-c0625d6259b4",
+        "session-36bb5ef9-aaa6-478f-827f-f26787ae369d",
+        "session-d4ebb7e9-f62d-4f2e-8fdc-460ee6663f5a",
+        "session-d5b2670c-30db-478c-aa0e-199f67ef42bf",
+        "session-8df4c3f2-bb1c-4923-9b6b-d8caa321915a",
+        "session-a826b1fd-bd46-4a0f-b5df-585043a6abe8",
+        "session-167616f5-07ae-4401-a9c8-45b9d072a948",
+        "session-50372818-d7f1-4dac-abbb-85a75e6d8b72",
+        "session-f3bd2e88-904c-4772-a3cd-e8c70565a1e4",
+        "session-597021e5-e13c-42c4-8718-6a8b103b437d",
+        "session-08ca938b-f16b-4e3f-84ba-d5479ae5ee9b",
+        "session-62c544d8-1615-41f6-b971-edbf27474eb7",
+        "session-6c1f7f67-4c7e-4c53-bf50-6e8bf8fd1820",
+        "session-8dc00235-cb90-488e-aebc-2e747561fd06",
+        "session-74a4163c-cf1f-4bef-b0d5-12f90c4826c7",
+        "session-31c0da28-3a17-44ef-a5fc-7942564f65c9",
+        "session-96912401-122e-4d9a-9617-137710a776e9",
+        "session-6f37732f-4e5e-4fa0-a556-b1f6f77649a1",
+        "session-6ba71ed8-5170-477d-84ef-1a4e1ec4678b",
+        "session-3b809f06-4d6f-4215-aa0f-f1be78e2b593",
+        "session-86a4fa1e-fdd9-457e-b0d7-65b31511d72a",
+        "session-acb08973-d1d6-4988-9f46-2ada4df99e3f",
+        "session-19577cb1-2b60-4366-8aac-bf3ce7507851",
+        "session-031ee7c6-c13b-4381-bd08-64584156775e",
+        "session-861697de-8c49-4b72-92fc-1edf5f2f2e5b",
+        "session-7837e426-7c1c-4ab9-89c6-c73ba1e9a5e8",
+        "session-f8223557-fd8e-40c4-9b87-ce9e8a92b372",
+        "session-3ab6877f-288f-4abd-8ddd-98cb2c07283a",
+        "session-17b74045-63c7-4756-b69e-3126387679d3",
+        "session-be92ae85-4afd-438b-84c9-4b1f0021e4d9",
+        "session-91613a55-cfbb-48c9-ad87-4f5cf435c5a9",
+        "session-c67c0abf-5bbf-4e3d-b83e-7924924e79b5",
+        "session-39044762-5759-4b2a-92c7-854b1fa758ac"
+      ],
+      "created_at": "2026-08-15T07:10:39.802Z",
+      "updated_at": "2026-09-23T15:29:08.520Z"
+    },
+    {
+      "workspace_id": "7ce3adf8-4254-4df8-9ec4-e5d1743cd5df",
+      "title": "Gido",
+      "path": "/root/Gido",
+      "session_count": 7,
+      "session_ids": [
+        "session-1c316789-7686-4da4-b6ee-c22151a133bf",
+        "session-079e4eb5-8cff-4afb-9177-7cfb417d2cc9",
+        "session-1b7c9f73-bc03-4e15-8947-6950f674f367",
+        "session-30a62fb6-6973-421f-9c36-e1d7390482f7",
+        "session-b137cf2e-37a4-4a89-b79e-272f67229bcc",
+        "session-f4a41f9a-d374-49a0-8aef-62ab8d1f1f11",
+        "session-17ed0d9a-3ba1-485c-8e5d-d04d0ec78452"
+      ],
+      "created_at": "2026-08-14T10:45:40.962Z",
+      "updated_at": "2026-08-17T04:26:39.208Z"
+    },
+    {
+      "workspace_id": "8d5d9fed-b103-44f6-b1be-0e93cdd2b489",
+      "title": "Reviser",
+      "path": "/root/Reviser",
+      "session_count": 9,
+      "session_ids": [
+        "session-1be17c6f-5024-4299-98e4-cede53987489",
+        "session-685b6843-9fba-4606-96d0-61cafaf0c840",
+        "session-e5d5a90e-1d81-4f62-8e06-4bd567752972",
+        "session-42c3e0a4-94cb-4d69-8c65-addc7c3d0c8a",
+        "session-884ab5b2-9d39-47f0-87c7-d7a7249d64a9",
+        "session-99e2d942-86f3-4ff4-b357-404e08e54536",
+        "session-708dad88-08ae-4a56-aac7-5c247a73114f",
+        "session-ea0d89aa-0260-4b6c-9e59-3642bd6e10f2",
+        "session-17c73e5e-f166-4d93-bae1-52af9236a2c0"
+      ],
+      "created_at": "2026-08-14T08:31:57.720Z",
+      "updated_at": "2026-09-12T15:46:25.097Z"
+    }
+  ]
+}
+workspaces: 7, archived: 61, /root/Aub id = afa50b75-d7c4-4282-94ee-d07e7ece7eec
+✔ S3 dsh_list_workspaces contains the Aub workspace (22.807524ms)
+--- dsh_list_sessions (5920 ms) ---
+{
+  "total_matching": 52,
+  "returned": 5,
+  "total_sessions_on_host": 676,
+  "filter": {
+    "cwd": "/root/Aub",
+    "running_only": false
+  },
+  "sessions": [
+    {
+      "session_id": "5075b36f-5a09-4a07-9145-04f1ac21c93c",
+      "updated_at": 1790181241527,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+      "origin": "subagent",
+      "agent_preset": "standard",
+      "title": "Run this exact bash command"
+    },
+    {
+      "session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+      "updated_at": 1790181236843,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard",
+      "title": "T2 e2e: subagent tools"
+    },
+    {
+      "session_id": "session-5f1942da-5eaa-408e-8506-d4f03f597373",
+      "updated_at": 1790181218162,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard",
+      "title": "T2 e2e: cancel + timeout"
+    },
+    {
+      "session_id": "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
+      "updated_at": 1790181209503,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard",
+      "title": "T2 e2e: run_task"
+    },
+    {
+      "session_id": "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
+      "updated_at": 1790181199240,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard",
+      "title": "T2 e2e: dispatch_task"
+    }
+  ]
+}
+sessions in /root/Aub: 5 of 52 matching (host total 676)
+--- dsh_list_sessions (running_only) (3278 ms) ---
+{
+  "total_matching": 13,
+  "returned": 10,
+  "total_sessions_on_host": 676,
+  "filter": {
+    "cwd": null,
+    "running_only": true
+  },
+  "sessions": [
+    {
+      "session_id": "7bcb01d7-f5f0-4b45-8020-da74fc1fb624",
+      "updated_at": 1790180513275,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "d6aabc38-a9ad-4b35-a592-03fef046751a",
+      "updated_at": 1790180513262,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "ada2e34c-3ef2-4a53-a227-055de9e10932",
+      "updated_at": 1790180198256,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "53cf16a2-1e7f-4039-bbaa-eacafea36823",
+      "updated_at": 1790180198242,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "6631f578-656b-4a6a-a1ba-4da82b13dfbf",
+      "updated_at": 1790179770154,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "679ffb78-9d36-4bd7-8de9-1aad8fea333e",
+      "updated_at": 1790178949380,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+      "updated_at": 1790178835490,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "updated_at": 1790178835373,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
+      "updated_at": 1790178824943,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-c76501ca-780c-4f42-9731-7e84d3d2e9b2",
+      "updated_at": 1790178824802,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    }
+  ]
+}
+running_only=true -> 10 of 13 matching (host total 676)
+✔ S4 dsh_list_sessions filters by cwd and by running flag (9201.101164ms)
+--- dsh_create_workspace (existing path) (10 ms) ---
+{
+  "created": false,
+  "already_registered": true,
+  "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+  "path": "/root/Aub",
+  "title": "Aub",
+  "session_ids": [
+    "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+    "session-5f1942da-5eaa-408e-8506-d4f03f597373",
+    "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
+    "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
+    "session-899f3937-1d7e-4586-8d26-6cb29d002085",
+    "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
+    "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
+    "session-13e257c8-0d39-4aac-92ac-a27acc34aabd",
+    "session-4a38a158-4713-4e32-8361-4dfcea5e5521",
+    "session-8b7dfa09-0349-45ff-a97d-efe65e85f6f8",
+    "session-4581816d-7686-4b06-91f1-f78b33b9b3b3",
+    "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
+    "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
+    "session-6a07946a-3b1f-4058-8b10-aa67316e3caf",
+    "session-ae1d84d8-a65f-4754-a3d9-a6da5680b48c",
+    "session-9dee1c41-0505-472e-a9a6-93eb1a0d610b",
+    "session-4d8f96ff-0090-4607-9b79-2d640e82bc87",
+    "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
+    "session-4ebc764c-a8ad-48bf-8b21-dcc3ba366b7e",
+    "session-01dc2df9-f66b-433a-b225-e16a09959325",
+    "session-51efc307-4b7e-4e11-90ec-6c5a6b4674a0",
+    "session-09f0dc13-7697-4f1e-84c4-428f640d8bc2",
+    "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
+    "session-96b2cb2a-bb0d-4b67-a9cf-a7a14514a051",
+    "session-58b8716f-1a11-40af-9540-204b39c2ced4",
+    "session-6ecbcd4f-bc99-432b-8a40-15930d48d435",
+    "session-2bc263c0-0cd7-43cf-ad51-dd08bbf48a65",
+    "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+    "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+    "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
+    "session-c76501ca-780c-4f42-9731-7e84d3d2e9b2",
+    "session-1d91a912-32de-41bd-937f-95002ca37bf0",
+    "session-66f97059-ff65-4df7-8585-64724acc2899",
+    "session-2456fd15-3995-48ee-ab47-e646a275e685"
+  ],
+  "hint": "The path was already registered — create is idempotent and nothing changed."
+}
+--- dsh_create_workspace (missing dir, expect isError) (3 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_create_workspace",
+  "ok": false,
+  "error": {
+    "kind": "bad-directory",
+    "message": "directory does not exist on the DSH host: /root/Aub/definitely-not-a-real-dir-e2e",
+    "details": {
+      "path": "/root/Aub/definitely-not-a-real-dir-e2e"
+    }
+  },
+  "hint": "workspace.create never mkdirs: create the directory on the DSH host first (or let dsh_create_session / dsh_dispatch_task claim an existing one)."
+}
+local pre-check produced a structured bad-directory error instead of a raw RPC failure
+✔ S4b dsh_create_workspace is idempotent for the Aub path and rejects a missing directory (14.070399ms)
+--- dsh_create_session (85 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "agent_preset": "standard",
+  "workspace": {
+    "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+    "path": "/root/Aub",
+    "created": false,
+    "matched": "path"
+  },
+  "grouped": true
+}
+--- dsh_rename_session (9 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "title": "T2 e2e: MCP 操控真实 DSH",
+  "seq": 3
+}
+created + renamed test session: session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342
+✔ S5 dsh_create_session + dsh_rename_session inside the Aub workspace (96.259511ms)
+--- dsh_create_session (cwd only) (86 ms) ---
+{
+  "session_id": "session-c2335194-9d5a-4c52-9d9a-86d691e5640e",
+  "agent_preset": "standard",
+  "workspace": null,
+  "grouped": false,
+  "warning": "cwd-only creation yields an UNGROUPED session; no RPC can attach it to a workspace afterwards."
+}
+--- dsh_create_session (workspace + cwd, expect isError) (2 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_create_session",
+  "ok": false,
+  "error": {
+    "kind": "bad-request",
+    "message": "pass either workspace or cwd, not both"
+  },
+  "hint": "session.create accepts at most one of workspaceId and cwd."
+}
+✔ S5b dsh_create_session with cwd yields an ungrouped session, and workspace+cwd is rejected (89.566921ms)
+--- dsh_send_message (14 ms) ---
+{
+  "accepted": true,
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "mode": "queue",
+  "hint": "accepted=true means the message entered the session inbox; read the answer with dsh_wait_for_turn (blocking-ish) or dsh_read_history (peek)."
+}
+✔ S6 dsh_send_message delivers a real task to that session (15.821951ms)
+--- dsh_wait_for_turn (12701 ms) ---
+{
+  "settled": true,
+  "running": false,
+  "timed_out": false,
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "polls": 2,
+  "saw_running": true,
+  "settle_detected_by": "running-flag",
+  "title": "T2 e2e: MCP 操控真实 DSH",
+  "turns": 1,
+  "tool_calls": 1,
+  "event_kinds": {
+    "permission/preset": 1,
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "session/title": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "step/start": 2,
+    "user/message": 3,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 19,
+    "assistant/message": 2,
+    "tool/call": 1,
+    "tool/result": 1,
+    "step/end": 2,
+    "turn/end": 1
+  },
+  "last_assistant_text": "E2E-OK",
+  "last_seq": 39,
+  "history_has_more": false,
+  "summary": {
+    "sessionId": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+    "updatedAt": 1790181350057,
+    "running": false,
+    "blank": false,
+    "cwd": "/root/Aub",
+    "agentPreset": "standard",
+    "projections": {
+      "asOfSeq": 39,
+      "values": {
+        "sessionStats": {
+          "turns": 1,
+          "steps": 2,
+          "llmMs": 7366,
+          "toolMs": 78,
+          "ttftMs": 6529,
+          "ttftSteps": 2,
+          "decodeMs": 837,
+          "decodeTokens": 90
+        },
+        "title": "T2 e2e: MCP 操控真实 DSH",
+        "goal": null,
+        "tokenUsage": {
+          "uncachedInputTokens": 16296,
+          "outputTokens": 90,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0
+        },
+        "contextPressure": {
+          "pressureTokens": 8197,
+          "projectedTokens": 8207,
+          "contextWindow": 1000000
+        },
+        "contextBreakdown": {
+          "systemTokens": 1515,
+          "toolsTokens": 6376,
+          "messageTokens": 535
+        },
+        "subagentTiming": {
+          "settledMs": 0
+        },
+        "subagent": null,
+        "permissions": {
+          "options": [
+            {
+              "value": "read-only",
+              "name": "read-only"
+            },
+            {
+              "value": "workspace-write",
+              "name": "workspace-write"
+            },
+            {
+              "value": "danger-full-access",
+              "name": "danger-full-access"
+            }
+          ],
+          "currentValue": "danger-full-access"
+        },
+        "sessionListMetadata": {
+          "blank": false,
+          "lastPromptAt": 1790181350057
+        },
+        "imageLimits": {
+          "maxImageBytes": 5242880,
+          "maxImagesPerMessage": 20,
+          "maxMessageImageBytes": 104857600,
+          "maxImagePixels": 40000000,
+          "mediaTypes": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ]
+        },
+        "todos": null,
+        "plan": {
+          "active": false,
+          "pending": false
+        }
+      }
+    }
+  }
+}
+settled after 2 polls (detected by running-flag), turns=1, tool_calls=1
+last assistant text: "E2E-OK"
+exists(/tmp/mcp-e2e.txt) = true
+content = "E2E-OK\n"
+✔ S7 dsh_wait_for_turn settles and returns the assistant answer (12703.36629ms)
+✔ S8 the file the remote session wrote really exists (MCP-driven side effect) (1.756575ms)
+--- dsh_read_history (31 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "method": "session.history",
+  "max_messages": 20,
+  "before_seq": null,
+  "events_returned": 40,
+  "has_more": false,
+  "first_seq": 0,
+  "last_seq": 39,
+  "next_before": null,
+  "title": "T2 e2e: MCP 操控真实 DSH",
+  "as_of_seq": 39,
+  "turns": 1,
+  "tool_calls": 1,
+  "event_kinds": {
+    "permission/preset": 1,
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "session/title": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "step/start": 2,
+    "user/message": 3,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 19,
+    "assistant/message": 2,
+    "tool/call": 1,
+    "tool/result": 1,
+    "step/end": 2,
+    "turn/end": 1
+  },
+  "last_assistant_text": "E2E-OK",
+  "messages": [
+    {
+      "seq": 8,
+      "role": "user",
+      "text": "请用 bash 在 /tmp/mcp-e2e.txt 写入一行 E2E-OK（文件内容就这一行），然后用一行回复 E2E-OK。不要做其它事情。"
+    },
+    {
+      "seq": 9,
+      "role": "user",
+      "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`)."
+    },
+    {
+      "seq": 10,
+      "role": "user",
+      "text": "<system-reminder>\nA skill is a reusable set of task-specific instructions. The following skills are available in this session:\n\n<available_skills>\n- `cloud-subagent`: 把 ModelScope 上的 qwenpaw 云端实例当作远程 subagent 外包任务：判断哪些任务值得派、如何派、如何下载产物，并且每次都必须同时派一个本地监督 subagent 做定时巡检、成果验收与汇报。适用于需要真实浏览器/桌面 GUI 自动化、大容量磁盘中间产物、干净 Linux 环境装依赖跑长任务、或 docx/xlsx/pptx/pdf 产物的任务。\n- `cloud-webdav`: 用 OpenList/天翼云盘 的 WebDAV 网盘存放与取回云端 Agent 的产物，绕开本地 500 MB 磁盘限制。含局域网与公网两个入口的真实速度对比、各自的体积上限、分片/直传配方，以及\"HTTP 状态码不可信\"的验收纪律。也记录了 OpenList 侧所有相关配置项的实际效果（302 重定向、直连上传、上传并发、秒传）。\n- `dsh-agent-console`: 用命令行直接操控 DSH 宿主自身的 /api RPC 面：列会话、读事件级明细、创建/重命名/中断会话、发消息、切模型、管理工作区（含创建）、控制 subagent。核心是 `run` 子命令——新建一个对话把任务派出去，阻塞等它跑完，然后把完成报告回调投递进主 agent 的 inbox 唤醒主 agent；`--detach` 让它成为孤儿进程，从而绕开 DSH 后台 job 的第二条完成通知，保证只唤醒一次。含全部 method 的载荷/返回结构、源码位置与实测坑位。\n</available_skills>\n\nIf the user names a skill, or the task clearly matches a skill's description, call the `skill` tool with the exact skill name before taking task actions. Load all applicable skills, then follow their full instructions. This catalog contains summaries only; do not infer or follow a skill's instructions until it has been loaded.\nA user may also invoke a skill directly; its <skill_content> block then appears in this conversation. Follow it, and do not call the `skill` tool again for that skill.\n</system-reminder>"
+    },
+    {
+      "seq": 37,
+      "role": "assistant",
+      "text": "E2E-OK"
+    }
+  ]
+}
+messages: 4 (user, user, user, assistant)
+event kinds: {"permission/preset":1,"sandbox/mode":1,"approval/policy":1,"session/title":1,"agent/inbox/spliced":2,"turn/start":1,"step/start":2,"user/message":3,"request/header":1,"request/context":1,"assistant/chunk":19,"assistant/message":2,"tool/call":1,"tool/result":1,"step/end":2,"turn/end":1}
+--- dsh_read_history (before=0) (78 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "method": "session.history",
+  "max_messages": 20,
+  "before_seq": 0,
+  "events_returned": 0,
+  "has_more": false,
+  "first_seq": null,
+  "last_seq": null,
+  "next_before": null,
+  "title": null,
+  "as_of_seq": null,
+  "turns": 0,
+  "tool_calls": 0,
+  "event_kinds": {},
+  "last_assistant_text": "",
+  "messages": []
+}
+paged backwards: 0 events, seq range null..null, has_more=false
+✔ S9 dsh_read_history sees both the prompt and the answer (111.016167ms)
+--- dsh_session_overview (2292 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "summary": {
+    "sessionId": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+    "updatedAt": 1790181350057,
+    "running": false,
+    "blank": false,
+    "cwd": "/root/Aub",
+    "agentPreset": "standard",
+    "projections": {
+      "asOfSeq": 39,
+      "values": {
+        "sessionStats": {
+          "turns": 1,
+          "steps": 2,
+          "llmMs": 7366,
+          "toolMs": 78,
+          "ttftMs": 6529,
+          "ttftSteps": 2,
+          "decodeMs": 837,
+          "decodeTokens": 90
+        },
+        "title": "T2 e2e: MCP 操控真实 DSH",
+        "goal": null,
+        "tokenUsage": {
+          "uncachedInputTokens": 16296,
+          "outputTokens": 90,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0
+        },
+        "contextPressure": {
+          "pressureTokens": 8197,
+          "projectedTokens": 8207,
+          "contextWindow": 1000000
+        },
+        "contextBreakdown": {
+          "systemTokens": 1515,
+          "toolsTokens": 6376,
+          "messageTokens": 535
+        },
+        "subagentTiming": {
+          "settledMs": 0
+        },
+        "subagent": null,
+        "permissions": {
+          "options": [
+            {
+              "value": "read-only",
+              "name": "read-only"
+            },
+            {
+              "value": "workspace-write",
+              "name": "workspace-write"
+            },
+            {
+              "value": "danger-full-access",
+              "name": "danger-full-access"
+            }
+          ],
+          "currentValue": "danger-full-access"
+        },
+        "sessionListMetadata": {
+          "blank": false,
+          "lastPromptAt": 1790181350057
+        },
+        "imageLimits": {
+          "maxImageBytes": 5242880,
+          "maxImagesPerMessage": 20,
+          "maxMessageImageBytes": 104857600,
+          "maxImagePixels": 40000000,
+          "mediaTypes": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ]
+        },
+        "todos": null,
+        "plan": {
+          "active": false,
+          "pending": false
+        }
+      }
+    }
+  },
+  "title": "T2 e2e: MCP 操控真实 DSH",
+  "models": {
+    "current": {
+      "provider": "local-gateway",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash"
+    },
+    "routable": true,
+    "group_count": 2,
+    "failures": []
+  },
+  "history": {
+    "events_returned": 40,
+    "has_more": false,
+    "last_seq": 39,
+    "turns": 1,
+    "tool_calls": 1,
+    "event_kinds": {
+      "permission/preset": 1,
+      "sandbox/mode": 1,
+      "approval/policy": 1,
+      "session/title": 1,
+      "agent/inbox/spliced": 2,
+      "turn/start": 1,
+      "step/start": 2,
+      "user/message": 3,
+      "request/header": 1,
+      "request/context": 1,
+      "assistant/chunk": 19,
+      "assistant/message": 2,
+      "tool/call": 1,
+      "tool/result": 1,
+      "step/end": 2,
+      "turn/end": 1
+    },
+    "last_assistant_text": "E2E-OK"
+  }
+}
+overview: title=T2 e2e: MCP 操控真实 DSH running=false current={"provider":"local-gateway","model":"deepseek-ai/DeepSeek-V4.1-Flash"}
+✔ S10 dsh_session_overview aggregates summary + title + models + history (2292.050498ms)
+--- dsh_list_models (9 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "current": {
+    "provider": "local-gateway",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash"
+  },
+  "routable": true,
+  "group_count": 2,
+  "groups": [
+    {
+      "provider": null,
+      "models": [
+        "deepseek-v4-flash",
+        "deepseek-v4-pro"
+      ],
+      "routable": null
+    },
+    {
+      "provider": null,
+      "models": [
+        "deepseek-ai/DeepSeek-V4.1-Flash",
+        "zai-org/GLM-5.2",
+        "Qwen/Qwen3.8-27B"
+      ],
+      "routable": null
+    }
+  ],
+  "failures": []
+}
+routable=true groups=2 failures=0
+--- dsh_select_model (same value, idempotent) (2216 ms) ---
+{
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "selected": {
+    "provider": "local-gateway",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash"
+  },
+  "global_side_effect": true,
+  "hint": "WARNING: session.selectModel also persisted this choice as the DEPLOYMENT DEFAULT (agent-default-model) — other sessions created later will inherit it."
+}
+selectModel round-trip ok — deployment default was kept at the same value on purpose
+✔ S11 dsh_list_models + idempotent dsh_select_model round-trip (2226.134688ms)
+--- dsh_select_model (bogus, expect isError) (10 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_select_model",
+  "ok": false,
+  "error": {
+    "kind": "rpc",
+    "method": "session.selectModel",
+    "code": "model-unavailable",
+    "message": "no adapter registered for provider \"no-such-provider\"",
+    "details": {
+      "provider": "no-such-provider",
+      "model": "no-such-model"
+    },
+    "base": "http://127.0.0.1:3080"
+  },
+  "hint": "DSH rejected the call with code \"model-unavailable\" — this is a business error carried on an HTTP 200 response; the payload above is verbatim."
+}
+DSH business error carried on HTTP 200 was surfaced as: code=model-unavailable
+✔ S12 dsh_select_model rejects a bogus provider as a structured DSH error (10.439316ms)
+--- dsh_list_subagents (2187 ms) ---
+{
+  "parent_session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "parent_available": true,
+  "count": 0,
+  "entries": [],
+  "hint": "Child ids from subagent.list are bare uuids (no \"session-\" prefix) — pass them verbatim. Only continuable children accept subagent.prompt; subagent.interrupt is accepted for one-shot children too, and every child transcript is readable (one-shot children via the session.history fallback)."
+}
+subagents of session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342: 0 []
+✔ S13 dsh_list_subagents on the test session (2188.395023ms)
+--- dsh_fork_session (87 ms) ---
+{
+  "forked_from": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "session_id": "session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f",
+  "at_seq": null
+}
+--- dsh_session_overview (fork) (2353 ms) ---
+{
+  "session_id": "session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f",
+  "summary": {
+    "sessionId": "session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f",
+    "updatedAt": 1790181369352,
+    "running": false,
+    "blank": false,
+    "parentSessionId": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+    "cwd": "/root/Aub",
+    "agentPreset": "standard",
+    "projections": {
+      "asOfSeq": 40,
+      "values": {
+        "sessionStats": {
+          "turns": 1,
+          "steps": 2,
+          "llmMs": 7366,
+          "toolMs": 78,
+          "ttftMs": 6529,
+          "ttftSteps": 2,
+          "decodeMs": 837,
+          "decodeTokens": 90
+        },
+        "title": "T2 e2e: MCP 操控真实 DSH",
+        "goal": null,
+        "tokenUsage": {
+          "uncachedInputTokens": 16296,
+          "outputTokens": 90,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0
+        },
+        "contextPressure": {
+          "pressureTokens": 8197,
+          "projectedTokens": 8207,
+          "contextWindow": 1000000
+        },
+        "contextBreakdown": {
+          "systemTokens": 1515,
+          "toolsTokens": 6376,
+          "messageTokens": 535
+        },
+        "subagentTiming": {
+          "settledMs": 0
+        },
+        "subagent": null,
+        "permissions": {
+          "options": [
+            {
+              "value": "read-only",
+              "name": "read-only"
+            },
+            {
+              "value": "workspace-write",
+              "name": "workspace-write"
+            },
+            {
+              "value": "danger-full-access",
+              "name": "danger-full-access"
+            }
+          ],
+          "currentValue": "danger-full-access"
+        },
+        "sessionListMetadata": {
+          "blank": false,
+          "lastPromptAt": 1790181350057
+        },
+        "imageLimits": {
+          "maxImageBytes": 5242880,
+          "maxImagesPerMessage": 20,
+          "maxMessageImageBytes": 104857600,
+          "maxImagePixels": 40000000,
+          "mediaTypes": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ]
+        },
+        "todos": null,
+        "plan": {
+          "active": false,
+          "pending": false
+        }
+      }
+    }
+  },
+  "title": "T2 e2e: MCP 操控真实 DSH",
+  "models": {
+    "current": {
+      "provider": "local-gateway",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash"
+    },
+    "routable": true,
+    "group_count": 2,
+    "failures": []
+  },
+  "history": {
+    "events_returned": 41,
+    "has_more": false,
+    "last_seq": 40,
+    "turns": 1,
+    "tool_calls": 1,
+    "event_kinds": {
+      "permission/preset": 1,
+      "sandbox/mode": 1,
+      "approval/policy": 1,
+      "session/title": 1,
+      "agent/inbox/spliced": 2,
+      "turn/start": 1,
+      "step/start": 2,
+      "user/message": 3,
+      "request/header": 1,
+      "request/context": 1,
+      "assistant/chunk": 19,
+      "assistant/message": 2,
+      "tool/call": 1,
+      "tool/result": 1,
+      "step/end": 2,
+      "turn/end": 1,
+      "session/end-seed": 1
+    },
+    "last_assistant_text": "E2E-OK"
+  }
+}
+forked session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342 -> session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f (title inherited: "T2 e2e: MCP 操控真实 DSH")
+✔ S13b dsh_fork_session forks the finished turn into a new session (2441.171877ms)
+--- dsh_list_sessions (subagent scan) (3601 ms) ---
+{
+  "total_matching": 54,
+  "returned": 40,
+  "total_sessions_on_host": 679,
+  "filter": {
+    "cwd": "/root/Aub",
+    "running_only": false
+  },
+  "sessions": [
+    {
+      "session_id": "session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f",
+      "updated_at": 1790181369352,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+      "updated_at": 1790181350057,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "5075b36f-5a09-4a07-9145-04f1ac21c93c",
+      "updated_at": 1790181241527,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+      "updated_at": 1790181236843,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-5f1942da-5eaa-408e-8506-d4f03f597373",
+      "updated_at": 1790181218162,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
+      "updated_at": 1790181209503,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
+      "updated_at": 1790181199240,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-899f3937-1d7e-4586-8d26-6cb29d002085",
+      "updated_at": 1790181184128,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
+      "updated_at": 1790181164439,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "d6e59e62-cd98-49c7-a619-7938d227a2ea",
+      "updated_at": 1790181011282,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
+      "updated_at": 1790181006607,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-13e257c8-0d39-4aac-92ac-a27acc34aabd",
+      "updated_at": 1790180986617,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-4a38a158-4713-4e32-8361-4dfcea5e5521",
+      "updated_at": 1790180975436,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-8b7dfa09-0349-45ff-a97d-efe65e85f6f8",
+      "updated_at": 1790180963659,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-4581816d-7686-4b06-91f1-f78b33b9b3b3",
+      "updated_at": 1790180938626,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
+      "updated_at": 1790180909995,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "31bf59a5-3790-4744-b5ec-88463282e597",
+      "updated_at": 1790180653355,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
+      "updated_at": 1790180647238,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-6a07946a-3b1f-4058-8b10-aa67316e3caf",
+      "updated_at": 1790180629425,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-ae1d84d8-a65f-4754-a3d9-a6da5680b48c",
+      "updated_at": 1790180619880,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-9dee1c41-0505-472e-a9a6-93eb1a0d610b",
+      "updated_at": 1790180610313,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-4d8f96ff-0090-4607-9b79-2d640e82bc87",
+      "updated_at": 1790180561989,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
+      "updated_at": 1790180540584,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "7bcb01d7-f5f0-4b45-8020-da74fc1fb624",
+      "updated_at": 1790180513275,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "d6aabc38-a9ad-4b35-a592-03fef046751a",
+      "updated_at": 1790180513262,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-4ebc764c-a8ad-48bf-8b21-dcc3ba366b7e",
+      "updated_at": 1790180401246,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-01dc2df9-f66b-433a-b225-e16a09959325",
+      "updated_at": 1790180381658,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-51efc307-4b7e-4e11-90ec-6c5a6b4674a0",
+      "updated_at": 1790180367356,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-09f0dc13-7697-4f1e-84c4-428f640d8bc2",
+      "updated_at": 1790180359413,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
+      "updated_at": 1790180345437,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "ada2e34c-3ef2-4a53-a227-055de9e10932",
+      "updated_at": 1790180198256,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "53cf16a2-1e7f-4039-bbaa-eacafea36823",
+      "updated_at": 1790180198242,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-96b2cb2a-bb0d-4b67-a9cf-a7a14514a051",
+      "updated_at": 1790180151949,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-58b8716f-1a11-40af-9540-204b39c2ced4",
+      "updated_at": 1790180143888,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-6ecbcd4f-bc99-432b-8a40-15930d48d435",
+      "updated_at": 1790180135427,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-2bc263c0-0cd7-43cf-ad51-dd08bbf48a65",
+      "updated_at": 1790180116091,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "6631f578-656b-4a6a-a1ba-4da82b13dfbf",
+      "updated_at": 1790179770154,
+      "running": true,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "77c45dfb-4a0b-4314-a563-d06a3b536b4b",
+      "updated_at": 1790179614903,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "6c4171cb-7fe9-403d-b264-6751546aefd6",
+      "updated_at": 1790179015477,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "session-66f97059-ff65-4df7-8585-64724acc2899",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "81c0ef0b-c34d-407b-b4b2-5553a5d75a4f",
+      "updated_at": 1790178954872,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": "34de7dc1-5148-42b6-b187-a6cf95f9e1d2",
+      "origin": "subagent",
+      "agent_preset": "standard"
+    }
+  ]
+}
+found subagent child 5075b36f-5a09-4a07-9145-04f1ac21c93c (mode=one-shot) under session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f
+--- dsh_read_subagent_history (2469 ms) ---
+{
+  "session_id": "5075b36f-5a09-4a07-9145-04f1ac21c93c",
+  "method": "session.history",
+  "parent_session_id": "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+  "fallback": {
+    "attempted": "subagent.history",
+    "reason": "subagent-not-found",
+    "message": "session \"5075b36f-5a09-4a07-9145-04f1ac21c93c\" is not a continuable direct child of \"session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f\""
+  },
+  "max_messages": 10,
+  "before_seq": null,
+  "events_returned": 39,
+  "has_more": false,
+  "first_seq": 0,
+  "last_seq": 38,
+  "next_before": null,
+  "title": "Run this exact bash command",
+  "as_of_seq": 38,
+  "turns": 1,
+  "tool_calls": 1,
+  "event_kinds": {
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "permission/preset": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "subagent/descriptor": 1,
+    "step/start": 2,
+    "user/message": 3,
+    "session/title": 1,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 17,
+    "assistant/message": 2,
+    "tool/call": 1,
+    "tool/result": 1,
+    "step/end": 2,
+    "turn/end": 1
+  },
+  "last_assistant_text": "SUBAGENT-PROBE",
+  "messages": [
+    {
+      "seq": 8,
+      "role": "user",
+      "text": "Run this exact bash command and report its raw stdout verbatim:\n\necho SUBAGENT-PROBE\n\nThen reply with only the command's output."
+    },
+    {
+      "seq": 9,
+      "role": "user",
+      "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nYou are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the task needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it."
+    },
+    {
+      "seq": 10,
+      "role": "user",
+      "text": "<system-reminder>\nA skill is a reusable set of task-specific instructions. The following skills are available in this session:\n\n<available_skills>\n- `cloud-subagent`: 把 ModelScope 上的 qwenpaw 云端实例当作远程 subagent 外包任务：判断哪些任务值得派、如何派、如何下载产物，并且每次都必须同时派一个本地监督 subagent 做定时巡检、成果验收与汇报。适用于需要真实浏览器/桌面 GUI 自动化、大容量磁盘中间产物、干净 Linux 环境装依赖跑长任务、或 docx/xlsx/pptx/pdf 产物的任务。\n- `cloud-webdav`: 用 OpenList/天翼云盘 的 WebDAV 网盘存放与取回云端 Agent 的产物，绕开本地 500 MB 磁盘限制。含局域网与公网两个入口的真实速度对比、各自的体积上限、分片/直传配方，以及\"HTTP 状态码不可信\"的验收纪律。也记录了 OpenList 侧所有相关配置项的实际效果（302 重定向、直连上传、上传并发、秒传）。\n- `dsh-agent-console`: 用命令行直接操控 DSH 宿主自身的 /api RPC 面：列会话、读事件级明细、创建/重命名/中断会话、发消息、切模型、管理工作区（含创建）、控制 subagent。核心是 `run` 子命令——新建一个对话把任务派出去，阻塞等它跑完，然后把完成报告回调投递进主 agent 的 inbox 唤醒主 agent；`--detach` 让它成为孤儿进程，从而绕开 DSH 后台 job 的第二条完成通知，保证只唤醒一次。含全部 method 的载荷/返回结构、源码位置与实测坑位。\n</available_skills>\n\nIf the user names a skill, or the task clearly matches a skill's description, call the `skill` tool with the exact skill name before taking task actions. Load all applicable skills, then follow their full instructions. This catalog contains summaries only; do not infer or follow a skill's instructions until it has been loaded.\nA user may also invoke a skill directly; its <skill_content> block then appears in this conversation. Follow it, and do not call the `skill` tool again for that skill.\n</system-reminder>"
+    },
+    {
+      "seq": 36,
+      "role": "assistant",
+      "text": "SUBAGENT-PROBE"
+    }
+  ]
+}
+subagent transcript returned 39 events, 4 text messages
+✔ S13c dsh_read_subagent_history reads a child transcript when one exists (12623.500697ms)
+--- dsh_dispatch_task (2954 ms) ---
+{
+  "dispatched": true,
+  "session_id": "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+  "workspace": {
+    "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+    "path": "/root/Aub",
+    "created": false,
+    "matched": "path"
+  },
+  "grouped": true,
+  "title": "T2 e2e: dispatch_task",
+  "mode": "queue",
+  "baseline_updated_at": 1790181384426,
+  "next_call": {
+    "tool": "dsh_wait_for_turn",
+    "arguments": {
+      "session_id": "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+      "timeout_ms": 120000,
+      "baseline_updated_at": 1790181384426
+    }
+  },
+  "hint": "Non-blocking by design: nothing is held open on the MCP side. Call the tool in `next_call` (possibly several times) until settled=true."
+}
+dispatch_task returned in 2954 ms; next_call = {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-8f6c5c3e-b791-43a6-908c-68263bfdd55b","timeout_ms":120000,"baseline_updated_at":1790181384426}}
+✔ S14 dsh_dispatch_task returns immediately (non-blocking) with a session id (2954.181068ms)
+--- dsh_wait_for_turn (dispatched session) (7992 ms) ---
+{
+  "settled": true,
+  "running": false,
+  "timed_out": false,
+  "session_id": "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+  "polls": 2,
+  "saw_running": true,
+  "settle_detected_by": "running-flag",
+  "title": "T2 e2e: dispatch_task",
+  "turns": 1,
+  "tool_calls": 0,
+  "event_kinds": {
+    "permission/preset": 1,
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "session/title": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "step/start": 1,
+    "user/message": 3,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 5,
+    "assistant/message": 1,
+    "step/end": 1,
+    "turn/end": 1
+  },
+  "last_assistant_text": "DISPATCH-OK",
+  "last_seq": 20,
+  "history_has_more": false,
+  "summary": {
+    "sessionId": "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+    "updatedAt": 1790181387739,
+    "running": false,
+    "blank": false,
+    "cwd": "/root/Aub",
+    "agentPreset": "standard",
+    "projections": {
+      "asOfSeq": 20,
+      "values": {
+        "sessionStats": {
+          "turns": 1,
+          "steps": 1,
+          "llmMs": 2212,
+          "toolMs": 0,
+          "ttftMs": 2209,
+          "ttftSteps": 1,
+          "decodeMs": 3,
+          "decodeTokens": 6
+        },
+        "title": "T2 e2e: dispatch_task",
+        "goal": null,
+        "tokenUsage": {
+          "uncachedInputTokens": 8071,
+          "outputTokens": 6,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0
+        },
+        "contextPressure": {
+          "pressureTokens": 8071,
+          "projectedTokens": 8082,
+          "contextWindow": 1000000
+        },
+        "contextBreakdown": {
+          "systemTokens": 1515,
+          "toolsTokens": 6376,
+          "messageTokens": 476
+        },
+        "subagentTiming": {
+          "settledMs": 0
+        },
+        "subagent": null,
+        "permissions": {
+          "options": [
+            {
+              "value": "read-only",
+              "name": "read-only"
+            },
+            {
+              "value": "workspace-write",
+              "name": "workspace-write"
+            },
+            {
+              "value": "danger-full-access",
+              "name": "danger-full-access"
+            }
+          ],
+          "currentValue": "danger-full-access"
+        },
+        "sessionListMetadata": {
+          "blank": false,
+          "lastPromptAt": 1790181387739
+        },
+        "imageLimits": {
+          "maxImageBytes": 5242880,
+          "maxImagesPerMessage": 20,
+          "maxMessageImageBytes": 104857600,
+          "maxImagePixels": 40000000,
+          "mediaTypes": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ]
+        },
+        "todos": null,
+        "plan": {
+          "active": false,
+          "pending": false
+        }
+      }
+    }
+  }
+}
+dispatched task answer: "DISPATCH-OK"
+✔ S15 dsh_wait_for_turn with require_start=false collects the dispatched result (7992.815294ms)
+--- dsh_run_task (15983 ms) ---
+{
+  "settled": true,
+  "timed_out": false,
+  "dispatched": true,
+  "session_id": "session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4",
+  "workspace": {
+    "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+    "path": "/root/Aub",
+    "created": false,
+    "matched": "path"
+  },
+  "grouped": true,
+  "title": "T2 e2e: run_task",
+  "polls": 3,
+  "saw_running": true,
+  "settle_detected_by": "running-flag",
+  "turns": 1,
+  "tool_calls": 0,
+  "event_kinds": {
+    "permission/preset": 1,
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "session/title": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "step/start": 1,
+    "user/message": 3,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 5,
+    "assistant/message": 1,
+    "step/end": 1,
+    "turn/end": 1
+  },
+  "last_assistant_text": "RUN-OK",
+  "last_seq": 20
+}
+run_task settled after 3 polls; answer = "RUN-OK"
+✔ S16 dsh_run_task: dispatch + wait in one call (15989.898413ms)
+--- dsh_dispatch_task (long task) (3088 ms) ---
+{
+  "dispatched": true,
+  "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+  "workspace": {
+    "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+    "path": "/root/Aub",
+    "created": false,
+    "matched": "path"
+  },
+  "grouped": true,
+  "title": "T2 e2e: cancel + timeout",
+  "mode": "queue",
+  "baseline_updated_at": 1790181411983,
+  "next_call": {
+    "tool": "dsh_wait_for_turn",
+    "arguments": {
+      "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+      "timeout_ms": 120000,
+      "baseline_updated_at": 1790181411983
+    }
+  },
+  "hint": "Non-blocking by design: nothing is held open on the MCP side. Call the tool in `next_call` (possibly several times) until settled=true."
+}
+--- dsh_wait_for_turn (4 s budget) (6032 ms) ---
+{
+  "settled": false,
+  "timed_out": true,
+  "still_running": true,
+  "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+  "polls": 2,
+  "running": true,
+  "saw_running": true,
+  "waited_ms": 4000,
+  "hint": "not finished yet: the turn is still running (or has not started). Call dsh_wait_for_turn again with session_id=\"session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f\" to keep waiting, or dsh_read_history to peek at progress.",
+  "next_call": {
+    "tool": "dsh_wait_for_turn",
+    "arguments": {
+      "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+      "timeout_ms": 4000,
+      "require_start": false
+    }
+  }
+}
+pending envelope hint: not finished yet: the turn is still running (or has not started). Call dsh_wait_for_turn again with session_id="session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f" to keep waiting, or dsh_read_history to peek at progress.
+continuation: {"tool":"dsh_wait_for_turn","arguments":{"session_id":"session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f","timeout_ms":4000,"require_start":false}}
+--- dsh_cancel_turn (84 ms) ---
+{
+  "accepted": true,
+  "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+  "hint": "Fire-and-return: accepted=true only means the request was received. Confirm idleness with dsh_wait_for_turn (require_start=false), or check dsh_list_sessions running."
+}
+--- dsh_wait_for_turn (require_start=false after cancel) (8345 ms) ---
+{
+  "settled": true,
+  "running": false,
+  "timed_out": false,
+  "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+  "polls": 2,
+  "saw_running": true,
+  "settle_detected_by": "running-flag",
+  "title": "T2 e2e: cancel + timeout",
+  "turns": 1,
+  "tool_calls": 1,
+  "event_kinds": {
+    "permission/preset": 1,
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "session/title": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "step/start": 1,
+    "user/message": 3,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 12,
+    "assistant/message": 1,
+    "tool/call": 1,
+    "tool/result": 1,
+    "step/end": 1,
+    "turn/end": 1
+  },
+  "last_assistant_text": "",
+  "last_seq": 29,
+  "history_has_more": false,
+  "summary": {
+    "sessionId": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+    "updatedAt": 1790181414609,
+    "running": false,
+    "blank": false,
+    "cwd": "/root/Aub",
+    "agentPreset": "standard",
+    "projections": {
+      "asOfSeq": 29,
+      "values": {
+        "sessionStats": {
+          "turns": 1,
+          "steps": 1,
+          "llmMs": 3743,
+          "toolMs": 2962,
+          "ttftMs": 3454,
+          "ttftSteps": 1,
+          "decodeMs": 289,
+          "decodeTokens": 59
+        },
+        "title": "T2 e2e: cancel + timeout",
+        "goal": null,
+        "tokenUsage": {
+          "uncachedInputTokens": 8077,
+          "outputTokens": 59,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0
+        },
+        "contextPressure": {
+          "pressureTokens": 8077,
+          "projectedTokens": 8119,
+          "contextWindow": 1000000
+        },
+        "contextBreakdown": {
+          "systemTokens": 1515,
+          "toolsTokens": 6376,
+          "messageTokens": 510
+        },
+        "subagentTiming": {
+          "settledMs": 0
+        },
+        "subagent": null,
+        "permissions": {
+          "options": [
+            {
+              "value": "read-only",
+              "name": "read-only"
+            },
+            {
+              "value": "workspace-write",
+              "name": "workspace-write"
+            },
+            {
+              "value": "danger-full-access",
+              "name": "danger-full-access"
+            }
+          ],
+          "currentValue": "danger-full-access"
+        },
+        "sessionListMetadata": {
+          "blank": false,
+          "lastPromptAt": 1790181414609
+        },
+        "imageLimits": {
+          "maxImageBytes": 5242880,
+          "maxImagesPerMessage": 20,
+          "maxMessageImageBytes": 104857600,
+          "maxImagePixels": 40000000,
+          "mediaTypes": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ]
+        },
+        "todos": null,
+        "plan": {
+          "active": false,
+          "pending": false
+        }
+      }
+    }
+  }
+}
+after cancel: running=false, last assistant text = ""
+✔ S17 a budget that is too small returns "still running" instead of an error (17550.016404ms)
+--- dsh_list_workspaces (before archive) (13 ms) ---
+{
+  "count": 7,
+  "archived_session_count": 61,
+  "workspaces": [
+    {
+      "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+      "title": "Aub",
+      "path": "/root/Aub",
+      "session_count": 39,
+      "session_ids": [
+        "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+        "session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4",
+        "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+        "session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f",
+        "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+        "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+        "session-5f1942da-5eaa-408e-8506-d4f03f597373",
+        "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
+        "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
+        "session-899f3937-1d7e-4586-8d26-6cb29d002085",
+        "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
+        "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
+        "session-13e257c8-0d39-4aac-92ac-a27acc34aabd",
+        "session-4a38a158-4713-4e32-8361-4dfcea5e5521",
+        "session-8b7dfa09-0349-45ff-a97d-efe65e85f6f8",
+        "session-4581816d-7686-4b06-91f1-f78b33b9b3b3",
+        "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
+        "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
+        "session-6a07946a-3b1f-4058-8b10-aa67316e3caf",
+        "session-ae1d84d8-a65f-4754-a3d9-a6da5680b48c",
+        "session-9dee1c41-0505-472e-a9a6-93eb1a0d610b",
+        "session-4d8f96ff-0090-4607-9b79-2d640e82bc87",
+        "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
+        "session-4ebc764c-a8ad-48bf-8b21-dcc3ba366b7e",
+        "session-01dc2df9-f66b-433a-b225-e16a09959325",
+        "session-51efc307-4b7e-4e11-90ec-6c5a6b4674a0",
+        "session-09f0dc13-7697-4f1e-84c4-428f640d8bc2",
+        "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
+        "session-96b2cb2a-bb0d-4b67-a9cf-a7a14514a051",
+        "session-58b8716f-1a11-40af-9540-204b39c2ced4",
+        "session-6ecbcd4f-bc99-432b-8a40-15930d48d435",
+        "session-2bc263c0-0cd7-43cf-ad51-dd08bbf48a65",
+        "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+        "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+        "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
+        "session-c76501ca-780c-4f42-9731-7e84d3d2e9b2",
+        "session-1d91a912-32de-41bd-937f-95002ca37bf0",
+        "session-66f97059-ff65-4df7-8585-64724acc2899",
+        "session-2456fd15-3995-48ee-ab47-e646a275e685"
+      ],
+      "created_at": "2026-09-23T15:28:36.876Z",
+      "updated_at": "2026-09-23T16:36:52.081Z"
+    },
+    {
+      "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
+      "title": "EveryThing2API",
+      "path": "/root/EveryThing2API",
+      "session_count": 6,
+      "session_ids": [
+        "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
+        "session-01368ab0-8124-4c51-9f6c-487eb339114f",
+        "session-a5623935-de94-4246-936e-85580dcebc74",
+        "session-b0e9f285-e23d-446a-b04b-1277a5c15686",
+        "session-f42a4d0c-0a6f-48bd-b910-f23627d795e7",
+        "session-e366ffe9-ad60-410f-b256-9aaf504d274b"
+      ],
+      "created_at": "2026-09-04T15:26:16.175Z",
+      "updated_at": "2026-09-05T14:42:40.050Z"
+    },
+    {
+      "workspace_id": "60e4e49f-1da4-46b1-861d-7be8ee1752b6",
+      "title": "MusicAIBuilder",
+      "path": "/root/MusicAIBuilder",
+      "session_count": 15,
+      "session_ids": [
+        "session-9e63eb43-99d0-4ad4-bd2a-21f5916894af",
+        "session-d2ae4cb1-4746-4a68-a5dc-34a324a270b2",
+        "session-b73176af-5d79-4277-be3f-4c3fb439ca95",
+        "session-9b04c4f2-37c0-4ddc-bd4f-3327f153309a",
+        "session-70853595-6d4a-46f6-8bfd-8cbc523b6188",
+        "session-3bd91309-50c0-4c41-a0ec-c6a3677e7988",
+        "session-8524c58d-475a-4f0f-8b92-274f343faa8a",
+        "session-3675c15f-9e13-4e4d-b042-ae50138c9da8",
+        "session-c2a128e5-14b0-4470-aebd-9e0b494e504f",
+        "session-7ec0403c-1a5e-4f31-a0cf-99432cc4dda5",
+        "session-32a4a0a4-3c8f-44a2-ac73-b2e4c25173de",
+        "session-5d5d514e-897b-4bd4-990e-4be2565ce73e",
+        "session-5370de34-38ff-4a06-b6c2-add649ca4b85",
+        "session-cb8f8237-cddb-46df-945b-0f77c6f433a1",
+        "session-3e8c5310-8fdb-4915-aad5-2cbb34141edb"
+      ],
+      "created_at": "2026-08-24T04:12:41.123Z",
+      "updated_at": "2026-08-26T07:40:38.577Z"
+    },
+    {
+      "workspace_id": "490fcb1d-cbd4-4b36-bec4-93c991a103e8",
+      "title": "OAO",
+      "path": "/root/OAO",
+      "session_count": 3,
+      "session_ids": [
+        "session-5a75b767-bda6-4710-8024-4e7e3811cec3",
+        "session-1ab6bdd0-8503-4d87-8b37-78f1b4fa0be3",
+        "session-6bc7f995-c454-451b-99a8-6805baaa289a"
+      ],
+      "created_at": "2026-08-15T08:01:45.242Z",
+      "updated_at": "2026-08-15T08:23:43.015Z"
+    },
+    {
+      "workspace_id": "06521792-b3a3-4692-8d94-8f365762467f",
+      "title": "Temp",
+      "path": "/root/Temp",
+      "session_count": 64,
+      "session_ids": [
+        "session-af7ed7d9-e66a-43da-82e2-4d461879926c",
+        "session-c49fd9f9-0cac-494f-b51b-a508e22b1f49",
+        "session-a7bd707c-c792-4009-827b-0f4f9bd1d74f",
+        "session-1e1734d2-0a69-4470-be1b-430e25507602",
+        "session-7b8ba2a2-ab4f-47a3-941e-f5d370a8da88",
+        "session-33cf2fd6-5387-4292-81c2-5e1e95aadbdb",
+        "session-ae8ef431-6766-4afb-b1e4-a076174e3e47",
+        "session-467bda48-c602-407e-9838-f373eafe3046",
+        "session-f85d41bb-44c5-4e1a-946f-3ea1557bd3a3",
+        "session-7b14c2f6-edd0-4bed-b927-76052278d50f",
+        "session-db07e783-7f05-4a79-a31d-202b6d0b95ac",
+        "session-d553ad6f-12bf-4d6b-9efc-216d8c5a594c",
+        "session-79f85a1a-c0c8-452e-8c42-c80e562e0dce",
+        "session-961b2f9b-6da5-408d-a169-46b528c4f054",
+        "session-fbca9dea-f220-49a3-9851-115f95306c8f",
+        "session-3a9774f8-1c02-421f-a564-5860c58047eb",
+        "session-2ca3caf8-b5de-4887-86c2-e6cf845a3cb5",
+        "session-a3b4a77b-997e-4164-bbc9-219b8c9c2ccf",
+        "session-4bd4df0a-ef3c-4659-95ec-b669497148d1",
+        "session-8411e627-644e-475c-a546-6f0f1e89fd2f",
+        "session-2ac40cbb-88be-4e20-80b3-cf197202b06a",
+        "session-dacfbce9-5329-4200-9100-65d0a0dcbd3d",
+        "session-7809a4cf-6bb1-4b82-aad8-30a3d1e3b517",
+        "session-acaee952-e00d-4a37-82cc-365d9bad78a8",
+        "session-8dcb5971-3ad3-43f4-b483-cbf33f390d27",
+        "session-131a07a9-00f0-46c9-ab51-aa4bc8bd7393",
+        "session-ed051783-66d0-4b5a-97cd-834753d9ce20",
+        "session-a4e70035-1cd1-4f41-b344-7321be11f2a8",
+        "session-baecadde-4520-44bf-bf6c-41f463c8e019",
+        "session-c152dc49-c704-4d04-9a00-a722308483ee",
+        "session-8f1aafd2-84d4-4405-926c-0751e6751f42",
+        "session-5eab4c23-b30a-4885-bd96-c0625d6259b4",
+        "session-36bb5ef9-aaa6-478f-827f-f26787ae369d",
+        "session-d4ebb7e9-f62d-4f2e-8fdc-460ee6663f5a",
+        "session-d5b2670c-30db-478c-aa0e-199f67ef42bf",
+        "session-8df4c3f2-bb1c-4923-9b6b-d8caa321915a",
+        "session-a826b1fd-bd46-4a0f-b5df-585043a6abe8",
+        "session-167616f5-07ae-4401-a9c8-45b9d072a948",
+        "session-50372818-d7f1-4dac-abbb-85a75e6d8b72",
+        "session-f3bd2e88-904c-4772-a3cd-e8c70565a1e4",
+        "session-597021e5-e13c-42c4-8718-6a8b103b437d",
+        "session-08ca938b-f16b-4e3f-84ba-d5479ae5ee9b",
+        "session-62c544d8-1615-41f6-b971-edbf27474eb7",
+        "session-6c1f7f67-4c7e-4c53-bf50-6e8bf8fd1820",
+        "session-8dc00235-cb90-488e-aebc-2e747561fd06",
+        "session-74a4163c-cf1f-4bef-b0d5-12f90c4826c7",
+        "session-31c0da28-3a17-44ef-a5fc-7942564f65c9",
+        "session-96912401-122e-4d9a-9617-137710a776e9",
+        "session-6f37732f-4e5e-4fa0-a556-b1f6f77649a1",
+        "session-6ba71ed8-5170-477d-84ef-1a4e1ec4678b",
+        "session-3b809f06-4d6f-4215-aa0f-f1be78e2b593",
+        "session-86a4fa1e-fdd9-457e-b0d7-65b31511d72a",
+        "session-acb08973-d1d6-4988-9f46-2ada4df99e3f",
+        "session-19577cb1-2b60-4366-8aac-bf3ce7507851",
+        "session-031ee7c6-c13b-4381-bd08-64584156775e",
+        "session-861697de-8c49-4b72-92fc-1edf5f2f2e5b",
+        "session-7837e426-7c1c-4ab9-89c6-c73ba1e9a5e8",
+        "session-f8223557-fd8e-40c4-9b87-ce9e8a92b372",
+        "session-3ab6877f-288f-4abd-8ddd-98cb2c07283a",
+        "session-17b74045-63c7-4756-b69e-3126387679d3",
+        "session-be92ae85-4afd-438b-84c9-4b1f0021e4d9",
+        "session-91613a55-cfbb-48c9-ad87-4f5cf435c5a9",
+        "session-c67c0abf-5bbf-4e3d-b83e-7924924e79b5",
+        "session-39044762-5759-4b2a-92c7-854b1fa758ac"
+      ],
+      "created_at": "2026-08-15T07:10:39.802Z",
+      "updated_at": "2026-09-23T15:29:08.520Z"
+    },
+    {
+      "workspace_id": "7ce3adf8-4254-4df8-9ec4-e5d1743cd5df",
+      "title": "Gido",
+      "path": "/root/Gido",
+      "session_count": 7,
+      "session_ids": [
+        "session-1c316789-7686-4da4-b6ee-c22151a133bf",
+        "session-079e4eb5-8cff-4afb-9177-7cfb417d2cc9",
+        "session-1b7c9f73-bc03-4e15-8947-6950f674f367",
+        "session-30a62fb6-6973-421f-9c36-e1d7390482f7",
+        "session-b137cf2e-37a4-4a89-b79e-272f67229bcc",
+        "session-f4a41f9a-d374-49a0-8aef-62ab8d1f1f11",
+        "session-17ed0d9a-3ba1-485c-8e5d-d04d0ec78452"
+      ],
+      "created_at": "2026-08-14T10:45:40.962Z",
+      "updated_at": "2026-08-17T04:26:39.208Z"
+    },
+    {
+      "workspace_id": "8d5d9fed-b103-44f6-b1be-0e93cdd2b489",
+      "title": "Reviser",
+      "path": "/root/Reviser",
+      "session_count": 9,
+      "session_ids": [
+        "session-1be17c6f-5024-4299-98e4-cede53987489",
+        "session-685b6843-9fba-4606-96d0-61cafaf0c840",
+        "session-e5d5a90e-1d81-4f62-8e06-4bd567752972",
+        "session-42c3e0a4-94cb-4d69-8c65-addc7c3d0c8a",
+        "session-884ab5b2-9d39-47f0-87c7-d7a7249d64a9",
+        "session-99e2d942-86f3-4ff4-b357-404e08e54536",
+        "session-708dad88-08ae-4a56-aac7-5c247a73114f",
+        "session-ea0d89aa-0260-4b6c-9e59-3642bd6e10f2",
+        "session-17c73e5e-f166-4d93-bae1-52af9236a2c0"
+      ],
+      "created_at": "2026-08-14T08:31:57.720Z",
+      "updated_at": "2026-09-12T15:46:25.097Z"
+    }
+  ]
+}
+--- dsh_archive_session (34 ms) ---
+{
+  "archived": true,
+  "session_id": "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+  "archived_session_count": 62,
+  "hint": "Archiving is registration-level only: logs, attachments and the workspace ledger entry are untouched, and this cannot be undone through the RPC surface."
+}
+--- dsh_list_workspaces (after archive) (11 ms) ---
+{
+  "count": 7,
+  "archived_session_count": 62,
+  "workspaces": [
+    {
+      "workspace_id": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+      "title": "Aub",
+      "path": "/root/Aub",
+      "session_count": 39,
+      "session_ids": [
+        "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+        "session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4",
+        "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+        "session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f",
+        "session-9e7d1186-c871-4e9b-a4dd-aea7a4ef7342",
+        "session-cd410fd6-ed36-49f3-9f7d-bfb6b8ca7c0f",
+        "session-5f1942da-5eaa-408e-8506-d4f03f597373",
+        "session-89feb4ba-88d8-43ae-9d55-8aaa0be40552",
+        "session-ad361774-092e-49a5-b3c1-20b7af2044ba",
+        "session-899f3937-1d7e-4586-8d26-6cb29d002085",
+        "session-4657ba3b-bb26-4ad8-8f9d-643b4d9aebf7",
+        "session-7b30886c-bf6b-4cf4-956a-bff3d8ec33a9",
+        "session-13e257c8-0d39-4aac-92ac-a27acc34aabd",
+        "session-4a38a158-4713-4e32-8361-4dfcea5e5521",
+        "session-8b7dfa09-0349-45ff-a97d-efe65e85f6f8",
+        "session-4581816d-7686-4b06-91f1-f78b33b9b3b3",
+        "session-3c7f7b46-867f-423d-8a4b-8e1375ab627b",
+        "session-36f1c4f3-0403-4d1d-b661-6110b25ff874",
+        "session-6a07946a-3b1f-4058-8b10-aa67316e3caf",
+        "session-ae1d84d8-a65f-4754-a3d9-a6da5680b48c",
+        "session-9dee1c41-0505-472e-a9a6-93eb1a0d610b",
+        "session-4d8f96ff-0090-4607-9b79-2d640e82bc87",
+        "session-671dcb4a-2909-46a8-a1d3-ad9867d4b3c7",
+        "session-4ebc764c-a8ad-48bf-8b21-dcc3ba366b7e",
+        "session-01dc2df9-f66b-433a-b225-e16a09959325",
+        "session-51efc307-4b7e-4e11-90ec-6c5a6b4674a0",
+        "session-09f0dc13-7697-4f1e-84c4-428f640d8bc2",
+        "session-1365a746-8939-40c1-9085-9a94aeb8abfe",
+        "session-96b2cb2a-bb0d-4b67-a9cf-a7a14514a051",
+        "session-58b8716f-1a11-40af-9540-204b39c2ced4",
+        "session-6ecbcd4f-bc99-432b-8a40-15930d48d435",
+        "session-2bc263c0-0cd7-43cf-ad51-dd08bbf48a65",
+        "session-69dd0612-342d-48b9-8b7e-101530e96c93",
+        "session-840eeaef-b779-4d4c-be5b-1e1c937b81a8",
+        "session-06e25024-01a5-49c6-9078-c4a8392e0c7d",
+        "session-c76501ca-780c-4f42-9731-7e84d3d2e9b2",
+        "session-1d91a912-32de-41bd-937f-95002ca37bf0",
+        "session-66f97059-ff65-4df7-8585-64724acc2899",
+        "session-2456fd15-3995-48ee-ab47-e646a275e685"
+      ],
+      "created_at": "2026-09-23T15:28:36.876Z",
+      "updated_at": "2026-09-23T16:36:52.081Z"
+    },
+    {
+      "workspace_id": "5f25cf7a-5950-4c28-9a25-3fad37dc35ca",
+      "title": "EveryThing2API",
+      "path": "/root/EveryThing2API",
+      "session_count": 6,
+      "session_ids": [
+        "session-b21a9a99-88c1-4c75-9027-c3283a409e0f",
+        "session-01368ab0-8124-4c51-9f6c-487eb339114f",
+        "session-a5623935-de94-4246-936e-85580dcebc74",
+        "session-b0e9f285-e23d-446a-b04b-1277a5c15686",
+        "session-f42a4d0c-0a6f-48bd-b910-f23627d795e7",
+        "session-e366ffe9-ad60-410f-b256-9aaf504d274b"
+      ],
+      "created_at": "2026-09-04T15:26:16.175Z",
+      "updated_at": "2026-09-05T14:42:40.050Z"
+    },
+    {
+      "workspace_id": "60e4e49f-1da4-46b1-861d-7be8ee1752b6",
+      "title": "MusicAIBuilder",
+      "path": "/root/MusicAIBuilder",
+      "session_count": 15,
+      "session_ids": [
+        "session-9e63eb43-99d0-4ad4-bd2a-21f5916894af",
+        "session-d2ae4cb1-4746-4a68-a5dc-34a324a270b2",
+        "session-b73176af-5d79-4277-be3f-4c3fb439ca95",
+        "session-9b04c4f2-37c0-4ddc-bd4f-3327f153309a",
+        "session-70853595-6d4a-46f6-8bfd-8cbc523b6188",
+        "session-3bd91309-50c0-4c41-a0ec-c6a3677e7988",
+        "session-8524c58d-475a-4f0f-8b92-274f343faa8a",
+        "session-3675c15f-9e13-4e4d-b042-ae50138c9da8",
+        "session-c2a128e5-14b0-4470-aebd-9e0b494e504f",
+        "session-7ec0403c-1a5e-4f31-a0cf-99432cc4dda5",
+        "session-32a4a0a4-3c8f-44a2-ac73-b2e4c25173de",
+        "session-5d5d514e-897b-4bd4-990e-4be2565ce73e",
+        "session-5370de34-38ff-4a06-b6c2-add649ca4b85",
+        "session-cb8f8237-cddb-46df-945b-0f77c6f433a1",
+        "session-3e8c5310-8fdb-4915-aad5-2cbb34141edb"
+      ],
+      "created_at": "2026-08-24T04:12:41.123Z",
+      "updated_at": "2026-08-26T07:40:38.577Z"
+    },
+    {
+      "workspace_id": "490fcb1d-cbd4-4b36-bec4-93c991a103e8",
+      "title": "OAO",
+      "path": "/root/OAO",
+      "session_count": 3,
+      "session_ids": [
+        "session-5a75b767-bda6-4710-8024-4e7e3811cec3",
+        "session-1ab6bdd0-8503-4d87-8b37-78f1b4fa0be3",
+        "session-6bc7f995-c454-451b-99a8-6805baaa289a"
+      ],
+      "created_at": "2026-08-15T08:01:45.242Z",
+      "updated_at": "2026-08-15T08:23:43.015Z"
+    },
+    {
+      "workspace_id": "06521792-b3a3-4692-8d94-8f365762467f",
+      "title": "Temp",
+      "path": "/root/Temp",
+      "session_count": 64,
+      "session_ids": [
+        "session-af7ed7d9-e66a-43da-82e2-4d461879926c",
+        "session-c49fd9f9-0cac-494f-b51b-a508e22b1f49",
+        "session-a7bd707c-c792-4009-827b-0f4f9bd1d74f",
+        "session-1e1734d2-0a69-4470-be1b-430e25507602",
+        "session-7b8ba2a2-ab4f-47a3-941e-f5d370a8da88",
+        "session-33cf2fd6-5387-4292-81c2-5e1e95aadbdb",
+        "session-ae8ef431-6766-4afb-b1e4-a076174e3e47",
+        "session-467bda48-c602-407e-9838-f373eafe3046",
+        "session-f85d41bb-44c5-4e1a-946f-3ea1557bd3a3",
+        "session-7b14c2f6-edd0-4bed-b927-76052278d50f",
+        "session-db07e783-7f05-4a79-a31d-202b6d0b95ac",
+        "session-d553ad6f-12bf-4d6b-9efc-216d8c5a594c",
+        "session-79f85a1a-c0c8-452e-8c42-c80e562e0dce",
+        "session-961b2f9b-6da5-408d-a169-46b528c4f054",
+        "session-fbca9dea-f220-49a3-9851-115f95306c8f",
+        "session-3a9774f8-1c02-421f-a564-5860c58047eb",
+        "session-2ca3caf8-b5de-4887-86c2-e6cf845a3cb5",
+        "session-a3b4a77b-997e-4164-bbc9-219b8c9c2ccf",
+        "session-4bd4df0a-ef3c-4659-95ec-b669497148d1",
+        "session-8411e627-644e-475c-a546-6f0f1e89fd2f",
+        "session-2ac40cbb-88be-4e20-80b3-cf197202b06a",
+        "session-dacfbce9-5329-4200-9100-65d0a0dcbd3d",
+        "session-7809a4cf-6bb1-4b82-aad8-30a3d1e3b517",
+        "session-acaee952-e00d-4a37-82cc-365d9bad78a8",
+        "session-8dcb5971-3ad3-43f4-b483-cbf33f390d27",
+        "session-131a07a9-00f0-46c9-ab51-aa4bc8bd7393",
+        "session-ed051783-66d0-4b5a-97cd-834753d9ce20",
+        "session-a4e70035-1cd1-4f41-b344-7321be11f2a8",
+        "session-baecadde-4520-44bf-bf6c-41f463c8e019",
+        "session-c152dc49-c704-4d04-9a00-a722308483ee",
+        "session-8f1aafd2-84d4-4405-926c-0751e6751f42",
+        "session-5eab4c23-b30a-4885-bd96-c0625d6259b4",
+        "session-36bb5ef9-aaa6-478f-827f-f26787ae369d",
+        "session-d4ebb7e9-f62d-4f2e-8fdc-460ee6663f5a",
+        "session-d5b2670c-30db-478c-aa0e-199f67ef42bf",
+        "session-8df4c3f2-bb1c-4923-9b6b-d8caa321915a",
+        "session-a826b1fd-bd46-4a0f-b5df-585043a6abe8",
+        "session-167616f5-07ae-4401-a9c8-45b9d072a948",
+        "session-50372818-d7f1-4dac-abbb-85a75e6d8b72",
+        "session-f3bd2e88-904c-4772-a3cd-e8c70565a1e4",
+        "session-597021e5-e13c-42c4-8718-6a8b103b437d",
+        "session-08ca938b-f16b-4e3f-84ba-d5479ae5ee9b",
+        "session-62c544d8-1615-41f6-b971-edbf27474eb7",
+        "session-6c1f7f67-4c7e-4c53-bf50-6e8bf8fd1820",
+        "session-8dc00235-cb90-488e-aebc-2e747561fd06",
+        "session-74a4163c-cf1f-4bef-b0d5-12f90c4826c7",
+        "session-31c0da28-3a17-44ef-a5fc-7942564f65c9",
+        "session-96912401-122e-4d9a-9617-137710a776e9",
+        "session-6f37732f-4e5e-4fa0-a556-b1f6f77649a1",
+        "session-6ba71ed8-5170-477d-84ef-1a4e1ec4678b",
+        "session-3b809f06-4d6f-4215-aa0f-f1be78e2b593",
+        "session-86a4fa1e-fdd9-457e-b0d7-65b31511d72a",
+        "session-acb08973-d1d6-4988-9f46-2ada4df99e3f",
+        "session-19577cb1-2b60-4366-8aac-bf3ce7507851",
+        "session-031ee7c6-c13b-4381-bd08-64584156775e",
+        "session-861697de-8c49-4b72-92fc-1edf5f2f2e5b",
+        "session-7837e426-7c1c-4ab9-89c6-c73ba1e9a5e8",
+        "session-f8223557-fd8e-40c4-9b87-ce9e8a92b372",
+        "session-3ab6877f-288f-4abd-8ddd-98cb2c07283a",
+        "session-17b74045-63c7-4756-b69e-3126387679d3",
+        "session-be92ae85-4afd-438b-84c9-4b1f0021e4d9",
+        "session-91613a55-cfbb-48c9-ad87-4f5cf435c5a9",
+        "session-c67c0abf-5bbf-4e3d-b83e-7924924e79b5",
+        "session-39044762-5759-4b2a-92c7-854b1fa758ac"
+      ],
+      "created_at": "2026-08-15T07:10:39.802Z",
+      "updated_at": "2026-09-23T15:29:08.520Z"
+    },
+    {
+      "workspace_id": "7ce3adf8-4254-4df8-9ec4-e5d1743cd5df",
+      "title": "Gido",
+      "path": "/root/Gido",
+      "session_count": 7,
+      "session_ids": [
+        "session-1c316789-7686-4da4-b6ee-c22151a133bf",
+        "session-079e4eb5-8cff-4afb-9177-7cfb417d2cc9",
+        "session-1b7c9f73-bc03-4e15-8947-6950f674f367",
+        "session-30a62fb6-6973-421f-9c36-e1d7390482f7",
+        "session-b137cf2e-37a4-4a89-b79e-272f67229bcc",
+        "session-f4a41f9a-d374-49a0-8aef-62ab8d1f1f11",
+        "session-17ed0d9a-3ba1-485c-8e5d-d04d0ec78452"
+      ],
+      "created_at": "2026-08-14T10:45:40.962Z",
+      "updated_at": "2026-08-17T04:26:39.208Z"
+    },
+    {
+      "workspace_id": "8d5d9fed-b103-44f6-b1be-0e93cdd2b489",
+      "title": "Reviser",
+      "path": "/root/Reviser",
+      "session_count": 9,
+      "session_ids": [
+        "session-1be17c6f-5024-4299-98e4-cede53987489",
+        "session-685b6843-9fba-4606-96d0-61cafaf0c840",
+        "session-e5d5a90e-1d81-4f62-8e06-4bd567752972",
+        "session-42c3e0a4-94cb-4d69-8c65-addc7c3d0c8a",
+        "session-884ab5b2-9d39-47f0-87c7-d7a7249d64a9",
+        "session-99e2d942-86f3-4ff4-b357-404e08e54536",
+        "session-708dad88-08ae-4a56-aac7-5c247a73114f",
+        "session-ea0d89aa-0260-4b6c-9e59-3642bd6e10f2",
+        "session-17c73e5e-f166-4d93-bae1-52af9236a2c0"
+      ],
+      "created_at": "2026-08-14T08:31:57.720Z",
+      "updated_at": "2026-09-12T15:46:25.097Z"
+    }
+  ]
+}
+archived_session_count: 61 -> 62
+TCP forwarder: 127.0.0.1:32957 -> 127.0.0.1:3080 (stands in for socat/ssh -L)
+✔ S18 dsh_archive_session hides the session and shows up in archivedSessionIds (60.807215ms)
+--- dsh_host_info via http://127.0.0.1:32957 (87 ms) ---
+{
+  "base_url": "http://127.0.0.1:32957",
+  "base_url_source": "env:DSH_BASE",
+  "version": "0.0.1",
+  "cwd": "/root",
+  "provider": "local-gateway",
+  "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+  "attachedSessions": 59,
+  "canOpenPath": false
+}
+--- dsh_host_info via http://127.0.0.1:3080 (26 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "base_url_source": "env:DSH_BASE",
+  "version": "0.0.1",
+  "cwd": "/root",
+  "provider": "local-gateway",
+  "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+  "attachedSessions": 59,
+  "canOpenPath": false
+}
+both bases answered from the same host: version=0.0.1 provider=local-gateway; base_url differs (http://127.0.0.1:32957 vs http://127.0.0.1:3080) ✔
+--- dsh_host_info with --base http://127.0.0.1:32957 (env DSH_BASE poisoned) (86 ms) ---
+{
+  "base_url": "http://127.0.0.1:32957",
+  "base_url_source": "cli:--base",
+  "version": "0.0.1",
+  "cwd": "/root",
+  "provider": "local-gateway",
+  "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+  "attachedSessions": 59,
+  "canOpenPath": false
+}
+CLI flag precedence proven: env DSH_BASE=http://127.0.0.1:1 was ignored in favour of --base
+✔ S19 a non-default base URL really moves the wire target (TCP forwarder on a random port) (2093.932097ms)
+--- dsh_ping (dead base, ok=false by design) (53 ms) ---
+{
+  "ok": false,
+  "base": "http://127.0.0.1:40375",
+  "elapsedMs": 37,
+  "error": {
+    "kind": "transport",
+    "method": "host.describe",
+    "code": "ECONNREFUSED",
+    "message": "cannot reach DSH at http://127.0.0.1:40375 (ECONNREFUSED): is the host running and is --base correct?",
+    "base": "http://127.0.0.1:40375"
+  },
+  "timeout_ms": 30000,
+  "retries": 0,
+  "hint": "DSH did not answer: check --base / DSH_BASE, that the host is running, and that any reverse proxy is reachable."
+}
+--- dsh_host_info (dead base, expect isError) (9 ms) ---
+{
+  "base_url": "http://127.0.0.1:40375",
+  "tool": "dsh_host_info",
+  "ok": false,
+  "error": {
+    "kind": "transport",
+    "method": "host.describe",
+    "code": "ECONNREFUSED",
+    "message": "cannot reach DSH at http://127.0.0.1:40375 (ECONNREFUSED): is the host running and is --base correct?",
+    "base": "http://127.0.0.1:40375"
+  },
+  "hint": "Carrier-level failure: the DSH host was not reached. Check --base / DSH_BASE and that the host is running."
+}
+✔ S20 a wrong base URL fails loudly, naming the base (negative control) (782.712183ms)
+HTTP server stderr: [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
+[dsh-mcp] info: streamable HTTP transport ready — http://127.0.0.1:40541/mcp (23 tools, DSH base http://127.0.0.1:3080 from cli:--base)
+--- dsh_host_info over streamable HTTP :40541 (62 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "base_url_source": "cli:--base",
+  "version": "0.0.1",
+  "cwd": "/root",
+  "provider": "local-gateway",
+  "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+  "attachedSessions": 59,
+  "canOpenPath": false
+}
+--- dsh_list_sessions over HTTP (2671 ms) ---
+{
+  "total_matching": 57,
+  "returned": 3,
+  "total_sessions_on_host": 682,
+  "filter": {
+    "cwd": "/root/Aub",
+    "running_only": false
+  },
+  "sessions": [
+    {
+      "session_id": "session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f",
+      "updated_at": 1790181414609,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4",
+      "updated_at": 1790181398967,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    },
+    {
+      "session_id": "session-8f6c5c3e-b791-43a6-908c-68263bfdd55b",
+      "updated_at": 1790181387739,
+      "running": false,
+      "blank": false,
+      "cwd": "/root/Aub",
+      "parent_session_id": null,
+      "origin": null,
+      "agent_preset": "standard"
+    }
+  ]
+}
+HTTP transport drove the real DSH: 3 sessions in /root/Aub
+✔ S21 the same tools over streamable HTTP drive the real DSH (3903.261906ms)
+--- dsh_dispatch_task (spawn a subagent) (2335 ms) ---
+{
+  "dispatched": true,
+  "session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+  "workspace": {
+    "workspaceId": "afa50b75-d7c4-4282-94ee-d07e7ece7eec",
+    "path": "/root/Aub",
+    "created": false,
+    "matched": "path"
+  },
+  "grouped": true,
+  "title": "T2 e2e: subagent tools",
+  "mode": "queue",
+  "baseline_updated_at": 1790181435851,
+  "next_call": {
+    "tool": "dsh_wait_for_turn",
+    "arguments": {
+      "session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+      "timeout_ms": 120000,
+      "baseline_updated_at": 1790181435851
+    }
+  },
+  "hint": "Non-blocking by design: nothing is held open on the MCP side. Call the tool in `next_call` (possibly several times) until settled=true."
+}
+--- dsh_wait_for_turn (subagent parent) (26984 ms) ---
+{
+  "settled": true,
+  "running": false,
+  "timed_out": false,
+  "session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+  "polls": 5,
+  "saw_running": true,
+  "settle_detected_by": "running-flag",
+  "title": "T2 e2e: subagent tools",
+  "turns": 1,
+  "tool_calls": 1,
+  "event_kinds": {
+    "permission/preset": 1,
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "session/title": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "step/start": 2,
+    "user/message": 3,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 71,
+    "assistant/message": 2,
+    "tool/call": 1,
+    "tool/result": 1,
+    "step/end": 2,
+    "turn/end": 1
+  },
+  "last_assistant_text": "PARENT-DONE",
+  "last_seq": 91,
+  "history_has_more": false,
+  "summary": {
+    "sessionId": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+    "updatedAt": 1790181438241,
+    "running": false,
+    "blank": false,
+    "cwd": "/root/Aub",
+    "agentPreset": "standard",
+    "projections": {
+      "asOfSeq": 91,
+      "values": {
+        "sessionStats": {
+          "turns": 1,
+          "steps": 2,
+          "llmMs": 11070,
+          "toolMs": 11183,
+          "ttftMs": 9226,
+          "ttftSteps": 2,
+          "decodeMs": 1844,
+          "decodeTokens": 257
+        },
+        "title": "T2 e2e: subagent tools",
+        "goal": null,
+        "tokenUsage": {
+          "uncachedInputTokens": 16462,
+          "outputTokens": 257,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0
+        },
+        "contextPressure": {
+          "pressureTokens": 8366,
+          "projectedTokens": 8377,
+          "contextWindow": 1000000
+        },
+        "contextBreakdown": {
+          "systemTokens": 1515,
+          "toolsTokens": 6376,
+          "messageTokens": 726
+        },
+        "subagentTiming": {
+          "settledMs": 0
+        },
+        "subagent": null,
+        "permissions": {
+          "options": [
+            {
+              "value": "read-only",
+              "name": "read-only"
+            },
+            {
+              "value": "workspace-write",
+              "name": "workspace-write"
+            },
+            {
+              "value": "danger-full-access",
+              "name": "danger-full-access"
+            }
+          ],
+          "currentValue": "danger-full-access"
+        },
+        "sessionListMetadata": {
+          "blank": false,
+          "lastPromptAt": 1790181438241
+        },
+        "imageLimits": {
+          "maxImageBytes": 5242880,
+          "maxImagesPerMessage": 20,
+          "maxMessageImageBytes": 104857600,
+          "maxImagePixels": 40000000,
+          "mediaTypes": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ]
+        },
+        "todos": null,
+        "plan": {
+          "active": false,
+          "pending": false
+        }
+      }
+    }
+  }
+}
+parent answer: "PARENT-DONE"
+--- dsh_list_subagents (own parent) (1353 ms) ---
+{
+  "parent_session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+  "parent_available": true,
+  "count": 1,
+  "entries": [
+    {
+      "kind": "child",
+      "session_id": "e4d21f3b-f750-4e35-9bf0-2747a4de0deb",
+      "activity": "inactive",
+      "has_children": false,
+      "mode": "one-shot",
+      "label": "Run probe echo command",
+      "readable_via": "dsh_read_subagent_history (one-shot children fall back to session.history)",
+      "promptable": false,
+      "interruptible": true
+    }
+  ],
+  "hint": "Child ids from subagent.list are bare uuids (no \"session-\" prefix) — pass them verbatim. Only continuable children accept subagent.prompt; subagent.interrupt is accepted for one-shot children too, and every child transcript is readable (one-shot children via the session.history fallback)."
+}
+child discovered: e4d21f3b-f750-4e35-9bf0-2747a4de0deb mode=one-shot activity=inactive label="Run probe echo command" readable_via=dsh_read_subagent_history (one-shot children fall back to session.history)
+--- dsh_read_subagent_history (own child) (3920 ms) ---
+{
+  "session_id": "e4d21f3b-f750-4e35-9bf0-2747a4de0deb",
+  "method": "session.history",
+  "parent_session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+  "fallback": {
+    "attempted": "subagent.history",
+    "reason": "subagent-not-found",
+    "message": "session \"e4d21f3b-f750-4e35-9bf0-2747a4de0deb\" is not a continuable direct child of \"session-f34c146a-085a-4f89-9657-3d6478c1e881\""
+  },
+  "max_messages": 10,
+  "before_seq": null,
+  "events_returned": 38,
+  "has_more": false,
+  "first_seq": 0,
+  "last_seq": 37,
+  "next_before": null,
+  "title": "Run this exact bash command",
+  "as_of_seq": 37,
+  "turns": 1,
+  "tool_calls": 1,
+  "event_kinds": {
+    "sandbox/mode": 1,
+    "approval/policy": 1,
+    "permission/preset": 1,
+    "agent/inbox/spliced": 2,
+    "turn/start": 1,
+    "subagent/descriptor": 1,
+    "step/start": 2,
+    "user/message": 3,
+    "session/title": 1,
+    "request/header": 1,
+    "request/context": 1,
+    "assistant/chunk": 16,
+    "assistant/message": 2,
+    "tool/call": 1,
+    "tool/result": 1,
+    "step/end": 2,
+    "turn/end": 1
+  },
+  "last_assistant_text": "SUBAGENT-PROBE",
+  "messages": [
+    {
+      "seq": 8,
+      "role": "user",
+      "text": "Run this exact bash command and report its stdout verbatim:\n\necho SUBAGENT-PROBE\n\nThen reply with only the command's output."
+    },
+    {
+      "seq": 9,
+      "role": "user",
+      "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nYou are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the task needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it."
+    },
+    {
+      "seq": 10,
+      "role": "user",
+      "text": "<system-reminder>\nA skill is a reusable set of task-specific instructions. The following skills are available in this session:\n\n<available_skills>\n- `cloud-subagent`: 把 ModelScope 上的 qwenpaw 云端实例当作远程 subagent 外包任务：判断哪些任务值得派、如何派、如何下载产物，并且每次都必须同时派一个本地监督 subagent 做定时巡检、成果验收与汇报。适用于需要真实浏览器/桌面 GUI 自动化、大容量磁盘中间产物、干净 Linux 环境装依赖跑长任务、或 docx/xlsx/pptx/pdf 产物的任务。\n- `cloud-webdav`: 用 OpenList/天翼云盘 的 WebDAV 网盘存放与取回云端 Agent 的产物，绕开本地 500 MB 磁盘限制。含局域网与公网两个入口的真实速度对比、各自的体积上限、分片/直传配方，以及\"HTTP 状态码不可信\"的验收纪律。也记录了 OpenList 侧所有相关配置项的实际效果（302 重定向、直连上传、上传并发、秒传）。\n- `dsh-agent-console`: 用命令行直接操控 DSH 宿主自身的 /api RPC 面：列会话、读事件级明细、创建/重命名/中断会话、发消息、切模型、管理工作区（含创建）、控制 subagent。核心是 `run` 子命令——新建一个对话把任务派出去，阻塞等它跑完，然后把完成报告回调投递进主 agent 的 inbox 唤醒主 agent；`--detach` 让它成为孤儿进程，从而绕开 DSH 后台 job 的第二条完成通知，保证只唤醒一次。含全部 method 的载荷/返回结构、源码位置与实测坑位。\n</available_skills>\n\nIf the user names a skill, or the task clearly matches a skill's description, call the `skill` tool with the exact skill name before taking task actions. Load all applicable skills, then follow their full instructions. This catalog contains summaries only; do not infer or follow a skill's instructions until it has been loaded.\nA user may also invoke a skill directly; its <skill_content> block then appears in this conversation. Follow it, and do not call the `skill` tool again for that skill.\n</system-reminder>"
+    },
+    {
+      "seq": 35,
+      "role": "assistant",
+      "text": "SUBAGENT-PROBE"
+    }
+  ]
+}
+child transcript: 38 events, 4 text messages, method=session.history, last assistant = "SUBAGENT-PROBE"
+read fell back to session.history: subagent.history -> subagent-not-found
+--- dsh_message_subagent (one-shot child, expect isError) (1543 ms) ---
+{
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_message_subagent",
+  "ok": false,
+  "error": {
+    "kind": "rpc",
+    "method": "subagent.prompt",
+    "code": "subagent-not-found",
+    "message": "session \"e4d21f3b-f750-4e35-9bf0-2747a4de0deb\" is not a continuable direct child of \"session-f34c146a-085a-4f89-9657-3d6478c1e881\"",
+    "details": {
+      "parentSessionId": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+      "childSessionId": "e4d21f3b-f750-4e35-9bf0-2747a4de0deb"
+    },
+    "base": "http://127.0.0.1:3080"
+  },
+  "hint": "The child is not a *continuable* direct child: subagent.prompt rejects one-shot children (subagent.interrupt is still accepted). Reading is no problem — dsh_read_subagent_history automatically falls back to session.history."
+}
+--- dsh_interrupt_subagent (one-shot child) (1309 ms) ---
+{
+  "accepted": true,
+  "parent_session_id": "session-f34c146a-085a-4f89-9657-3d6478c1e881",
+  "child_session_id": "e4d21f3b-f750-4e35-9bf0-2747a4de0deb",
+  "observed_activity": "inactive",
+  "observed_entry": {
+    "kind": "child",
+    "id": "e4d21f3b-f750-4e35-9bf0-2747a4de0deb",
+    "mode": "one-shot",
+    "label": "Run probe echo command",
+    "activity": "inactive",
+    "hasChildren": false
+  },
+  "hint": "Fire-and-return. Pass wait_ms to also watch activity flip running -> inactive; otherwise re-check with dsh_list_subagents."
+}
+SKIP-EVIDENCE: this run produced a "one-shot" child, so the successful subagent.prompt path was not reachable; prompt returned the structured subagent-not-found error, interrupt was accepted (observed activity: inactive), and the transcript was read through the session.history fallback.
+
+=== cleanup: archiving 6 test sessions: session-c2335194-9d5a-4c52-9d9a-86d691e5640e, session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f, session-8f6c5c3e-b791-43a6-908c-68263bfdd55b, session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4, session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f, session-f34c146a-085a-4f89-9657-3d6478c1e881
+✔ S22 subagent tools on a child this test spawned itself (list / read / message / interrupt) (37448.804091ms)
+  archived session-c2335194-9d5a-4c52-9d9a-86d691e5640e (S5b ungrouped cwd session) -> archived_count=63 isError=false
+  archived session-b67585fe-71b7-4c8a-9a1c-94bd8a85334f (S13b fork of the E2E session) -> archived_count=64 isError=false
+  archived session-8f6c5c3e-b791-43a6-908c-68263bfdd55b (S14 dispatch_task) -> archived_count=65 isError=false
+  archived session-cbc58b2a-faff-4f3a-a5d6-e0258ccebfd4 (S16 run_task) -> archived_count=66 isError=false
+  archived session-d4ce29f4-afa8-46c0-a7a0-8b9021dd664f (S17 timeout + cancel) -> archived_count=67 isError=false
+  archived session-f34c146a-085a-4f89-9657-3d6478c1e881 (S22 subagent parent) -> archived_count=68 isError=false
+serverInfo = {"name":"dsh-mcp","version":"0.1.0"}
+capabilities = {"tools":{}}
+protocolVersion = (sdk did not expose it)
+✔ initialize handshake: server identity + tool capability (2100.997197ms)
+tools/list returned 23 tools (src/schema.js declares 23)
+names: dsh_host_info, dsh_ping, dsh_list_sessions, dsh_read_history, dsh_session_overview, dsh_create_session, dsh_send_message, dsh_wait_for_turn, dsh_dispatch_task, dsh_run_task, dsh_cancel_turn, dsh_rename_session, dsh_fork_session, dsh_archive_session, dsh_list_models, dsh_select_model, dsh_list_workspaces, dsh_create_workspace, dsh_list_subagents, dsh_message_subagent, dsh_interrupt_subagent, dsh_read_subagent_history, dsh_call
+every wire inputSchema deep-equals the declaration in src/schema.js ✔
+registry built: 23 dispatch entries
+dispatch table size = 23, schema entries = 23
+✔ tools/list is generated from src/schema.js (single source of truth) (22.431524ms)
+✔ handler table and schema array are 1:1 (no orphan handler, no handler-less tool) (2.636296ms)
+isError = true
+payload =
+{
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_read_history",
+  "ok": false,
+  "error": {
+    "kind": "invalid-arguments",
+    "message": "invalid arguments for dsh_read_history: missing required property \"session_id\"",
+    "issues": [
+      "missing required property \"session_id\""
+    ]
+  }
+}
+✔ tools/call with a missing required argument -> isError (not a transport crash) (18.648673ms)
+isError = true
+payload = {
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_host_info",
+  "ok": false,
+  "error": {
+    "kind": "invalid-arguments",
+    "message": "invalid arguments for dsh_host_info: unknown property \"nonsense\" (accepted: none)",
+    "issues": [
+      "unknown property \"nonsense\" (accepted: none)"
+    ]
+  }
+}
+✔ tools/call with an unknown property -> isError (4.871172ms)
+payload = {
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_send_message",
+  "ok": false,
+  "error": {
+    "kind": "invalid-arguments",
+    "message": "invalid arguments for dsh_send_message: \"mode\" must be one of queue | steer",
+    "issues": [
+      "\"mode\" must be one of queue | steer"
+    ]
+  }
+}
+✔ tools/call with a bad enum value -> isError (6.19175ms)
+payload (truncated) = {
+  "ok": false,
+  "error": {
+    "kind": "unknown-tool",
+    "message": "unknown tool \"dsh_no_such_tool\"",
+    "available_tools": [
+      "dsh_host_info",
+      "dsh_ping",
+      "dsh_list_sessions
+✔ tools/call for an unknown tool name -> isError listing the real tools (6.322116ms)
+payload = {
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_call",
+  "ok": false,
+  "error": {
+    "kind": "raw-call-disabled",
+    "message": "dsh_call is disabled on this server instance",
+    "details": {
+      "method": "session.list"
+    }
+  },
+  "hint": "Restart the MCP server with --allow-raw-call (or DSH_ALLOW_RAW_CALL=1) to enable the raw /api passthrough. It is off by default because it bypasses every curated guard rail, including destructive-tool annotations and the selectModel warning."
+}
+✔ dsh_call is refused by default (--allow-raw-call is opt-in) (7.364717ms)
+payload = {
+  "base_url": "http://127.0.0.1:35477",
+  "tool": "dsh_host_info",
+  "ok": false,
+  "error": {
+    "kind": "transport",
+    "method": "host.describe",
+    "code": "ECONNREFUSED",
+    "message": "cannot reach DSH at http://127.0.0.1:35477 (ECONNREFUSED): is the host running and is --base correct?",
+    "base": "http://127.0.0.1:35477"
+  },
+  "hint": "Carrier-level failure: the DSH host was not reached. Check --base / DSH_BASE and that the host is running."
+}
+server stderr = [dsh-mcp] info: stdio transport ready — 23 tools, DSH base http://127.0.0.1:3080 (from env:DSH_BASE)
+[dsh-mcp] warn: dsh_call failed: dsh_call is disabled on this server instance
+✔ an unreachable DSH base surfaces as isError with kind=transport naming the base (59.798039ms)
+✔ transport-level error text (stderr) stays off stdout: server logged the base it uses (1.559335ms)
+healthz = {"ok":true,"server":{"name":"dsh-mcp","version":"0.1.0"},"tools":23,"dsh_base":"http://127.0.0.1:3080","dsh":{"ok":true,"base":"http://127.0.0.1:3080","elapsedMs":94,"value":{"version":"0.0.1","cwd":"/root","provider":"local-gateway","model":"deepseek-ai/DeepSeek-V4.1-Flash","attachedSessions":53,"canOpenPath":false}}}
+server stderr = [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
+[dsh-mcp] info: streamable HTTP transport ready — http://127.0.0.1:46207/mcp (23 tools, DSH base http://127.0.0.1:3080 from env:DSH_BASE)
+HTTP tools/list returned 23 tools
+HTTP dsh_host_info = { "base_url": "http://127.0.0.1:3080", "base_url_source": "env:DSH_BASE", "version": "0.0.1", "cwd": "/root", "provider": "local-gateway", "model": "deepseek-ai/DeepSeek-V4.1-Flash", "attachedSessions": 53, "canOpenPath": false }
+HTTP dsh_call (disabled) isError = true
+✔ streamable HTTP transport exposes the same surface and carries a real tools/call (1301.757355ms)
+payload (truncated) = {"method":"host.describe","http_status":200,"attempts":1,"elapsed_ms":91,"base_url":"http://127.0.0.1:3080","ok":true,"envelope":{"type":"server-response","rpcId":"mcp-muebr16h-1","result":{"ok":true,"value":{"version":"0.0.1","cwd":"/root","provider":"local-gateway","model":"deepseek-ai/DeepSeek-V4.1-Flash","attachedSessions":53,"canOpenPath":false}}}}
+raw business error = {"method":"session.models","http_status":200,"attempts":1,"elapsed_ms":2414,"base_url":"http://127.0.0.1:3080","ok":false,"error":{"code":"session-not-found","message":"session \"session-does-not-exist\" not found","details":{"sessionId":"session-does-not-exist"}}}
+config.dsh_call is advertised in tools/list even when disabled: true
+✔ dsh_call works once --allow-raw-call is passed (opt-in path) (3676.009654ms)
+unauthenticated POST /mcp -> HTTP 401
+authenticated tools/list -> 23 tools
+✔ --http-token protects the MCP endpoint when set (1176.268652ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 135023.89473

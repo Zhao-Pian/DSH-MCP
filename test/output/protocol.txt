@@ -1,0 +1,116 @@
+serverInfo = {"name":"dsh-mcp","version":"0.1.0"}
+capabilities = {"tools":{}}
+protocolVersion = (sdk did not expose it)
+✔ initialize handshake: server identity + tool capability (2165.649278ms)
+tools/list returned 23 tools (src/schema.js declares 23)
+names: dsh_host_info, dsh_ping, dsh_list_sessions, dsh_read_history, dsh_session_overview, dsh_create_session, dsh_send_message, dsh_wait_for_turn, dsh_dispatch_task, dsh_run_task, dsh_cancel_turn, dsh_rename_session, dsh_fork_session, dsh_archive_session, dsh_list_models, dsh_select_model, dsh_list_workspaces, dsh_create_workspace, dsh_list_subagents, dsh_message_subagent, dsh_interrupt_subagent, dsh_read_subagent_history, dsh_call
+every wire inputSchema deep-equals the declaration in src/schema.js ✔
+registry built: 23 dispatch entries
+dispatch table size = 23, schema entries = 23
+✔ tools/list is generated from src/schema.js (single source of truth) (28.108016ms)
+✔ handler table and schema array are 1:1 (no orphan handler, no handler-less tool) (2.389115ms)
+isError = true
+payload =
+{
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_read_history",
+  "ok": false,
+  "error": {
+    "kind": "invalid-arguments",
+    "message": "invalid arguments for dsh_read_history: missing required property \"session_id\"",
+    "issues": [
+      "missing required property \"session_id\""
+    ]
+  }
+}
+✔ tools/call with a missing required argument -> isError (not a transport crash) (18.476433ms)
+isError = true
+payload = {
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_host_info",
+  "ok": false,
+  "error": {
+    "kind": "invalid-arguments",
+    "message": "invalid arguments for dsh_host_info: unknown property \"nonsense\" (accepted: none)",
+    "issues": [
+      "unknown property \"nonsense\" (accepted: none)"
+    ]
+  }
+}
+✔ tools/call with an unknown property -> isError (4.475673ms)
+payload = {
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_send_message",
+  "ok": false,
+  "error": {
+    "kind": "invalid-arguments",
+    "message": "invalid arguments for dsh_send_message: \"mode\" must be one of queue | steer",
+    "issues": [
+      "\"mode\" must be one of queue | steer"
+    ]
+  }
+}
+✔ tools/call with a bad enum value -> isError (4.932324ms)
+payload (truncated) = {
+  "ok": false,
+  "error": {
+    "kind": "unknown-tool",
+    "message": "unknown tool \"dsh_no_such_tool\"",
+    "available_tools": [
+      "dsh_host_info",
+      "dsh_ping",
+      "dsh_list_sessions
+✔ tools/call for an unknown tool name -> isError listing the real tools (4.44835ms)
+payload = {
+  "base_url": "http://127.0.0.1:3080",
+  "tool": "dsh_call",
+  "ok": false,
+  "error": {
+    "kind": "raw-call-disabled",
+    "message": "dsh_call is disabled on this server instance",
+    "details": {
+      "method": "session.list"
+    }
+  },
+  "hint": "Restart the MCP server with --allow-raw-call (or DSH_ALLOW_RAW_CALL=1) to enable the raw /api passthrough. It is off by default because it bypasses every curated guard rail, including destructive-tool annotations and the selectModel warning."
+}
+✔ dsh_call is refused by default (--allow-raw-call is opt-in) (8.913464ms)
+payload = {
+  "base_url": "http://127.0.0.1:45917",
+  "tool": "dsh_host_info",
+  "ok": false,
+  "error": {
+    "kind": "transport",
+    "method": "host.describe",
+    "code": "ECONNREFUSED",
+    "message": "cannot reach DSH at http://127.0.0.1:45917 (ECONNREFUSED): is the host running and is --base correct?",
+    "base": "http://127.0.0.1:45917"
+  },
+  "hint": "Carrier-level failure: the DSH host was not reached. Check --base / DSH_BASE and that the host is running."
+}
+server stderr = [dsh-mcp] info: stdio transport ready — 23 tools, DSH base http://127.0.0.1:3080 (from env:DSH_BASE)
+[dsh-mcp] warn: dsh_call failed: dsh_call is disabled on this server instance
+✔ an unreachable DSH base surfaces as isError with kind=transport naming the base (67.177769ms)
+✔ transport-level error text (stderr) stays off stdout: server logged the base it uses (1.943171ms)
+healthz = {"ok":true,"server":{"name":"dsh-mcp","version":"0.1.0"},"tools":23,"dsh_base":"http://127.0.0.1:3080","dsh":{"ok":true,"base":"http://127.0.0.1:3080","elapsedMs":89,"value":{"version":"0.0.1","cwd":"/root","provider":"local-gateway","model":"deepseek-ai/DeepSeek-V4.1-Flash","attachedSessions":46,"canOpenPath":false}}}
+server stderr = [dsh-mcp] info: DSH reachable at http://127.0.0.1:3080
+[dsh-mcp] info: streamable HTTP transport ready — http://127.0.0.1:43295/mcp (23 tools, DSH base http://127.0.0.1:3080 from env:DSH_BASE)
+HTTP tools/list returned 23 tools
+HTTP dsh_host_info = { "base_url": "http://127.0.0.1:3080", "base_url_source": "env:DSH_BASE", "version": "0.0.1", "cwd": "/root", "provider": "local-gateway", "model": "deepseek-ai/DeepSeek-V4.1-Flash", "attachedSessions": 46, "canOpenPath": false }
+HTTP dsh_call (disabled) isError = true
+✔ streamable HTTP transport exposes the same surface and carries a real tools/call (1464.68209ms)
+payload (truncated) = {"method":"host.describe","http_status":200,"attempts":1,"elapsed_ms":109,"base_url":"http://127.0.0.1:3080","ok":true,"envelope":{"type":"server-response","rpcId":"mcp-muebmwg9-1","result":{"ok":true,"value":{"version":"0.0.1","cwd":"/root","provider":"local-gateway","model":"deepseek-ai/DeepSeek-V4.1-Flash","attachedSessions":46,"canOpenPath":false}}}}
+raw business error = {"method":"session.models","http_status":200,"attempts":1,"elapsed_ms":1351,"base_url":"http://127.0.0.1:3080","ok":false,"error":{"code":"session-not-found","message":"session \"session-does-not-exist\" not found","details":{"sessionId":"session-does-not-exist"}}}
+config.dsh_call is advertised in tools/list even when disabled: true
+✔ dsh_call works once --allow-raw-call is passed (opt-in path) (2405.052505ms)
+unauthenticated POST /mcp -> HTTP 401
+authenticated tools/list -> 23 tools
+✔ --http-token protects the MCP endpoint when set (948.733328ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8033.164091

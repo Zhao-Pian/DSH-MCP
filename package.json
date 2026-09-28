@@ -1,0 +1,25 @@
+{
+  "name": "dsh-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP server that drives an already-running DSH instance over its /api RPC surface (stdio + streamable HTTP).",
+  "license": "MIT",
+  "bin": {
+    "dsh-mcp": "./src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "start:http": "node src/index.js --http",
+    "print-config": "node src/index.js --print-config",
+    "test": "node --test --test-reporter=spec \"test/*.test.mjs\"",
+    "test:protocol": "node --test --test-reporter=spec test/protocol.test.mjs",
+    "test:e2e": "node --test --test-reporter=spec test/e2e.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0"
+  }
+}
