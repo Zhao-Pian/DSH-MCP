@@ -60,9 +60,14 @@ function textResult(payload, { isError = false, meta } = {}) {
 	return result;
 }
 
+/** The two identifying fields every payload carries (README §6). Hoisted: used by callTool too. */
+function errorBase(name, ctx) {
+	return { base_url: ctx?.client?.base ?? null, tool: name };
+}
+
 /** Turn any thrown thing into a structured `isError: true` MCP result (never a protocol-level crash). */
 function errorResult(error, name, ctx) {
-	const base = { base_url: ctx?.client?.base ?? null, tool: name };
+	const base = errorBase(name, ctx);
 	if (error instanceof ToolInputError) {
 		return textResult({ ...base, ok: false, error: { kind: 'invalid-arguments', message: error.message, issues: error.issues } }, { isError: true });
 	}
@@ -111,8 +116,11 @@ export async function callTool(registry, name, rawArgs, opts = {}) {
 	const started = Date.now();
 	const ctx = registry.ctx;
 	if (!registry.byName.has(name)) {
+		// Same envelope as every other failure path: README §6 promises every payload echoes
+		// `base_url` + the tool name so a multi-DSH client can tell which instance answered.
 		return textResult(
 			{
+				...errorBase(name, ctx),
 				ok: false,
 				error: { kind: 'unknown-tool', message: `unknown tool "${name}"`, available_tools: registry.names },
 			},
