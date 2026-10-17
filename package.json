@@ -38,7 +38,8 @@
     "print-config": "node src/index.js --print-config",
     "test": "node --test --test-reporter=spec \"test/*.test.mjs\"",
     "test:protocol": "node --test --test-reporter=spec test/protocol.test.mjs",
-    "test:e2e": "node --test --test-reporter=spec test/e2e.test.mjs"
+    "test:e2e": "node --test --test-reporter=spec test/e2e.test.mjs",
+    "test:mock": "node test/run-e2e-mock.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0"
