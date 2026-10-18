@@ -22,7 +22,7 @@
   "files": [
     "src/",
     "README.md",
-    "README.zh-CN.md"
+    "README.en.md"
   ],
   "repository": {
     "type": "git",

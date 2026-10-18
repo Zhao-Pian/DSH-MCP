@@ -1,63 +1,62 @@
-# dsh-mcp — drive an already-running DSH instance from any MCP client
+# dsh-mcp — 从任意 MCP 客户端远程驱动一个已在运行的 DSH 实例
 
-**中文文档：[README.zh-CN.md](README.zh-CN.md)**
+**English: [README.en.md](README.en.md)**
 
-`dsh-mcp` is an **MCP (Model Context Protocol) server** that is *not* part of DSH. It is a **remote-control
-client** for a DSH host: mount it in any MCP-capable AI client (Claude Desktop, Cursor, another DSH
-session, a custom MCP host) and that AI can list sessions, read event-level history, **create sessions,
-hand tasks to them, wait for the turn to settle, take the answer back**, cancel, rename, switch models,
-manage workspaces, and drive subagents — all against a DSH instance reached over HTTP(S).
+`dsh-mcp` 是一个 **MCP（Model Context Protocol）服务器**，它本身**不属于** DSH，而是 DSH 宿主的**远程控制客户端**。
+把它挂载到任意支持 MCP 的 AI 客户端（Claude Desktop、Cursor、另一个 DSH 会话、自研 MCP 宿主）上，这个 AI 就能：
+列出会话、读取事件级历史、**创建会话、把任务派发过去、等待该轮次结束、把答案取回来**，以及取消、重命名、
+切换模型、管理工作区、驱动子代理——全部通过 HTTP(S) 访问一个 DSH 实例完成。
 
 ```
-MCP host  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<namespace>/<method> {"args":{…}}──▶  DSH 0.2.x host (URL configurable)
+MCP 宿主  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<namespace>/<method> {"args":{…}}──▶  DSH 0.2.x 宿主（URL 可配置）
 ```
 
-* **23 tools**, generated from a single schema array (`src/schema.js`).
-* **stdio + streamable HTTP** transports, one implementation — no duplicated tool logic.
-* **Base URL fully configurable**: `--base` > `$DSH_BASE` > `$DSH_WEB_URL` > `http://127.0.0.1:3080`;
-  `http://` and `https://` both supported, plus optional bearer token / custom headers for a reverse proxy.
-* Business errors that DSH returns **inside an HTTP 200** are converted to MCP `isError: true` with the
-  original `code` / `message` / `details` preserved.
-* Long tasks never block a request forever: `dsh_dispatch_task` (non-blocking) + `dsh_wait_for_turn`
-  (polling, timeout returns a *continuation hint*, not an error).
+* **23 个工具**，全部由单一 schema 数组（`src/schema.js`）生成。
+* **stdio + streamable HTTP** 两种传输，共用一套实现——工具逻辑没有第二份拷贝。
+* **Base URL 完全可配置**：`--base` > `$DSH_BASE` > `$DSH_WEB_URL` > `http://127.0.0.1:3080`；
+  `http://` 与 `https://` 均支持，另可选 bearer token / 自定义请求头以适配反向代理。
+* DSH 把业务错误**放在 HTTP 200 的响应体里**返回，本服务会将其转换为 MCP 的 `isError: true`，
+  并原样保留 `code` / `message` / `details`。
+* 长任务不会永久阻塞一次请求：`dsh_dispatch_task`（非阻塞）+ `dsh_wait_for_turn`
+  （轮询；超时返回**续查提示**而不是错误）。
 
 ---
 
-## 1. Install
+## 1. 安装
 
-Published on npm as **`dsh-remote-mcp`** (the bare name `dsh-mcp` is taken by an unrelated package):
+已发布到 npm，包名为 **`dsh-remote-mcp`**（裸名 `dsh-mcp` 已被他人的无关包占用）：
 
 ```bash
-npx -y dsh-remote-mcp --base http://127.0.0.1:3080        # run without installing
-npm install -g dsh-remote-mcp                              # or install globally
+npx -y dsh-remote-mcp --base http://127.0.0.1:3080        # 免安装直接运行
+npm install -g dsh-remote-mcp                              # 或全局安装
 ```
 
-From a source checkout:
+从源码运行：
 
 ```bash
 cd dsh-mcp
-npm install                       # one dependency: @modelcontextprotocol/sdk@1.30.0 (pinned)
-node --version                    # v20+ (developed and tested on v24.19.0)
+npm install                       # 仅一个依赖：@modelcontextprotocol/sdk@1.30.0（已锁定版本）
+node --version                    # 需 v20+（开发与测试环境为 v24.19.0）
 ```
 
-No build step, no native modules, no compiler. `node_modules` is ~29 MB.
+无构建步骤、无原生模块、无需编译器。`node_modules` 约 29 MB。
 
-## 2. Run
+## 2. 运行
 
 ```bash
-# stdio (how MCP hosts mount it) — stdout carries protocol only, logs go to stderr
+# stdio（MCP 宿主的标准挂载方式）—— stdout 只承载协议，日志走 stderr
 node src/index.js --base http://127.0.0.1:3080
 
-# streamable HTTP (for remote mounting); prints the exact endpoint on stderr
+# streamable HTTP（供远程挂载）；启动时会在 stderr 打印确切端点
 node src/index.js --http --port 8765 --base http://127.0.0.1:3080
 #   → [dsh-mcp] info: streamable HTTP transport ready — http://127.0.0.1:8765/mcp (23 tools, …)
-#   → GET http://127.0.0.1:8765/healthz  for a liveness + target probe
+#   → GET http://127.0.0.1:8765/healthz  可做存活与目标探活
 
-node src/index.js --print-config   # resolved config + where every value came from (token redacted)
+node src/index.js --print-config   # 打印生效配置及每个值的来源（token 已脱敏）
 node src/index.js --help
 ```
 
-### Claude Desktop / generic MCP host config (stdio)
+### Claude Desktop / 通用 MCP 宿主配置（stdio）
 
 ```json
 {
@@ -71,234 +70,230 @@ node src/index.js --help
 }
 ```
 
-### Remote DSH behind a reverse proxy
+### 反向代理后面的远程 DSH
 
 ```bash
 node src/index.js --base https://dsh.example.com --token "$DSH_TOKEN" --header "X-Org: acme"
-# equivalent: DSH_BASE=https://dsh.example.com DSH_TOKEN=… DSH_HEADERS='{"X-Org":"acme"}'
+# 等价写法：DSH_BASE=https://dsh.example.com DSH_TOKEN=… DSH_HEADERS='{"X-Org":"acme"}'
 ```
 
-`--token` adds `Authorization: Bearer …`; `--header` (repeatable) adds anything else.
-For a self-signed certificate use `NODE_EXTRA_CA_CERTS=/path/ca.pem` (preferred) or
-`NODE_TLS_REJECT_UNAUTHORIZED=0` (blunt instrument, never in shared environments).
+`--token` 会加上 `Authorization: Bearer …`；`--header`（可重复）用于追加任意请求头。
+若使用自签名证书，优先用 `NODE_EXTRA_CA_CERTS=/path/ca.pem`，或用
+`NODE_TLS_REJECT_UNAUTHORIZED=0`（粗放做法，切勿用于共享环境）。
 
-## 3. Configuration reference
+## 3. 配置项参考
 
-Strict precedence: **CLI flag > environment variable > built-in default**. `--print-config` shows the
-winner for every key.
+优先级严格为：**命令行参数 > 环境变量 > 内置默认值**。`--print-config` 会显示每个键的最终取值来源。
 
-| CLI | env | default | meaning |
+| 命令行 | 环境变量 | 默认值 | 含义 |
 |---|---|---|---|
-| `--base <url>` | `DSH_BASE`, else `DSH_WEB_URL` | `http://127.0.0.1:3080` | DSH base URL (`http`/`https`, path prefix allowed) |
+| `--base <url>` | `DSH_BASE`，其次 `DSH_WEB_URL` | `http://127.0.0.1:3080` | DSH base URL（支持 `http`/`https`，允许路径前缀） |
 | `--token <t>` | `DSH_TOKEN` | – | `Authorization: Bearer <t>` |
-| `--header "N: v"` | `DSH_HEADERS` | – | extra header (repeatable / JSON / `A: 1, B: 2`) |
-| `--timeout-ms <n>` | `DSH_TIMEOUT_MS` | `30000` | per-RPC timeout |
-| `--retries <n>` | `DSH_RETRIES` | `2` | retries for retryable failures (see §6) |
-| `--wait-timeout-ms <n>` | `DSH_WAIT_TIMEOUT_MS` | `120000` | default budget of `dsh_wait_for_turn` / `dsh_run_task` |
-| `--poll-interval-ms <n>` | `DSH_POLL_INTERVAL_MS` | `3000` | running-flag poll cadence |
-| `--http` / `--stdio` | `DSH_MCP_HTTP=1` | `stdio` | MCP transport |
-| `--host`, `--port`, `--path` | `DSH_HTTP_HOST`, `DSH_HTTP_PORT`, `DSH_HTTP_PATH` | `127.0.0.1`, `8765`, `/mcp` | HTTP transport binding |
-| `--http-token <t>` | `DSH_HTTP_TOKEN` | – | require a bearer token on the MCP endpoint itself |
-| `--allow-raw-call` | `DSH_ALLOW_RAW_CALL` | off | expose `dsh_call` (raw `/api` passthrough) |
+| `--header "N: v"` | `DSH_HEADERS` | – | 追加请求头（可重复 / JSON / `A: 1, B: 2`） |
+| `--timeout-ms <n>` | `DSH_TIMEOUT_MS` | `30000` | 单次 RPC 超时 |
+| `--retries <n>` | `DSH_RETRIES` | `2` | 可重试失败的重试次数（见 §6） |
+| `--wait-timeout-ms <n>` | `DSH_WAIT_TIMEOUT_MS` | `120000` | `dsh_wait_for_turn` / `dsh_run_task` 的默认预算 |
+| `--poll-interval-ms <n>` | `DSH_POLL_INTERVAL_MS` | `3000` | running 标志的轮询间隔 |
+| `--http` / `--stdio` | `DSH_MCP_HTTP=1` | `stdio` | MCP 传输方式 |
+| `--host`, `--port`, `--path` | `DSH_HTTP_HOST`, `DSH_HTTP_PORT`, `DSH_HTTP_PATH` | `127.0.0.1`, `8765`, `/mcp` | HTTP 传输绑定参数 |
+| `--http-token <t>` | `DSH_HTTP_TOKEN` | – | 要求 MCP 端点本身校验 bearer token |
+| `--allow-raw-call` | `DSH_ALLOW_RAW_CALL` | 关闭 | 暴露 `dsh_call`（原始 `/api` 透传） |
 
-## 4. Tools (23)
+## 4. 工具（23 个）
 
-Read-only tools are marked `readOnlyHint`; anything that mutates a session/workspace is marked
-`destructiveHint`. `dsh_run_task` and `dsh_wait_for_turn` are the only long-running calls, and both
-take an explicit budget.
+只读工具标记 `readOnlyHint`；任何会改动会话/工作区的工具标记 `destructiveHint`。
+`dsh_run_task` 与 `dsh_wait_for_turn` 是仅有的长耗时调用，二者都必须显式给出预算。
 
-### Host
-| tool | DSH method | notes |
+### 宿主
+| 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_host_info` | `session/list` + `session/modelCatalog` + `session/canOpenWorkspacePath` | composed host view (0.2.x has no host-version endpoint, so `version` is `null`) **+ the base URL actually used** |
-| `dsh_ping` | `session/list` | never throws; returns `ok`, latency, or the exact error |
+| `dsh_host_info` | `session/list` + `session/modelCatalog` + `session/canOpenWorkspacePath` | 组合出的宿主视图（0.2.x 没有 host 版本接口，`version` 为 `null`）**+ 实际使用的 base URL** |
+| `dsh_ping` | `session/list` | 永不抛错；返回 `ok`、延迟，或确切错误 |
 
-### Sessions
-| tool | DSH method | notes |
+### 会话
+| 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_sessions` | `session.list` | filter by `cwd`, `running_only`, optional title resolution |
-| `dsh_read_history` | `session/page` (session **or** subagent address) | event-level, `max`/`before` paging, `text_only` flattening |
-| `dsh_session_overview` | `session/list` + `session/page` + `session/modelCatalog` | one-stop summary: title, running, model, event histogram |
-| `dsh_create_session` | `session/create` | `workspace` (path or id) *or* `cwd` (see §7 caveat) |
-| `dsh_send_message` | `session/prompt` | `queue` / `steer`; the tool mints the required `requestId` |
-| `dsh_wait_for_turn` | polls `session/list` | returns `settled` **or** `timed_out` + `next_call` (never an error) |
-| `dsh_dispatch_task` | `session/create` + `session/prompt` | non-blocking; returns `session_id` + `baseline_updated_at` |
-| `dsh_run_task` | dispatch + wait | one call, hard budget, same non-error timeout contract |
-| `dsh_cancel_turn` | `session/cancel` | fire-and-return (`accepted` ≠ already idle) |
-| `dsh_rename_session` | `session/rename` | pins a title |
-| `dsh_fork_session` | `session/fork` | forks after a completed turn |
-| `dsh_archive_session` | `workspace/archiveSession` | the only cleanup primitive DSH has |
+| `dsh_list_sessions` | `session.list` | 按 `cwd`、`running_only` 过滤，可选解析标题 |
+| `dsh_read_history` | `session/page`（会话或子代理地址） | 事件级读取，`max`/`before` 分页，`text_only` 扁平化 |
+| `dsh_session_overview` | `session/list` + `session/page` + `session/modelCatalog` | 一站式摘要：标题、运行状态、模型、事件直方图 |
+| `dsh_create_session` | `session/create` | 传 `workspace`（路径或 id）*或* `cwd`（注意 §7 的坑） |
+| `dsh_send_message` | `session/prompt` | `queue` / `steer`；工具会生成必需的 `requestId` |
+| `dsh_wait_for_turn` | 轮询 `session/list` | 返回 `settled` **或** `timed_out` + `next_call`（永不报错） |
+| `dsh_dispatch_task` | `session/create` + `session/prompt` | 非阻塞；返回 `session_id` + `baseline_updated_at` |
+| `dsh_run_task` | dispatch + wait | 一次调用、硬预算，遵循同样的"超时不报错"约定 |
+| `dsh_cancel_turn` | `session/cancel` | 发出即返回（`accepted` ≠ 已经空闲） |
+| `dsh_rename_session` | `session/rename` | 固定一个标题 |
+| `dsh_fork_session` | `session/fork` | 在已完成的一轮之后分叉 |
+| `dsh_archive_session` | `workspace/archiveSession` | DSH 唯一的清理原语 |
 
-### Models
-| tool | DSH method | notes |
+### 模型
+| 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_models` | `session/modelCatalog` + `session/projections` | default/current selection + routable providers + groups + failures |
-| `dsh_select_model` | `session/selectModel` | ⚠️ **also writes the deployment default model** (see §8) |
+| `dsh_list_models` | `session/modelCatalog` + `session/projections` | 默认/当前选择 + 可路由 provider + 分组 + 失败项 |
+| `dsh_select_model` | `session/selectModel` | ⚠️ **同时会写入部署级默认模型**（见 §7） |
 
-### Workspaces
-| tool | DSH method | notes |
+### 工作区
+| 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_workspaces` | `workspace/follow` (opening `baseline` frame) | ledger + archived/pinned session ids; falls back to idempotent `workspace/create` derivation without WebSocket |
-| `dsh_create_workspace` | `workspace/create` | idempotent; **never mkdirs** |
+| `dsh_list_workspaces` | `workspace/follow`（开头的 `baseline` 帧） | 账本 + 已归档/置顶会话 id；无 WebSocket 时退化为幂等 `workspace/create` 推导 |
+| `dsh_create_workspace` | `workspace/create` | 幂等；**不会创建目录** |
 
-### Subagents
-| tool | DSH method | notes |
+### 子代理
+| 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_subagents` | `session/projections` → `values.subagentCatalog` | direct children with mode/label and per-child `promptable` / `interruptible` |
-| `dsh_read_subagent_history` | `session/page` with a subagent `SessionAddress` (falls back to the child session log) | same paging/flattening as session history; works for one-shot children too |
-| `dsh_message_subagent` | `subagents/prompt` | continuable children only; the tool mints the required `requestId` |
-| `dsh_interrupt_subagent` | `subagents/interruptByParent` | optional `wait_ms` to watch the child go idle |
+| `dsh_list_subagents` | `session/projections` → `values.subagentCatalog` | 直接子会话及 mode/label，以及每个子会话的 `promptable` / `interruptible` |
+| `dsh_read_subagent_history` | `session/page` + 子代理 `SessionAddress`（失败时回退到子会话日志） | 与会话历史相同的分页/扁平化；一次性子代理同样可读 |
+| `dsh_message_subagent` | `subagents/prompt` | 仅支持可续接子代理；工具会生成必需的 `requestId` |
+| `dsh_interrupt_subagent` | `subagents/interruptByParent` | 可选 `wait_ms`，用于观察子会话转为空闲 |
 
-### Raw (opt-in)
-| tool | notes |
+### 原始调用（需显式开启）
+| 工具 | 说明 |
 |---|---|
-| `dsh_call` | ⚠️ **DISABLED unless `--allow-raw-call`**. Calls any `/api` method with an arbitrary payload. |
+| `dsh_call` | ⚠️ **除非加 `--allow-raw-call`，否则禁用**。可用任意 payload 调用任意 `/api` 方法。 |
 
-## 5. Usage examples
+## 5. 用法示例
 
-**A. Ask another DSH session to do a job and read the answer**
+**A. 让另一个 DSH 会话干活并取回答案**
 
 ```
-dsh_host_info                                                          # confirm the target
+dsh_host_info                                                          # 确认目标
 dsh_dispatch_task  { task: "在 /tmp 写 hello.txt 并回复 DONE", workspace: "/path/to/project" }
   → { session_id: "session-…", baseline_updated_at: 179…, next_call: { tool: "dsh_wait_for_turn", … } }
 dsh_wait_for_turn  { session_id: "session-…", timeout_ms: 300000, baseline_updated_at: 179… }
   → { settled: true, last_assistant_text: "DONE", turns: 1, tool_calls: 1 }
-dsh_archive_session { session_id: "session-…" }                        # clean up
+dsh_archive_session { session_id: "session-…" }                        # 清理
 ```
 
-**B. Long job without holding an MCP request open**
+**B. 长时间任务，但不占住 MCP 请求**
 
 ```
-dsh_dispatch_task    → session_id …            (returns in <1 s)
-… later, as often as you like …
+dsh_dispatch_task    → session_id …            （1 秒内返回）
+… 之后，随时按需 ……
 dsh_wait_for_turn { session_id, timeout_ms: 60000 }
-  → settled=false, timed_out=true, "not finished yet … call dsh_wait_for_turn again"
+  → settled=false, timed_out=true, "尚未结束 …… 请再次调用 dsh_wait_for_turn"
   → next_call: { tool: "dsh_wait_for_turn", arguments: { session_id, require_start: false } }
-dsh_read_history  { session_id, max: 20 }      # peek at progress without waiting
+dsh_read_history  { session_id, max: 20 }      # 不等也能瞄一眼进展
 ```
 
-**C. Look at what a session actually did**
+**C. 查看某个会话究竟做了什么**
 
 ```
-dsh_read_history { session_id, max: 10, text_only: true }        # messages only
-dsh_read_history { session_id, max: 20, before: 1234 }           # page backwards
-dsh_read_history { session_id, text_only: false }                # raw event objects (kinds, seq, tool calls)
+dsh_read_history { session_id, max: 10, text_only: true }        # 只看消息
+dsh_read_history { session_id, max: 20, before: 1234 }           # 向前翻页
+dsh_read_history { session_id, text_only: false }                # 原始事件对象（kind、seq、工具调用）
 ```
 
-**D. Inspect subagents**
+**D. 检查子代理**
 
 ```
 dsh_list_subagents     { parent_session_id }
 dsh_read_subagent_history { parent_session_id, session_id: child }
-dsh_message_subagent   { parent_session_id, child_session_id: child, text: "continue, but skip step 3" }
+dsh_message_subagent   { parent_session_id, child_session_id: child, text: "继续，但跳过第 3 步" }
 dsh_interrupt_subagent { parent_session_id, child_session_id: child, wait_ms: 20000 }
 ```
 
-**E. Switching model (be careful)**
+**E. 切换模型（请谨慎）**
 
 ```
-dsh_list_models   { session_id }                       # provider/model ids + routable flag
-dsh_select_model  { session_id, provider: "local-gateway", model: "deepseek-ai/DeepSeek-V4.1-Flash" }
+dsh_list_models   { session_id }                       # provider/model id + 是否可路由
+dsh_select_model  { session_id, provider: "local-gateway", model: "provider/model-name" }
 ```
 
-## 6. Error model
+## 6. 错误模型
 
-DSH answers **HTTP 200 even for business failures**; the truth is `result.error`. `dsh-mcp` never hides it:
+DSH **即使业务失败也返回 HTTP 200**，真相在 `result.error` 里。`dsh-mcp` 从不隐藏它：
 
-| failure | MCP result | payload |
+| 失败情形 | MCP 结果 | 载荷 |
 |---|---|---|
-| DSH business error (`result.error`) | `isError: true` | `error.kind="rpc"`, `code` (`session-not-found`, `agent-busy`, `model-unavailable`, …), `message`, `details` verbatim |
-| unknown tool | `isError: true` | `error.kind="unknown-tool"` + the real tool list |
-| bad arguments | `isError: true` | `error.kind="invalid-arguments"`, one issue per bad field |
-| disabled feature | `isError: true` | `error.kind="raw-call-disabled"` + how to enable |
-| timeout | `isError: true` | `error.kind="timeout"` naming the base URL and `--timeout-ms` |
-| wrong/unreachable base | `isError: true` | `error.kind="transport"`, `code="ECONNREFUSED"`, and the offending `base` |
-| reverse-proxy 5xx | `isError: true` | `error.kind="carrier"`, `http_status` |
+| DSH 业务错误（`result.error`） | `isError: true` | `error.kind="rpc"`，`code`（`session-not-found`、`agent-busy`、`model-unavailable` 等）、`message`、`details` 原样透传 |
+| 未知工具 | `isError: true` | `error.kind="unknown-tool"` + 真实工具列表 |
+| 参数不合法 | `isError: true` | `error.kind="invalid-arguments"`，每个非法字段一条 issue |
+| 功能未开启 | `isError: true` | `error.kind="raw-call-disabled"` + 开启方法 |
+| 超时 | `isError: true` | `error.kind="timeout"`，指明 base URL 与 `--timeout-ms` |
+| base 写错/不可达 | `isError: true` | `error.kind="transport"`，`code="ECONNREFUSED"`，以及出错的 `base` |
+| 反向代理 5xx | `isError: true` | `error.kind="carrier"`，`http_status` |
 
-Every payload also echoes `base_url` and the tool name, and the MCP result carries
-`_meta["dsh/baseUrl"]` + `_meta["dsh/elapsedMs"]` — so a multi-DSH client can always tell which
-instance answered.
+每个载荷还会回显 `base_url` 与工具名，MCP 结果里带有
+`_meta["dsh/baseUrl"]` + `_meta["dsh/elapsedMs"]`——因此多 DSH 客户端总能分辨是哪个实例应答的。
 
-**Retries** are deliberately narrow, because `session.prompt` is not idempotent:
+**重试**被刻意压得很窄，因为 `session.prompt` 并非幂等：
 
-* read-only endpoints (`session/list`, `session/page`, `session/projections`, `session/modelCatalog`,
-  `workspace/follow`, …) retry on transport failures and `502/503/504/429`;
-* mutating methods retry **only** when the failure provably happened before the request reached DSH
-  (`ECONNREFUSED`, `ENOTFOUND`, `EAI_AGAIN`, bad port) — never on a timeout or a reset after send,
-  which could double-deliver a task.
+* 只读端点（`session/list`、`session/page`、`session/projections`、`session/modelCatalog`、
+  `workspace/follow` 等）在传输失败及 `502/503/504/429` 时重试；
+* 变更类方法**仅**在能证明失败发生在请求抵达 DSH 之前时才重试（`ECONNREFUSED`、`ENOTFOUND`、
+  `EAI_AGAIN`、端口错误），**绝不在超时或发出后连接重置时重试**——那可能把任务重复投递。
 
-**Timeout budget vs. long tasks:** `--timeout-ms` limits one RPC; `timeout_ms` on the
-wait/run tools is a *budget*, and exhaustion yields `timed_out: true` + `next_call` instead of an error.
+**超时预算 vs. 长任务**：`--timeout-ms` 限制单次 RPC；wait/run 类工具上的 `timeout_ms` 是*预算*，
+用尽时给出 `timed_out: true` + `next_call`，而不是错误。
 
-## 7. Known limitations / sharp edges
+## 7. 已知限制与坑
 
-1. **`session.create` with `cwd` creates an UNGROUPED session.** DSH has no RPC that attaches an
-   existing session to a workspace (`workspace.insertSessionBefore` rejects unaccounted sessions), so
-   pass `workspace` when you want the session in the sidebar. The tool returns a `warning` when it
-   falls back to `cwd`.
-2. **No `session.delete`.** Cleanup is `dsh_archive_session` (registry-level archive; logs and
-   attachments are kept forever). Archiving cannot be undone through the RPC surface.
-3. **`dsh_select_model` is a global side effect.** `session.selectModel` also persists the choice as
-   the *deployment default* (`agent-default-model`), so later sessions inherit it. The tool result
-   carries `global_side_effect: true` and a warning.
-4. **`session.search` is disabled on this deployment** (`internal: session search is disabled: … openAt
-   "never"`), so no search tool is exposed.
-5. **One-shot vs. continuable children (0.2.x).**
-   * direct children come from the parent's `subagentCatalog` projection (`session/projections`); their ids
-     are bare session ids — pass them verbatim together with `parent_session_id`;
-   * `subagents/prompt` and `subagents/interruptByParent` require the **continuable** address
-     (`mode: "continuable"`); a one-shot child answers a structured `subagent/*` error;
-   * every child transcript **is** readable through `session/page` with a subagent `SessionAddress`;
-     a mode mismatch falls back to the child's own session log, reporting `method` + `fallback`;
-   * `session/prompt` on a child is rejected, which is why the `subagents/*` tools exist.
-6. **`dsh_ping`/`dsh_host_info` prove the base URL**, but everything else is only as reachable as the
-   `Host` header rule of `/api` allows: DSH's own RPC gate accepts loopback or declared `trustedHosts`.
-   Binding the MCP HTTP transport publicly is **your** responsibility — use `--http-token` and a proxy.
-7. **No shell tool, by design.** The blast radius of `dsh-mcp` is exactly the DSH RPC surface; the only
-   way to run a command is to *ask a DSH session* to run it (which the host's own sandbox/approval
-   policy governs). `dsh_call` widens the surface to the whole `/api` and stays off unless requested.
-8. Node ≥ 20 (uses global `fetch`); developed on Node v24.19.0 with `@modelcontextprotocol/sdk@1.30.0`.
+1. **用 `cwd` 调 `session.create` 会创建未分组会话。** DSH 没有能把既有会话挂到工作区的 RPC
+   （`workspace.insertSessionBefore` 会拒绝未被记账的会话），所以想让会话出现在侧边栏就传 `workspace`。
+   回退到 `cwd` 时，工具结果里会带 `warning`。
+2. **没有 `session.delete`。** 清理手段是 `dsh_archive_session`（注册表级归档；日志与附件永久保留）。
+   归档无法通过 RPC 面撤销。
+3. **`dsh_select_model` 是全局副作用。** `session.selectModel` 同时会把所选模型持久化为
+   *部署默认模型*（`agent-default-model`），后续会话会继承它。工具结果里带有
+   `global_side_effect: true` 与警告。
+4. **该部署上 `session.search` 被禁用**（`internal: session search is disabled: … openAt "never"`），
+   因此没有暴露搜索类工具。
+5. **一次性 vs. 可续接子代理（0.2.x）。**
+   * 直接子会话来自父会话的 `subagentCatalog` 投影（`session/projections`）；子 id 是裸 session id，
+     与 `parent_session_id` 一起原样传递；
+   * `subagents/prompt` 与 `subagents/interruptByParent` 要求 **continuable** 地址
+     （`mode: "continuable"`）；一次性子代理会返回结构化的 `subagent/*` 错误；
+   * 所有子会话转录都能通过 `session/page` + 子代理 `SessionAddress` 读取；mode 不匹配时会回退到
+     子会话自己的日志，并在结果中报告 `method` + `fallback`；
+   * 对子会话调用 `session/prompt` 会被拒绝，这正是 `subagents/*` 系列工具存在的原因。
+6. **`dsh_ping`/`dsh_host_info` 能证明 base URL**，但其余一切的可达性取决于 `/api` 的
+   `Host` 头规则：DSH 自己的 RPC 网关只接受 loopback 或已声明的 `trustedHosts`。
+   把 MCP 的 HTTP 传输绑定到公网是**你自己的责任**——请使用 `--http-token` 并置于代理之后。
+7. **按设计不提供 shell 工具。** `dsh-mcp` 的影响面恰好等于 DSH 的 RPC 面；唯一执行命令的方式是
+   *让某个 DSH 会话去执行*（受宿主机自身的沙箱/审批策略约束）。`dsh_call` 把影响面扩大到整个 `/api`，
+   默认关闭。
+8. 需要 Node ≥ 20（使用了全局 `fetch`）；开发环境为 Node v24.19.0 + `@modelcontextprotocol/sdk@1.30.0`。
 
-## 8. Tests
+## 8. 测试
 
 ```bash
-npm test                       # both suites = 39 tests, all passing (last run: 135 s)
-node --test --test-reporter=spec test/protocol.test.mjs   # 13 tests; only 2 of them touch a live DSH
-node --test --test-reporter=spec test/e2e.test.mjs        # 26 tests against the real DSH at $DSH_BASE
+npm test                       # 两个套件共 39 个测试，全部通过（上次耗时 135 秒）
+node --test --test-reporter=spec test/protocol.test.mjs   # 13 个测试；其中仅 2 个需要活的 DSH
+node --test --test-reporter=spec test/e2e.test.mjs        # 26 个测试，打真实 DSH（$DSH_BASE）
 ```
 
-Recorded raw output of the last runs: `test/output/protocol.txt`, `test/output/e2e.txt`,
-`test/output/npm-test.txt`; the report quotes them in `REPORT.md` §6.
+上次运行的原始输出记录在 `test/output/protocol.txt`、`test/output/e2e.txt`、`test/output/npm-test.txt`；
+`REPORT.md` §6 引用了这些内容。
 
-* `test/protocol.test.mjs` — real child-process server over **both** transports: `initialize`
-  handshake, `tools/list` deep-equals `src/schema.js` (byte-level), handler/schema 1:1, bad
-  arguments / bad enum / unknown tool / disabled `dsh_call` / unreachable DSH → `isError`, HTTP
-  transport equivalence, `--http-token` 401, `--allow-raw-call` opt-in.
-* `test/e2e.test.mjs` — drives every tool against the live host, including the headline proof: create a
-  session → `dsh_send_message` ("写 /tmp/mcp-e2e.txt 并回复 E2E-OK") → `dsh_wait_for_turn` →
-  **the file exists and the answer is `E2E-OK`** → `dsh_archive_session`. It also proves the base URL is
-  really configurable with a TCP forwarder on a random port (equivalent to `socat`/`ssh -L`) and that
-  `--base` beats a poisoned `DSH_BASE`. Sessions this test creates are archived in `after()`.
+* `test/protocol.test.mjs` — 对真实子进程服务器跑**两种**传输：`initialize` 握手、
+  `tools/list` 与 `src/schema.js` 深度相等（字节级）、handler/schema 一一对应、
+  参数错误 / 枚举错误 / 未知工具 / `dsh_call` 被禁用 / DSH 不可达 → `isError`、
+  HTTP 传输等价性、`--http-token` 401、`--allow-raw-call` 显式开启。
+* `test/e2e.test.mjs` — 对活宿主驱动每一个工具，含标志性验证：创建会话 →
+  `dsh_send_message`（"写 /tmp/mcp-e2e.txt 并回复 E2E-OK"）→ `dsh_wait_for_turn` →
+  **文件确实存在且回答为 `E2E-OK`** → `dsh_archive_session`。它还用一个随机端口上的 TCP 转发器
+  （等价于 `socat`/`ssh -L`）证明 base URL 真的可配置，并证明 `--base` 能压过被污染的环境变量。
+  测试创建的会话会在 `after()` 中归档。
 
-Raw output of the recorded runs lives in `test/output/` and is quoted in `REPORT.md`.
+原始运行输出保存在 `test/output/`，并在 `REPORT.md` 中被引用。
 
-## 9. Layout
+> 注意：`test/e2e.test.mjs` 默认使用 `E2E_WORKSPACE`（缺省为一个示例工作区路径）来创建会话。
+> 指向你自己的部署时，请通过环境变量覆盖它。
+
+## 9. 目录结构
 
 ```
 src/
-  index.js     MCP entry: one server, stdio or streamable HTTP
-  client.js    the ONLY place that talks HTTP to DSH (envelope, timeout, retry, error model)
-  config.js    CLI/env/default resolution, --print-config, --help
-  schema.js    SINGLE SOURCE OF TRUTH: names, descriptions, JSON Schemas, defaults, validation
+  index.js     MCP 入口：一套服务器，stdio 或 streamable HTTP
+  client.js    唯一与 DSH 做 HTTP 通信的地方（信封、超时、重试、错误模型）
+  config.js    命令行/环境变量/默认值解析，--print-config，--help
+  schema.js    唯一真相来源：名称、描述、JSON Schema、默认值、参数校验
   tools/
-    index.js   dispatch table: merges schema.js + handlers, drives tools/list AND tools/call
-    host.js sessions.js workspace.js subagent.js raw.js   thin handlers (no duplicated logic)
-    support.js shared helpers (history digest, wait loop, workspace resolution)
+    index.js   分发表：合并 schema.js 与 handlers，驱动 tools/list 与 tools/call
+    host.js sessions.js workspace.js subagent.js raw.js   各薄层 handler（无重复逻辑）
+    support.js 共用辅助（历史摘要、等待循环、工作区解析）
 test/
   protocol.test.mjs  e2e.test.mjs  output/*.txt
 ```
 
-Related assets this project deliberately does **not** modify:
-`/root/.dsh/skills/dsh-agent-console/` (the CLI console, source of the RPC contract) and the DSH
-installation under `/root/.nvm/.../@deepseek-ai/dsh/`. See `REPORT.md` §"vs. dsh-api.mjs".
+本项目的设计目的是只作为 DSH 的**外部客户端**运行，不修改 DSH 自身的安装目录或技能文件。
