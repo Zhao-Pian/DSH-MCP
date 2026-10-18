@@ -6,7 +6,7 @@
 切换模型、管理工作区、驱动子代理——全部通过 HTTP(S) 访问一个 DSH 实例完成。
 
 ```
-MCP 宿主  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<method>（JSON-RPC 信封）──▶  DSH 宿主（URL 可配置）
+MCP 宿主  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<namespace>/<method> {"args":{…}}──▶  DSH 0.2.x 宿主（URL 可配置）
 ```
 
 * **23 个工具**，全部由单一 schema 数组（`src/schema.js`）生成。
@@ -105,44 +105,44 @@ node src/index.js --base https://dsh.example.com --token "$DSH_TOKEN" --header "
 ### 宿主
 | 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_host_info` | `host.describe` | 版本 / cwd / provider / model / 已挂载会话数 **+ 实际使用的 base URL** |
-| `dsh_ping` | `host.describe` | 永不抛错；返回 `ok`、延迟，或确切错误 |
+| `dsh_host_info` | `session/list` + `session/modelCatalog` + `session/canOpenWorkspacePath` | 组合出的宿主视图（0.2.x 没有 host 版本接口，`version` 为 `null`）**+ 实际使用的 base URL** |
+| `dsh_ping` | `session/list` | 永不抛错；返回 `ok`、延迟，或确切错误 |
 
 ### 会话
 | 工具 | DSH 方法 | 说明 |
 |---|---|---|
 | `dsh_list_sessions` | `session.list` | 按 `cwd`、`running_only` 过滤，可选解析标题 |
-| `dsh_read_history` | `session.history` / `subagent.history` | 事件级读取，`max`/`before` 分页，`text_only` 扁平化 |
-| `dsh_session_overview` | `session.list` + `history` + `models` | 一站式摘要：标题、运行状态、模型、事件直方图 |
-| `dsh_create_session` | `session.create` | 传 `workspace`（路径或 id）*或* `cwd`（注意 §7 的坑） |
-| `dsh_send_message` | `session.prompt` | `queue` / `steer`；这是"让另一个 AI 干活"的核心原语 |
-| `dsh_wait_for_turn` | 轮询 `session.list` | 返回 `settled` **或** `timed_out` + `next_call`（永不报错） |
-| `dsh_dispatch_task` | `session.create` + `prompt` | 非阻塞；返回 `session_id` + `baseline_updated_at` |
+| `dsh_read_history` | `session/page`（会话或子代理地址） | 事件级读取，`max`/`before` 分页，`text_only` 扁平化 |
+| `dsh_session_overview` | `session/list` + `session/page` + `session/modelCatalog` | 一站式摘要：标题、运行状态、模型、事件直方图 |
+| `dsh_create_session` | `session/create` | 传 `workspace`（路径或 id）*或* `cwd`（注意 §7 的坑） |
+| `dsh_send_message` | `session/prompt` | `queue` / `steer`；工具会生成必需的 `requestId` |
+| `dsh_wait_for_turn` | 轮询 `session/list` | 返回 `settled` **或** `timed_out` + `next_call`（永不报错） |
+| `dsh_dispatch_task` | `session/create` + `session/prompt` | 非阻塞；返回 `session_id` + `baseline_updated_at` |
 | `dsh_run_task` | dispatch + wait | 一次调用、硬预算，遵循同样的"超时不报错"约定 |
-| `dsh_cancel_turn` | `session.cancel` | 发出即返回（`accepted` ≠ 已经空闲） |
-| `dsh_rename_session` | `session.rename` | 固定一个标题 |
-| `dsh_fork_session` | `session.fork` | 在已完成的一轮之后分叉 |
-| `dsh_archive_session` | `workspace.archiveSession` | DSH 唯一的清理原语 |
+| `dsh_cancel_turn` | `session/cancel` | 发出即返回（`accepted` ≠ 已经空闲） |
+| `dsh_rename_session` | `session/rename` | 固定一个标题 |
+| `dsh_fork_session` | `session/fork` | 在已完成的一轮之后分叉 |
+| `dsh_archive_session` | `workspace/archiveSession` | DSH 唯一的清理原语 |
 
 ### 模型
 | 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_models` | `session.models` | 当前模型 + 可路由模型 + provider 分组 + 失败项 |
-| `dsh_select_model` | `session.selectModel` | ⚠️ **同时会写入部署级默认模型**（见 §7） |
+| `dsh_list_models` | `session/modelCatalog` + `session/projections` | 默认/当前选择 + 可路由 provider + 分组 + 失败项 |
+| `dsh_select_model` | `session/selectModel` | ⚠️ **同时会写入部署级默认模型**（见 §7） |
 
 ### 工作区
 | 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_workspaces` | `workspace.list` | 账本 + 已归档会话数 |
-| `dsh_create_workspace` | `workspace.create` | 幂等；**不会创建目录** |
+| `dsh_list_workspaces` | `workspace/follow`（开头的 `baseline` 帧） | 账本 + 已归档/置顶会话 id；无 WebSocket 时退化为幂等 `workspace/create` 推导 |
+| `dsh_create_workspace` | `workspace/create` | 幂等；**不会创建目录** |
 
 ### 子代理
 | 工具 | DSH 方法 | 说明 |
 |---|---|---|
-| `dsh_list_subagents` | `subagent.list` | 子会话 + 诊断信息、`parentAvailable`、每个子会话的 `readable_via` / `messageable` |
-| `dsh_read_subagent_history` | `subagent.history`，失败时自动回退到 `session.history` | 与会话历史相同的分页/扁平化；一次性子代理同样可读 |
-| `dsh_message_subagent` | `subagent.prompt` | 与**可续接**子代理对话的唯一途径（`session.prompt` 会返回 `agent-busy`） |
-| `dsh_interrupt_subagent` | `subagent.interrupt` | 可选 `wait_ms`，用于观察 `running → inactive` |
+| `dsh_list_subagents` | `session/projections` → `values.subagentCatalog` | 直接子会话及 mode/label，以及每个子会话的 `promptable` / `interruptible` |
+| `dsh_read_subagent_history` | `session/page` + 子代理 `SessionAddress`（失败时回退到子会话日志） | 与会话历史相同的分页/扁平化；一次性子代理同样可读 |
+| `dsh_message_subagent` | `subagents/prompt` | 仅支持可续接子代理；工具会生成必需的 `requestId` |
+| `dsh_interrupt_subagent` | `subagents/interruptByParent` | 可选 `wait_ms`，用于观察子会话转为空闲 |
 
 ### 原始调用（需显式开启）
 | 工具 | 说明 |
@@ -216,7 +216,8 @@ DSH **即使业务失败也返回 HTTP 200**，真相在 `result.error` 里。`d
 
 **重试**被刻意压得很窄，因为 `session.prompt` 并非幂等：
 
-* 只读方法（`session.list`、`session.history`、`host.describe` 等）在传输失败及 `502/503/504/429` 时重试；
+* 只读端点（`session/list`、`session/page`、`session/projections`、`session/modelCatalog`、
+  `workspace/follow` 等）在传输失败及 `502/503/504/429` 时重试；
 * 变更类方法**仅**在能证明失败发生在请求抵达 DSH 之前时才重试（`ECONNREFUSED`、`ENOTFOUND`、
   `EAI_AGAIN`、端口错误），**绝不在超时或发出后连接重置时重试**——那可能把任务重复投递。
 
@@ -235,17 +236,14 @@ DSH **即使业务失败也返回 HTTP 200**，真相在 `result.error` 里。`d
    `global_side_effect: true` 与警告。
 4. **该部署上 `session.search` 被禁用**（`internal: session search is disabled: … openAt "never"`），
    因此没有暴露搜索类工具。
-5. **一次性 vs. 可续接子代理——实测差异。** 针对宿主 0.0.1：
-   * `subagent.list` 里的子 id 是**裸 uuid**（如 `31bf59a5-…`，不带 `session-` 前缀）——请原样传递；
-   * `subagent.prompt` 与 `subagent.history` 只服务**可续接**的直接子代理；一次性子代理
-     （模型自身 `subagent` 工具的常见产物）会回答
-     `subagent-not-found: … is not a continuable direct child of …`；
-   * **`subagent.interrupt` 对一次性子代理同样接受**（`{accepted:true}`）；
-   * 一次性子代理的转录**确实可读**，因为 `session.history` 与 `subagent.history` 共享
-     `readSessionState()`。因此 `dsh_read_subagent_history` 会捕获 `subagent-not-found` 并改走
-     `session.history` 重试，并在结果中报告 `method` + `fallback`——一条读取路径覆盖两种子代理；
-   * 对子代理调用 `session.prompt` / `session.cancel`：存活时返回 `agent-busy`，冷掉之后返回
-     `session-not-found`（`api-proxy.js` 中的实现顺序），这正是 `subagent.*` 系列工具存在的原因。
+5. **一次性 vs. 可续接子代理（0.2.x）。**
+   * 直接子会话来自父会话的 `subagentCatalog` 投影（`session/projections`）；子 id 是裸 session id，
+     与 `parent_session_id` 一起原样传递；
+   * `subagents/prompt` 与 `subagents/interruptByParent` 要求 **continuable** 地址
+     （`mode: "continuable"`）；一次性子代理会返回结构化的 `subagent/*` 错误；
+   * 所有子会话转录都能通过 `session/page` + 子代理 `SessionAddress` 读取；mode 不匹配时会回退到
+     子会话自己的日志，并在结果中报告 `method` + `fallback`；
+   * 对子会话调用 `session/prompt` 会被拒绝，这正是 `subagents/*` 系列工具存在的原因。
 6. **`dsh_ping`/`dsh_host_info` 能证明 base URL**，但其余一切的可达性取决于 `/api` 的
    `Host` 头规则：DSH 自己的 RPC 网关只接受 loopback 或已声明的 `trustedHosts`。
    把 MCP 的 HTTP 传输绑定到公网是**你自己的责任**——请使用 `--http-token` 并置于代理之后。

@@ -80,8 +80,8 @@ function errorResult(error, name, ctx) {
 	if (error instanceof DshRpcError) {
 		const { error: body } = error.toJSON();
 		const hint =
-			body.code === 'subagent-not-found'
-				? 'The child is not a *continuable* direct child: subagent.prompt rejects one-shot children (subagent.interrupt is still accepted). Reading is no problem — dsh_read_subagent_history automatically falls back to session.history.'
+			typeof body.code === 'string' && body.code.startsWith('subagent/')
+				? 'The child is not a *continuable* direct child: subagents/prompt rejects one-shot children (interrupt also requires the continuable address). Reading is no problem — dsh_read_subagent_history automatically falls back to the child session log.'
 				: body.kind === 'rpc'
 					? `DSH rejected the call with code "${body.code}" — this is a business error carried on an HTTP 200 response; the payload above is verbatim.`
 					: body.kind === 'timeout'

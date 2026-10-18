@@ -248,21 +248,27 @@ test('streamable HTTP transport exposes the same surface and carries a real tool
 test('dsh_call works once --allow-raw-call is passed (opt-in path)', async () => {
 	const opted = await stdioClient({ DSH_BASE, DSH_ALLOW_RAW_CALL: '1' }, 'raw-call-on');
 	try {
-		const result = await opted.client.callTool({ name: 'dsh_call', arguments: { method: 'host.describe', raw: true } });
+		const result = await opted.client.callTool({ name: 'dsh_call', arguments: { method: 'session/modelCatalog', raw: true } });
 		const body = JSON.parse(result.content[0].text);
 		note('payload (truncated) =', JSON.stringify(body).slice(0, 400));
 		assert.notEqual(result.isError, true);
 		assert.equal(body.ok, true);
-		assert.equal(body.method, 'host.describe');
+		assert.equal(body.method, 'session/modelCatalog');
 		assert.equal(body.envelope.type, 'server-response');
-		assert.ok(body.envelope.result.value.version, 'raw envelope must carry the host version');
+		assert.ok(body.envelope.result.value.default.provider, 'raw envelope must carry the model catalogue default');
 
 		// a business error through the passthrough is reported, not thrown
-		const bad = await opted.client.callTool({ name: 'dsh_call', arguments: { method: 'session.models', payload: { sessionId: 'session-does-not-exist' } } });
+		const bad = await opted.client.callTool({
+			name: 'dsh_call',
+			arguments: {
+				method: 'session/page',
+				payload: { request: { address: { kind: 'session', sessionId: 'session-does-not-exist' }, throughSeq: 0, maxMessages: 5 } },
+			},
+		});
 		const badBody = JSON.parse(bad.content[0].text);
 		note('raw business error =', JSON.stringify(badBody).slice(0, 300));
 		assert.equal(badBody.ok, false);
-		assert.equal(badBody.error.code, 'session-not-found');
+		assert.equal(badBody.error.code, 'session/not-found');
 		note('config.dsh_call is advertised in tools/list even when disabled:', (await opted.client.listTools()).tools.some((t) => t.name === 'dsh_call'));
 	} finally {
 		await opted.client.close();

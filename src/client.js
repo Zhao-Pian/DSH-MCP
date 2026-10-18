@@ -1,54 +1,49 @@
 /**
- * DSH `/api` transport — the ONLY place in this project that performs network I/O against DSH.
+ * DSH `/api` transport for the **0.2.x Typert Remote** interface.
  *
- * Wire contract (see /root/.dsh/skills/dsh-agent-console/references/rpc-api.md §1):
+ * Wire contract (packages/client/connection/src/rpc.ts + packages/api/gateway/src/index.ts):
  *
- *   POST <base>/api/<method>   content-type: application/json
- *   { "type":"client-request", "rpcId":<ours>, "method":<method>, "payload":{…} }
+ *   POST <base>/api/<namespace>/<method>        content-type: application/json
+ *   { "type":"client-request", "rpcId":<ours>, "method":"<namespace>/<method>",
+ *     "payload": { "args": { …named parameters… } } }
  *   -> { "type":"server-response", "rpcId":<echo>, "result":
  *          { "ok":true,  "value":{…} }
  *        | { "ok":false, "error":{ "code":…, "message":…, "details":{…} } } }
  *
  * Two rules that shape this file:
- *   1. **HTTP 200 can still be a business failure.** `result.error` is the real error channel and its
- *      `code` is a closed set (bad-request / session-not-found / agent-busy / model-unavailable / …).
- *      We surface it as `DshRpcError` with kind `rpc` and keep code/message/details verbatim.
- *   2. **Not every failure may be retried.** `session.prompt` is not idempotent, so a blind retry can
- *      double-send a task. Retries therefore only apply to (a) read-only methods, or (b) failures that
- *      provably happened before the request reached DSH (connection refused / DNS).
+ *   1. **HTTP 200 can still be a business failure.** `result.error` is the real error channel;
+ *      we surface it as `DshRpcError` with kind `rpc` and keep code/message/details verbatim.
+ *   2. **Not every failure may be retried.** Prompts are not idempotent, so retries only apply to
+ *      read-only endpoints, or to failures that provably happened before the request reached DSH.
+ *
+ * Streaming endpoints (`workspace/follow`, `session/follow`, `session/control`) use the Gateway
+ * WebSocket mux at `/api/remote.mux`; `openStream` implements the small JSON message protocol from
+ * `packages/api/gateway/src/stream-protocol.ts`.
  */
 import { setTimeout as delay } from 'node:timers/promises';
+import { randomUUID } from 'node:crypto';
 
-/** Methods that are pure reads: safe to retry after any transient failure. */
-export const READ_ONLY_METHODS = new Set([
-	'host.describe',
-	'host.listDirectory',
-	'session.list',
-	'session.history',
-	'session.models',
-	'session.search',
-	'session.attachment',
-	'session.export',
-	'workspace.list',
-	'skill.list',
-	'subagent.list',
-	'subagent.history',
-	'llm.providers',
-	'llm.models',
-	'llm.discoverModels',
-	'settings.describe',
-	'credentials.describe',
-	'agentPreset.list',
-	'agentPreset.read',
+/** Endpoints that are pure reads: safe to retry after any transient failure. */
+export const READ_ONLY_ENDPOINTS = new Set([
+	'session/list',
+	'session/page',
+	'session/projections',
+	'session/modelCatalog',
+	'session/search',
+	'session/canOpenWorkspacePath',
+	'session/workspaceDesktop',
+	'session/attachment',
+	'workspace/follow',
+	'skills/list',
 ]);
 
 /** Errors thrown before any byte reached the server → always safe to retry. */
 const PRE_FLIGHT_CODES = new Set(['ECONNREFUSED', 'ENOTFOUND', 'EAI_AGAIN', 'EHOSTUNREACH', 'ENETUNREACH']);
 
-/**
- * Dig a Node errno out of a fetch failure. `fetch` wraps the real reason in `cause`, and Happy
- * Eyeballs failures arrive as an AggregateError whose `errors[]` holds the per-family attempt.
- */
+/** Carrier statuses a reverse proxy emits when the upstream was never reached / is restarting. */
+const RETRYABLE_STATUS = new Set([502, 503, 504, 429]);
+
+/** Dig a Node errno out of a fetch failure. */
 function errorCode(cause) {
 	let node = cause;
 	for (let depth = 0; depth < 4 && node; depth++) {
@@ -58,21 +53,7 @@ function errorCode(cause) {
 	return undefined;
 }
 
-/** Carrier statuses a reverse proxy emits when the upstream was never reached / is restarting. */
-const RETRYABLE_STATUS = new Set([502, 503, 504, 429]);
-
 export class DshRpcError extends Error {
-	/**
-	 * @param {object} o
-	 * @param {string} o.kind    'rpc' | 'carrier' | 'transport' | 'timeout' | 'protocol'
-	 * @param {string} o.method
-	 * @param {string} [o.code]  DSH business error code (kind === 'rpc')
-	 * @param {string} [o.message]
-	 * @param {object} [o.details]
-	 * @param {number} [o.status] HTTP status (kind === 'carrier')
-	 * @param {string} [o.base]
-	 * @param {boolean}[o.retryable]
-	 */
 	constructor({ kind, method, code, message, details, status, base, cause, retryable = false, preFlight = false }) {
 		super(message ?? `${method} failed (${kind})`);
 		this.name = 'DshRpcError';
@@ -83,27 +64,27 @@ export class DshRpcError extends Error {
 		this.status = status;
 		this.base = base;
 		this.retryable = retryable;
-		/** true when the failure provably happened before the request reached DSH */
 		this.preFlight = preFlight;
-		if (cause) this.cause = cause;
+		if (cause !== undefined) this.cause = cause;
 	}
 
-	/** Stable, machine-readable shape handed to the MCP client. */
+	/** Wire-safe projection (used verbatim by the MCP error result and by `dsh_call`). */
 	toJSON() {
 		return {
+			ok: false,
 			error: {
 				kind: this.kind,
 				method: this.method,
-				...(this.code ? { code: this.code } : {}),
-				message: this.message,
+				...(this.code !== undefined ? { code: this.code } : {}),
+				...(this.message !== undefined ? { message: this.message } : {}),
 				...(this.details !== undefined ? { details: this.details } : {}),
+				...(this.base !== undefined ? { base: this.base } : {}),
 				...(this.status !== undefined ? { http_status: this.status } : {}),
-				...(this.base ? { base: this.base } : {}),
 			},
 		};
 	}
 
-	/** Human line that always names the target — the #1 debugging question for a remote DSH. */
+	/** Human line that always names the target. */
 	toString() {
 		const parts = [`[${this.kind}] ${this.method}`];
 		if (this.code) parts.push(`code=${this.code}`);
@@ -130,8 +111,17 @@ export class DshClient {
 		this.rpcCounter = 0;
 	}
 
-	urlFor(method) {
-		return `${this.base}/api/${method}`;
+	/** Absolute endpoint URL: `<base>/api/<namespace>/<method>`. */
+	urlFor(endpoint) {
+		return `${this.base}/api/${endpoint}`;
+	}
+
+	/** Stream mux URL (`/api/remote.mux`, ws/wss). */
+	streamUrl() {
+		const url = new URL(this.base);
+		url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+		url.pathname = `${url.pathname.replace(/\/+$/, '')}/api/remote.mux`;
+		return url.toString();
 	}
 
 	/** Headers for one request: JSON content type, optional bearer, optional custom headers. */
@@ -145,16 +135,17 @@ export class DshClient {
 
 	/**
 	 * Execute one RPC with timeout + bounded retry.
-	 * @template T
-	 * @returns {Promise<T>} `result.value`
+	 * @param {string} endpoint e.g. "session/list"
+	 * @param {object} args named wire parameters, e.g. { request: { … } }
+	 * @returns {Promise<any>} `result.value`
 	 */
-	async call(method, payload = {}, opts = {}) {
-		const envelope = await this.callEnvelope(method, payload, opts);
+	async call(endpoint, args = {}, opts = {}) {
+		const envelope = await this.callEnvelope(endpoint, args, opts);
 		const result = envelope.envelope.result;
 		if (!result.ok) {
 			throw new DshRpcError({
 				kind: 'rpc',
-				method,
+				method: endpoint,
 				code: result.error?.code ?? 'unknown',
 				message: result.error?.message ?? 'DSH reported a business error',
 				details: result.error?.details,
@@ -165,27 +156,27 @@ export class DshClient {
 	}
 
 	/**
-	 * Lowest-level entry point: returns `{ envelope, status, attempts, elapsedMs }` and never throws
-	 * for a business error — callers that want the raw `result.error` (the `dsh_call` passthrough) use this.
+	 * Lowest-level unary entry point: returns `{ envelope, status, attempts, elapsedMs }`
+	 * and never throws for a business error (the raw `dsh_call` passthrough uses this).
 	 */
-	async callEnvelope(method, payload = {}, opts = {}) {
+	async callEnvelope(endpoint, args = {}, opts = {}) {
 		const timeoutMs = opts.timeoutMs ?? this.timeoutMs;
 		const maxRetries = opts.retries ?? this.retries;
-		const retryableMethod = READ_ONLY_METHODS.has(method);
+		const retryableEndpoint = READ_ONLY_ENDPOINTS.has(endpoint);
 		let attempt = 0;
 
 		for (;;) {
 			attempt++;
 			const started = Date.now();
 			try {
-				const { envelope, status } = await this.#once(method, payload, timeoutMs, opts.signal);
+				const { envelope, status } = await this.#once(endpoint, args, timeoutMs, opts.signal);
 				return { envelope, status, attempts: attempt, elapsedMs: Date.now() - started };
 			} catch (error) {
 				const hasBudget = attempt <= maxRetries;
-				const mayRetry = error.retryable && hasBudget && (retryableMethod || error.preFlight);
+				const mayRetry = error.retryable && hasBudget && (retryableEndpoint || error.preFlight);
 				if (!mayRetry) throw error;
 				const backoff = Math.min(250 * 2 ** (attempt - 1), 2_000);
-				this.log('warn', `${method}: attempt ${attempt} failed (${error.kind}), retrying in ${backoff}ms`, {
+				this.log('warn', `${endpoint}: attempt ${attempt} failed (${error.kind}), retrying in ${backoff}ms`, {
 					code: error.code,
 					status: error.status,
 				});
@@ -194,24 +185,19 @@ export class DshClient {
 		}
 	}
 
-	async #once(method, payload, timeoutMs, outerSignal) {
+	async #once(endpoint, args, timeoutMs, outerSignal) {
 		const rpcId = `mcp-${Date.now().toString(36)}-${++this.rpcCounter}`;
-		const body = JSON.stringify({ type: 'client-request', rpcId, method, payload });
+		const body = JSON.stringify({ type: 'client-request', rpcId, method: endpoint, payload: { args: args ?? {} } });
 		const controller = new AbortController();
 		let timedOut = false;
 		const timer = setTimeout(() => {
 			timedOut = true;
 			controller.abort();
 		}, timeoutMs);
-		const onAbort = () => controller.abort();
-		if (outerSignal) {
-			if (outerSignal.aborted) onAbort();
-			else outerSignal.addEventListener('abort', onAbort, { once: true });
-		}
 
 		let response;
 		try {
-			response = await fetch(this.urlFor(method), {
+			response = await fetch(this.urlFor(endpoint), {
 				method: 'POST',
 				headers: this.requestHeaders(),
 				body,
@@ -220,23 +206,22 @@ export class DshClient {
 			});
 		} catch (cause) {
 			const code = errorCode(cause?.cause ?? cause);
-			// fetch wraps the real reason one level down; "bad port"/"invalid URL" never left the process
 			const reason = cause?.cause?.message ?? cause?.message ?? String(cause);
 			const preFlight = PRE_FLIGHT_CODES.has(code) || /bad port|invalid url|invalid argument/i.test(reason);
 			if (timedOut) {
 				throw new DshRpcError({
 					kind: 'timeout',
-					method,
+					method: endpoint,
 					base: this.base,
 					retryable: true,
 					preFlight: false,
 					cause,
-					message: `timed out after ${timeoutMs} ms waiting for ${method} (base: ${this.base}). Raise --timeout-ms / DSH_TIMEOUT_MS if the target DSH is slow.`,
+					message: `timed out after ${timeoutMs} ms waiting for ${endpoint} (base: ${this.base}). Raise --timeout-ms / DSH_TIMEOUT_MS if the target DSH is slow.`,
 				});
 			}
 			throw new DshRpcError({
 				kind: 'transport',
-				method,
+				method: endpoint,
 				base: this.base,
 				cause,
 				preFlight,
@@ -244,24 +229,23 @@ export class DshClient {
 				code,
 				message: preFlight
 					? `cannot reach DSH at ${this.base} (${code ?? reason}): is the host running and is --base correct?`
-					: `network failure calling ${method} at ${this.base}: ${reason}`,
+					: `network failure calling ${endpoint} at ${this.base}: ${reason}`,
 			});
 		} finally {
 			clearTimeout(timer);
-			if (outerSignal) outerSignal.removeEventListener('abort', onAbort);
 		}
 
 		const text = await response.text();
 		if (!response.ok) {
 			throw new DshRpcError({
 				kind: 'carrier',
-				method,
+				method: endpoint,
 				status: response.status,
 				base: this.base,
 				code: `http-${response.status}`,
 				retryable: RETRYABLE_STATUS.has(response.status),
 				preFlight: false,
-				message: `HTTP ${response.status} from ${this.urlFor(method)}: ${text.slice(0, 300) || '<empty body>'}`,
+				message: `HTTP ${response.status} from ${this.urlFor(endpoint)}: ${text.slice(0, 300) || '<empty body>'}`,
 			});
 		}
 
@@ -271,44 +255,174 @@ export class DshClient {
 		} catch (cause) {
 			throw new DshRpcError({
 				kind: 'protocol',
-				method,
+				method: endpoint,
 				status: response.status,
 				base: this.base,
 				cause,
 				preFlight: false,
-				message: `${this.urlFor(method)} returned non-JSON (HTTP ${response.status}): ${text.slice(0, 200)}`,
+				message: `${this.urlFor(endpoint)} returned non-JSON (HTTP ${response.status}): ${text.slice(0, 200)}`,
 			});
 		}
 		if (envelope?.type !== 'server-response') {
 			throw new DshRpcError({
 				kind: 'protocol',
-				method,
+				method: endpoint,
 				status: response.status,
 				base: this.base,
 				preFlight: false,
-				message: `unexpected envelope type "${envelope?.type}" for ${method} (expected "server-response")`,
+				message: `unexpected envelope type "${envelope?.type}" for ${endpoint} (expected "server-response")`,
 			});
 		}
 		if (envelope.rpcId !== rpcId) {
-			this.log('warn', `${method}: rpcId mismatch (sent ${rpcId}, got ${envelope.rpcId})`);
+			this.log('warn', `${endpoint}: rpcId mismatch (sent ${rpcId}, got ${envelope.rpcId})`);
 		}
 		if (!envelope.result || typeof envelope.result.ok !== 'boolean') {
 			throw new DshRpcError({
 				kind: 'protocol',
-				method,
+				method: endpoint,
 				base: this.base,
 				preFlight: false,
-				message: `malformed result for ${method}: ${text.slice(0, 200)}`,
+				message: `malformed result for ${endpoint}: ${text.slice(0, 200)}`,
 			});
 		}
 		return { envelope, status: response.status };
+	}
+
+	/**
+	 * Open one Gateway Remote stream and yield decoded item values.
+	 *   client: {type:'open', streamId, endpoint, payload:{args}}
+	 *   server: {type:'item', streamId, value} | {type:'error',…} | {type:'end', streamId}
+	 */
+	async *openStream(endpoint, args = {}, { timeoutMs = this.timeoutMs, signal } = {}) {
+		if (typeof WebSocket !== 'function') {
+			throw new DshRpcError({
+				kind: 'transport',
+				method: endpoint,
+				base: this.base,
+				message: `this Node runtime has no global WebSocket; cannot open stream ${endpoint} (Node >= 22 required)`,
+			});
+		}
+		const url = this.streamUrl();
+		const socket = new WebSocket(url);
+		const streamId = randomUUID();
+		const queue = [];
+		let wake = null;
+		let finished = false;
+		let failure = null;
+		const notify = () => {
+			const resume = wake;
+			wake = undefined;
+			resume?.();
+		};
+		const finish = (error = null) => {
+			finished = true;
+			failure = error;
+			notify();
+		};
+
+		socket.addEventListener('message', (event) => {
+			let message;
+			try {
+				message = JSON.parse(typeof event.data === 'string' ? event.data : String(event.data));
+			} catch {
+				return;
+			}
+			if (message.streamId !== streamId) return;
+			if (message.type === 'item') queue.push(message.value);
+			else if (message.type === 'error') {
+				finish(new DshRpcError({
+					kind: 'rpc',
+					method: endpoint,
+					code: message.error?.code,
+					message: message.error?.message,
+					details: message.error?.details,
+					base: this.base,
+				}));
+			} else if (message.type === 'end') finish();
+		});
+		socket.addEventListener('error', () => finish(new DshRpcError({
+			kind: 'transport',
+			method: endpoint,
+			base: this.base,
+			message: `WebSocket error while opening ${endpoint} at ${url}`,
+		})));
+		socket.addEventListener('close', () => finish());
+
+		await new Promise((resolve, reject) => {
+			const timer = setTimeout(() => reject(new DshRpcError({
+				kind: 'timeout',
+				method: endpoint,
+				base: this.base,
+				message: `timed out after ${timeoutMs} ms opening stream ${endpoint} at ${url}`,
+			})), timeoutMs);
+			socket.addEventListener('open', () => {
+				clearTimeout(timer);
+				resolve();
+			}, { once: true });
+			socket.addEventListener('error', () => {
+				clearTimeout(timer);
+				reject(new DshRpcError({
+					kind: 'transport',
+					method: endpoint,
+					base: this.base,
+					message: `cannot open stream ${endpoint} at ${url}`,
+				}));
+			}, { once: true });
+		});
+		socket.send(JSON.stringify({ type: 'open', streamId, endpoint, payload: { args: args ?? {} } }));
+
+		const onAbort = () => finish();
+		signal?.addEventListener?.('abort', onAbort, { once: true });
+		const deadline = Date.now() + timeoutMs;
+		try {
+			for (;;) {
+				if (queue.length) {
+					yield queue.shift();
+					continue;
+				}
+				if (finished) {
+					if (failure) throw failure;
+					return;
+				}
+				if (Date.now() >= deadline) {
+					throw new DshRpcError({
+						kind: 'timeout',
+						method: endpoint,
+						base: this.base,
+						message: `stream ${endpoint} produced no frame within ${timeoutMs} ms`,
+					});
+				}
+				await new Promise((resolve) => {
+					wake = resolve;
+					setTimeout(resolve, Math.min(250, Math.max(0, deadline - Date.now())));
+				});
+			}
+		} finally {
+			signal?.removeEventListener?.('abort', onAbort);
+			try {
+				if (socket.readyState === 1) socket.send(JSON.stringify({ type: 'cancel', streamId }));
+			} catch {
+				/* already closing */
+			}
+			try {
+				socket.close();
+			} catch {
+				/* already closed */
+			}
+		}
+	}
+
+	/** Convenience: first item of a stream (used for the `workspace/follow` baseline). */
+	async firstStreamItem(endpoint, args = {}, opts = {}) {
+		for await (const value of this.openStream(endpoint, args, opts)) return value;
+		return undefined;
 	}
 
 	/** Cheap liveness probe used by tools/tests: never throws, always reports the base it used. */
 	async probe({ timeoutMs } = {}) {
 		const started = Date.now();
 		try {
-			const value = await this.call('host.describe', {}, { timeoutMs: timeoutMs ?? Math.min(this.timeoutMs, 10_000) });
+			const value = await this.call('session/list', { request: {} }, { timeoutMs: timeoutMs ?? Math.min(this.timeoutMs, 10_000) });
 			return { ok: true, base: this.base, elapsedMs: Date.now() - started, value };
 		} catch (error) {
 			return {

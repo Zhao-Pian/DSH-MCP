@@ -1,12 +1,14 @@
-/** workspace.* handlers. */
-import { ToolError, localDirIssue } from './support.js';
+/** workspace.* handlers — adapted to the 0.2.x Typert Remote interface. */
+import { ToolError, listWorkspaces, localDirIssue } from './support.js';
 
 export const workspaceTools = {
 	async dsh_list_workspaces(ctx) {
-		const { items, archivedSessionIds } = await ctx.client.call('workspace.list', {});
+		const { items, archivedSessionIds, pinnedSessionIds, source } = await listWorkspaces(ctx);
 		return {
 			count: items.length,
 			archived_session_count: archivedSessionIds?.length ?? 0,
+			pinned_session_count: pinnedSessionIds?.length ?? 0,
+			source,
 			workspaces: items.map((w) => ({
 				workspace_id: w.workspaceId,
 				title: w.title,
@@ -25,10 +27,10 @@ export const workspaceTools = {
 			throw new ToolError(issue, {
 				code: 'bad-directory',
 				details: { path: args.path },
-				hint: 'workspace.create never mkdirs: create the directory on the DSH host first (or let dsh_create_session / dsh_dispatch_task claim an existing one).',
+				hint: 'workspace/create never mkdirs: create the directory on the DSH host first (or let dsh_create_session / dsh_dispatch_task claim an existing one).',
 			});
 		}
-		const { workspace, created } = await ctx.client.call('workspace.create', { path: args.path });
+		const { workspace, created } = await ctx.client.call('workspace/create', { request: { path: args.path } });
 		return {
 			created,
 			already_registered: !created,
@@ -41,7 +43,7 @@ export const workspaceTools = {
 	},
 
 	async dsh_archive_session(ctx, args) {
-		const archived = await ctx.client.call('workspace.archiveSession', { sessionId: args.session_id });
+		const archived = await ctx.client.call('workspace/archiveSession', { request: { sessionId: args.session_id } });
 		return {
 			archived: true,
 			session_id: args.session_id,

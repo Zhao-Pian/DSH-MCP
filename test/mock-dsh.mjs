@@ -1,60 +1,71 @@
 /**
- * A self-contained mock of the DSH `/api` RPC surface.
+ * A self-contained mock of the DSH **0.2.x Typert Remote** HTTP + stream surface.
  *
- * WHY THIS EXISTS
- * ---------------
- * The real `test/e2e.test.mjs` (and two cases in `test/protocol.test.mjs`) drive a *live* DSH host at
- * `$DSH_BASE` (default http://127.0.0.1:3080). When no DSH is running there is nothing to talk to, so
- * the suite cannot be exercised end-to-end. This file speaks the exact same wire contract as
- * `src/client.js` expects — `POST /api/<method>` carrying a `client-request` envelope and answering a
- * `server-response` envelope whose `result.ok` may be false (a business error on HTTP 200) — so the
- * full MCP server (transports, validation, dispatch, wait loop, error mapping) runs against it.
+ * The real suites drive a live DSH at `$DSH_BASE`. When no host is running we still want the whole
+ * MCP server (transports, validation, dispatch, wait loop, error mapping, stream baseline) exercised
+ * end-to-end. This mock speaks the exact wire contract from `packages/client/connection/src/rpc.ts`
+ * and `packages/api/gateway/src/stream-protocol.ts`:
  *
- * It is *test scaffolding*, deliberately outside `src/`. It models only the semantics the tests
- * assert; it is not a DSH implementation.
+ *   POST /api/<namespace>/<method>  { type:'client-request', rpcId, method, payload:{args} }
+ *   -> { type:'server-response', rpcId, result:{ok,value|error:{code,message,details}} }
+ *   WS   /api/remote.mux            { type:'open', streamId, endpoint, payload:{args} }
  *
- * Standalone:  node test/mock-dsh.mjs [port]     (default 3080)
- * Programmatic: import { createMockDsh } from './mock-dsh.mjs'
+ * It is test scaffolding under `test/`, deliberately outside `src/`.
  */
 import { createServer } from 'node:http';
 import { writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
+import { WebSocketServer } from 'ws';
 
 const WORKSPACE = process.env.E2E_WORKSPACE ?? '/workspace';
 const ARTIFACT = '/tmp/mcp-e2e.txt';
 const MODEL = { provider: 'local-gateway', model: 'deepseek-ai/DeepSeek-V4.1-Flash' };
 
 const ok = (value) => ({ ok: true, value });
-const err = (code, message, details) => ({ ok: false, error: { code, message, details } });
+const err = (code, message, details = {}) => ({ ok: false, error: { code, message, details } });
 
 export function createMockDsh() {
 	const sessions = new Map();
 	const workspaces = [];
 	const archivedSessionIds = [];
+	const pinnedSessionIds = [];
 	let seq = 0;
 	const nextSeq = () => ++seq;
 
-	const view = (s) => ({
-		sessionId: s.sessionId,
-		updatedAt: s.updatedAt,
-		running: s.running,
-		blank: s.blank,
-		cwd: s.cwd,
-		parentSessionId: s.parentSessionId,
-		origin: s.origin,
-		agentPreset: s.agentPreset,
-	});
-	const wsView = (w) => ({
-		workspaceId: w.workspaceId,
-		title: w.title,
-		path: w.path,
-		sessionIds: w.sessionIds,
-		createdAt: w.createdAt,
-		updatedAt: w.updatedAt,
-	});
+	const lastSeq = (s) => (s.events.length ? s.events[s.events.length - 1].seq : -1);
 
-	function newSession({ cwd = null, workspaceId = null, parentSessionId = null, origin = 'created', agentPreset = null, id = null } = {}) {
+	function projectionValues(s) {
+		return {
+			title: s.title ?? null,
+			agentPreset: s.agentPreset ?? null,
+			modelSelection: { lastUsed: s.modelSelection ?? null, next: s.modelSelection ?? null },
+			subagentCatalog: s.children.map((child) => ({
+				id: child.id,
+				createdAt: child.createdAt,
+				mode: child.mode,
+				...(child.label ? { label: child.label } : {}),
+			})),
+		};
+	}
+
+	function summary(s) {
+		return {
+			agentAvailable: true,
+			sessionId: s.sessionId,
+			updatedAt: s.updatedAt,
+			running: s.running,
+			blank: s.blank,
+			...(s.parentSessionId ? { parentSessionId: s.parentSessionId } : {}),
+			...(s.origin ? { origin: s.origin } : {}),
+			...(s.cwd ? { cwd: s.cwd } : {}),
+			projections: { kind: 'sequenced', asOfSeq: lastSeq(s), values: projectionValues(s) },
+		};
+	}
+
+	const wsView = (w) => ({ workspaceId: w.workspaceId, title: w.title, path: w.path, sessionIds: w.sessionIds, createdAt: w.createdAt, updatedAt: w.updatedAt });
+
+	function newSession({ cwd = null, workspaceId = null, parentSessionId = null, origin = undefined, agentPreset = null, id = null } = {}) {
 		const sessionId = id ?? `session-${randomUUID()}`;
 		const s = {
 			sessionId,
@@ -67,6 +78,7 @@ export function createMockDsh() {
 			agentPreset,
 			title: null,
 			workspaceId,
+			modelSelection: null,
 			events: [],
 			children: [],
 			timers: [],
@@ -80,27 +92,32 @@ export function createMockDsh() {
 	}
 
 	function addEvent(s, type, data) {
-		const ev = { event: { type, seq: nextSeq(), data } };
-		s.events.push(ev);
-		return ev;
+		const event = { type, seq: nextSeq(), time: Date.now(), data };
+		s.events.push(event);
+		return event;
 	}
-	const addMessage = (s, role, text) => addEvent(s, 'message', { message: { role, content: [{ type: 'text', text }] } });
+	const addUser = (s, text) => addEvent(s, 'user/message', { id: randomUUID(), role: 'user', content: [{ type: 'text', text }], source: { kind: 'user' } });
+	const addAssistant = (s, text, turn = 1) =>
+		addEvent(s, 'assistant/message', {
+			turn,
+			step: 1,
+			message: { id: randomUUID(), role: 'assistant', content: [{ type: 'text', text }], source: { kind: 'model', provider: MODEL.provider, model: MODEL.model } },
+			stream: [],
+		});
 
-	/** Finish a running turn: emit an assistant answer + turn/end and drop the running flag. */
 	function settleTurn(s, answer, { tool = false } = {}) {
-		if (tool) addEvent(s, 'tool/call', { tool: 'bash', args: {} });
-		addMessage(s, 'assistant', answer);
-		addEvent(s, 'turn/end', {});
+		if (tool) addEvent(s, 'tool/call', { turn: 1, step: 1, callId: randomUUID(), name: 'bash', arguments: '{}' });
+		addAssistant(s, answer);
+		addEvent(s, 'turn/end', { turn: 1, reason: 'completed' });
 		s.running = false;
 		s.updatedAt = Date.now();
 	}
 
-	/** Kick off an asynchronous turn (prompt returns immediately; the answer lands later). */
 	function startTurn(s, text) {
 		s.running = true;
 		s.blank = false;
 		s.updatedAt = Date.now();
-		addMessage(s, 'user', text);
+		addUser(s, text);
 		const later = (fn, ms) => s.timers.push(setTimeout(fn, ms));
 
 		if (/mcp-e2e\.txt/.test(text)) {
@@ -108,9 +125,9 @@ export function createMockDsh() {
 				try {
 					writeFileSync(ARTIFACT, 'E2E-OK\n');
 				} catch {
-					/* best effort: the test asserts the file, but never crash the host */
+					/* best effort */
 				}
-				addEvent(s, 'tool/call', { tool: 'bash', args: { command: `echo E2E-OK > ${ARTIFACT}` } });
+				addEvent(s, 'tool/call', { turn: 1, step: 1, callId: randomUUID(), name: 'bash', arguments: `{"command":"echo E2E-OK > ${ARTIFACT}"}` });
 				settleTurn(s, 'E2E-OK');
 			}, 300);
 			return;
@@ -118,10 +135,10 @@ export function createMockDsh() {
 		if (/subagent/i.test(text)) {
 			later(() => {
 				const child = newSession({ cwd: s.cwd, parentSessionId: s.sessionId, origin: 'subagent', id: randomUUID() });
-				addMessage(child, 'user', 'echo SUBAGENT-PROBE');
-				addEvent(child, 'tool/call', { tool: 'bash', args: {} });
+				addUser(child, 'echo SUBAGENT-PROBE');
+				addEvent(child, 'tool/call', { turn: 1, step: 1, callId: randomUUID(), name: 'bash', arguments: '{}' });
 				settleTurn(child, 'SUBAGENT-PROBE');
-				s.children.push({ kind: 'child', id: child.sessionId, activity: 'inactive', hasChildren: false, mode: 'one-shot', label: null });
+				s.children.push({ id: child.sessionId, createdAt: Date.now(), mode: 'one-shot' });
 				settleTurn(s, 'PARENT-DONE');
 			}, 400);
 			return;
@@ -141,165 +158,213 @@ export function createMockDsh() {
 		later(() => settleTurn(s, 'OK'), 300);
 	}
 
-	// --- seed state the tests expect to already exist -------------------------------
+	// seed the workspace + one session so list filters are non-empty
 	const ws = { workspaceId: `workspace-${randomUUID()}`, title: WORKSPACE, path: WORKSPACE, sessionIds: [], createdAt: Date.now(), updatedAt: Date.now() };
 	workspaces.push(ws);
-	newSession({ cwd: WORKSPACE, workspaceId: ws.workspaceId }); // so list_sessions(workspace) is non-empty
+	newSession({ cwd: WORKSPACE, workspaceId: ws.workspaceId });
 
-	// --- RPC dispatch table ---------------------------------------------------------
+	// --- RPC dispatch table (endpoint -> handler(args)) ------------------------------
 	const handlers = {
-		'host.describe': () =>
-			ok({ version: '0.0.1', cwd: WORKSPACE, provider: MODEL.provider, model: MODEL.model, attachedSessions: sessions.size, canOpenPath: false }),
+		'session/list': () => ok({ items: [...sessions.values()].map(summary) }),
 
-		'session.list': () => ok({ items: [...sessions.values()].map(view) }),
-
-		'session.history': (p) => {
-			const s = sessions.get(p.sessionId);
-			if (!s) return err('session-not-found', `session "${p.sessionId}" not found`, { sessionId: p.sessionId });
-			let list = s.events;
-			if (p.beforeSeq !== undefined && p.beforeSeq !== null) list = list.filter((e) => e.event.seq < p.beforeSeq);
-			const max = p.maxMessages ?? 20;
-			const hasMore = list.length > max;
-			const page = list.slice(-max);
-			const asOfSeq = s.events.length ? s.events[s.events.length - 1].event.seq : null;
-			return ok({ events: page, hasMore, asOfSeq, projections: { values: { title: s.title } } });
-		},
-
-		'session.create': (p) => {
-			const workspace = p.workspaceId ? workspaces.find((w) => w.workspaceId === p.workspaceId) : null;
+		'session/create': ({ request }) => {
+			const workspace = request.workspaceId ? workspaces.find((w) => w.workspaceId === request.workspaceId) : null;
 			const s = newSession({
-				cwd: p.cwd ?? workspace?.path ?? null,
-				workspaceId: p.workspaceId ?? null,
-				agentPreset: p.agentPreset ?? null,
-				id: p.sessionId ?? null,
+				cwd: request.cwd ?? workspace?.path ?? null,
+				workspaceId: request.workspaceId ?? null,
+				agentPreset: request.agentPreset ?? null,
+				id: request.sessionId ?? null,
 			});
-			return ok({ sessionId: s.sessionId, agentPreset: s.agentPreset });
+			return ok({ sessionId: s.sessionId, ...(s.agentPreset ? { agentPreset: s.agentPreset } : {}) });
 		},
 
-		'session.prompt': (p) => {
-			const s = sessions.get(p.sessionId);
-			if (!s) return err('session-not-found', `session "${p.sessionId}" not found`, { sessionId: p.sessionId });
-			const text = (p.content ?? []).map((b) => b?.text ?? '').join('\n');
+		'session/prompt': ({ request }) => {
+			const s = sessions.get(request.sessionId);
+			if (!s) return err('session/not-found', `session "${request.sessionId}" not found`, { sessionId: request.sessionId });
+			const text = (request.content ?? []).map((b) => b?.text ?? '').join('\n');
 			startTurn(s, text);
-			return ok({ accepted: true, command: p.mode ?? 'queue', messageId: randomUUID() });
+			return ok({ accepted: true });
 		},
 
-		'session.models': (p) => {
-			const s = sessions.get(p.sessionId);
-			if (!s) return err('session-not-found', `session "${p.sessionId}" not found`, { sessionId: p.sessionId });
-			return ok({
-				current: { ...MODEL },
-				routable: true,
-				groups: [{ provider: MODEL.provider, models: [MODEL.model, 'deepseek-ai/DeepSeek-V4.1'], routable: true }],
-				failures: [],
-			});
-		},
-
-		'session.selectModel': (p) => {
-			if (p.provider === 'no-such-provider' || p.model === 'no-such-model') {
-				return err('model-unavailable', `model ${p.provider}/${p.model} is not available`, { provider: p.provider, model: p.model });
-			}
-			return ok({ selected: { provider: p.provider, model: p.model } });
-		},
-
-		'session.cancel': (p) => {
-			const s = sessions.get(p.sessionId);
-			if (!s) return err('session-not-found', `session "${p.sessionId}" not found`, { sessionId: p.sessionId });
-			for (const t of s.timers) clearTimeout(t);
+		'session/cancel': ({ request }) => {
+			const s = sessions.get(request.sessionId);
+			if (!s) return err('session/not-found', `session "${request.sessionId}" not found`, { sessionId: request.sessionId });
+			for (const timer of s.timers) clearTimeout(timer);
 			s.timers = [];
 			s.running = false;
 			s.updatedAt = Date.now();
 			return ok({ accepted: true });
 		},
 
-		'session.rename': (p) => {
-			const s = sessions.get(p.sessionId);
-			if (!s) return err('session-not-found', `session "${p.sessionId}" not found`, { sessionId: p.sessionId });
-			s.title = p.title;
+		'session/rename': ({ request }) => {
+			const s = sessions.get(request.sessionId);
+			if (!s) return err('session/not-found', `session "${request.sessionId}" not found`, { sessionId: request.sessionId });
+			s.title = request.title;
 			s.updatedAt = Date.now();
-			const lastSeq = s.events.length ? s.events[s.events.length - 1].event.seq : null;
-			return ok({ title: s.title, seq: lastSeq });
+			return ok({ title: s.title, seq: lastSeq(s) });
 		},
 
-		'session.fork': (p) => {
-			const s = sessions.get(p.sessionId);
-			if (!s) return err('session-not-found', `session "${p.sessionId}" not found`, { sessionId: p.sessionId });
-			const child = newSession({ cwd: s.cwd, workspaceId: s.workspaceId, origin: 'fork' });
+		'session/fork': ({ request }) => {
+			const s = sessions.get(request.sessionId);
+			if (!s) return err('session/not-found', `session "${request.sessionId}" not found`, { sessionId: request.sessionId });
+			const child = newSession({ cwd: s.cwd, workspaceId: s.workspaceId });
 			child.title = s.title;
 			return ok({ sessionId: child.sessionId });
 		},
 
-		'workspace.list': () => ok({ items: workspaces.map(wsView), archivedSessionIds: archivedSessionIds.slice() }),
+		'session/selectModel': ({ request }) => {
+			const s = sessions.get(request.sessionId);
+			if (!s) return err('session/not-found', `session "${request.sessionId}" not found`, { sessionId: request.sessionId });
+			if (request.provider === 'no-such-provider' || request.model === 'no-such-model') {
+				return err('model-unavailable', `model ${request.provider}/${request.model} is not available`, { provider: request.provider, model: request.model });
+			}
+			s.modelSelection = { provider: request.provider, model: request.model, ...(request.reasoningEffort ? { reasoningEffort: request.reasoningEffort } : {}) };
+			return ok({ selected: s.modelSelection });
+		},
 
-		'workspace.create': (p) => {
-			const existing = workspaces.find((w) => w.path === p.path);
+		'session/modelCatalog': () => ok({
+			default: { ...MODEL },
+			routableProviders: [MODEL.provider],
+			groups: [{ id: MODEL.provider, name: 'Local Gateway', models: [{ id: MODEL.model, name: 'DeepSeek V4.1 Flash' }, { id: 'deepseek-ai/DeepSeek-V4.1', name: 'DeepSeek V4.1' }] }],
+			failures: [],
+		}),
+
+		'session/canOpenWorkspacePath': () => ok(true),
+
+		'session/projections': ({ request }) => {
+			const s = sessions.get(request.sessionId);
+			if (!s) return ok(null);
+			return ok({ kind: 'sequenced', asOfSeq: lastSeq(s), values: projectionValues(s) });
+		},
+
+		'session/page': ({ request }) => {
+			const address = request.address;
+			const sessionId = address?.kind === 'subagent' ? address.childSessionId : address?.sessionId;
+			const s = sessions.get(sessionId);
+			if (!s) return err('session/not-found', `session "${sessionId}" not found`, { sessionId });
+			const cursor = lastSeq(s);
+			if (typeof request.throughSeq !== 'number' || request.throughSeq > cursor) {
+				return err('gateway/bad-request', `session page through seq ${request.throughSeq} is past cursor ${cursor}`, {});
+			}
+			let list = s.events.filter((event) => event.seq <= request.throughSeq);
+			if (request.beforeSeq !== undefined) list = list.filter((event) => event.seq < request.beforeSeq);
+			const max = request.maxMessages ?? 20;
+			const page = list.slice(-max);
+			return ok({ records: page.map((event) => ({ type: 'event', event })), hasMore: list.length > page.length });
+		},
+
+		'workspace/create': ({ request }) => {
+			const existing = workspaces.find((w) => w.path === request.path);
 			if (existing) return ok({ workspace: wsView(existing), created: false });
-			const w = { workspaceId: `workspace-${randomUUID()}`, title: p.path, path: p.path, sessionIds: [], createdAt: Date.now(), updatedAt: Date.now() };
+			const w = { workspaceId: `workspace-${randomUUID()}`, title: request.path, path: request.path, sessionIds: [], createdAt: Date.now(), updatedAt: Date.now() };
 			workspaces.push(w);
 			return ok({ workspace: wsView(w), created: true });
 		},
 
-		'workspace.archiveSession': (p) => {
-			if (!archivedSessionIds.includes(p.sessionId)) archivedSessionIds.push(p.sessionId);
+		'workspace/archiveSession': ({ request }) => {
+			if (!archivedSessionIds.includes(request.sessionId)) archivedSessionIds.push(request.sessionId);
 			return ok({ archivedSessionIds: archivedSessionIds.slice() });
 		},
 
-		'subagent.list': (p) => {
-			const s = sessions.get(p.parentSessionId);
-			if (!s) return ok({ parentAvailable: false, entries: [] });
-			return ok({ parentAvailable: true, entries: s.children });
+		'subagents/prompt': ({ request }) => {
+			const parent = sessions.get(request.parentSessionId);
+			const child = parent?.children.find((entry) => entry.id === request.childSessionId);
+			if (!child) return err('subagent/not-found', 'subagent is unavailable', { childSessionId: request.childSessionId });
+			if (child.mode !== 'continuable' || request.mode !== 'continuable') {
+				return err('subagent/not-found', 'subagent is unavailable', { childSessionId: request.childSessionId });
+			}
+			const childSession = sessions.get(request.childSessionId);
+			if (childSession) {
+				const text = (request.content ?? []).map((block) => block?.text ?? '').join('\n');
+				startTurn(childSession, text);
+			}
+			return ok({ messageId: randomUUID() });
 		},
 
-		// One-shot children are refused here on purpose, which is exactly what the real host does; the
-		// reader then falls back to session.history (see src/tools/support.js readHistory).
-		'subagent.prompt': (p) =>
-			err('subagent-not-found', `continuable child "${p.childSessionId}" not found`, { parentSessionId: p.parentSessionId, childSessionId: p.childSessionId }),
-
-		'subagent.history': (p) =>
-			err('subagent-not-found', `continuable child "${p.childSessionId}" not found`, { childSessionId: p.childSessionId }),
-
-		'subagent.interrupt': (p) => {
-			const s = sessions.get(p.parentSessionId);
-			const c = s?.children.find((e) => e.id === p.childSessionId);
-			if (c) c.activity = 'inactive';
+		'subagents/interruptByParent': ({ childSessionId, parentSessionId, mode }) => {
+			if (mode !== 'continuable') return err('gateway/bad-request', 'mode must be continuable', {});
+			const parent = sessions.get(parentSessionId);
+			const child = parent?.children.find((entry) => entry.id === childSessionId);
+			if (!child) return err('subagent/not-found', 'subagent is unavailable', { childSessionId });
+			const childSession = sessions.get(childSessionId);
+			if (childSession) {
+				for (const timer of childSession.timers) clearTimeout(timer);
+				childSession.timers = [];
+				childSession.running = false;
+				childSession.updatedAt = Date.now();
+			}
 			return ok({ accepted: true });
 		},
 	};
 
-	async function handle(method, payload) {
-		const fn = handlers[method];
-		if (!fn) return err('unknown-method', `no such method "${method}"`, { method });
-		try {
-			return fn(payload ?? {});
-		} catch (error) {
-			return err('internal', String(error?.message ?? error));
-		}
-	}
+	const wss = new WebSocketServer({ noServer: true });
 
 	const server = createServer((req, res) => {
 		const chunks = [];
-		req.on('data', (c) => chunks.push(c));
-		req.on('end', async () => {
+		req.on('data', (chunk) => chunks.push(chunk));
+		req.on('end', () => {
 			const send = (status, body) => {
 				res.writeHead(status, { 'content-type': 'application/json' });
 				res.end(JSON.stringify(body));
 			};
-			const url = req.url ?? '';
-			const match = /^\/api\/([^/?]+)/.exec(url);
+			const match = /^\/api\/([^/?]+)\/([^/?]+)/.exec(req.url ?? '');
 			if (req.method !== 'POST' || !match) {
-				send(404, { type: 'server-response', rpcId: null, result: err('not-found', `unknown path ${url}`) });
+				send(404, { type: 'server-response', rpcId: null, result: err('gateway/not-found', `unknown path ${req.url}`, {}) });
 				return;
 			}
+			const endpoint = `${decodeURIComponent(match[1])}/${decodeURIComponent(match[2])}`;
 			let envelope;
 			try {
 				envelope = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
 			} catch {
-				send(400, { type: 'server-response', rpcId: null, result: err('bad-request', 'body is not JSON') });
+				send(400, { type: 'server-response', rpcId: null, result: err('gateway/bad-request', 'body is not JSON', {}) });
 				return;
 			}
-			const method = decodeURIComponent(match[1]);
-			const result = await handle(method, envelope.payload);
+			const handler = handlers[endpoint];
+			if (!handler) {
+				send(200, { type: 'server-response', rpcId: envelope.rpcId ?? null, result: err('gateway/not-found', `no such endpoint "${endpoint}"`, { endpoint }) });
+				return;
+			}
+			let result;
+			try {
+				result = handler(envelope.payload?.args ?? {});
+			} catch (error) {
+				result = err('gateway/internal', String(error?.message ?? error), {});
+			}
 			send(200, { type: 'server-response', rpcId: envelope.rpcId ?? null, result });
+		});
+	});
+
+	server.on('upgrade', (req, socket, head) => {
+		if (!(req.url ?? '').startsWith('/api/remote.mux')) {
+			socket.destroy();
+			return;
+		}
+		wss.handleUpgrade(req, socket, head, (peer) => {
+			peer.on('message', (raw) => {
+				let message;
+				try {
+					message = JSON.parse(String(raw));
+				} catch {
+					return;
+				}
+				if (message.type === 'open' && message.endpoint === 'workspace/follow') {
+					peer.send(JSON.stringify({
+						type: 'item',
+						streamId: message.streamId,
+						value: {
+							type: 'baseline',
+							value: {
+								items: workspaces.map(wsView),
+								archivedSessionIds: archivedSessionIds.slice(),
+								pinnedSessionIds: pinnedSessionIds.slice(),
+							},
+						},
+					}));
+				} else if (message.type === 'open') {
+					peer.send(JSON.stringify({ type: 'error', streamId: message.streamId, error: { code: 'gateway/not-found', message: `no such stream "${message.endpoint}"`, details: {} } }));
+				}
+			});
 		});
 	});
 
@@ -312,7 +377,11 @@ export function createMockDsh() {
 				server.once('error', reject);
 				server.listen(port, host, () => resolve(server.address()));
 			}),
-		close: () => new Promise((resolve) => server.close(resolve)),
+		close: () => new Promise((resolve) => {
+			for (const client of wss.clients) client.terminate();
+			wss.close();
+			server.close(resolve);
+		}),
 	};
 }
 
@@ -323,4 +392,3 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 	const addr = await mock.listen(port);
 	console.error(`[mock-dsh] listening on http://127.0.0.1:${addr.port} (workspace ${WORKSPACE})`);
 }
-

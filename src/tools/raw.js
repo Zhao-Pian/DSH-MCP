@@ -16,6 +16,7 @@ export const rawTools = {
 				hint: 'Restart the MCP server with --allow-raw-call (or DSH_ALLOW_RAW_CALL=1) to enable the raw /api passthrough. It is off by default because it bypasses every curated guard rail, including destructive-tool annotations and the selectModel warning.',
 			});
 		}
+		// `method` is an endpoint like "session/list"; `payload` is the named `args` object.
 		const { envelope, status, attempts, elapsedMs } = await ctx.client.callEnvelope(args.method, args.payload, {
 			timeoutMs: ctx.config.timeoutMs,
 		});

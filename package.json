@@ -39,9 +39,13 @@
     "test": "node --test --test-reporter=spec \"test/*.test.mjs\"",
     "test:protocol": "node --test --test-reporter=spec test/protocol.test.mjs",
     "test:e2e": "node --test --test-reporter=spec test/e2e.test.mjs",
-    "test:mock": "node test/run-e2e-mock.mjs"
+    "test:mock": "node test/run-e2e-mock.mjs",
+    "verify:dsh-contract": "node test/verify-dsh-contract.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0"
+  },
+  "devDependencies": {
+    "ws": "^8.22.0"
   }
 }

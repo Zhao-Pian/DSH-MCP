@@ -70,7 +70,7 @@ export const TOOL_SCHEMAS = [
 		title: 'DSH host info',
 		group: 'host',
 		description:
-			'Describe the target DSH host (version, cwd, provider, model, number of attached sessions). Also returns the base URL actually in use, so a misconfigured --base is visible immediately.',
+			'Describe the target DSH host (cwd, default provider/model, number of sessions, whether it can open paths) composed from session/list + session/modelCatalog. The 0.2.x API has no host-version endpoint, so `version` is null. Also returns the base URL actually in use, so a misconfigured --base is visible immediately.',
 		annotations: { readOnlyHint: true, openWorldHint: true },
 		inputSchema: { type: 'object', properties: {}, required: [], additionalProperties: false },
 	},
@@ -116,7 +116,7 @@ export const TOOL_SCHEMAS = [
 			properties: {
 				session_id: SESSION_ID,
 				parent_session_id: str('Parent session id — set this (with session_id = the child id) to read a subagent transcript.'),
-				mode: { type: 'string', enum: ['continuable'], description: 'Subagent access mode (only "continuable" exists today).' },
+				mode: { type: 'string', enum: ['continuable', 'one-shot', 'unknown'], description: 'Subagent address mode. Use the value reported by dsh_list_subagents; a mismatch falls back to the child session log.' },
 				...PAGE_ARGS,
 			},
 			required: ['session_id'],
@@ -357,7 +357,7 @@ export const TOOL_SCHEMAS = [
 		name: 'dsh_list_subagents',
 		title: 'List subagents',
 		group: 'subagents',
-		description: 'List the direct children of a session (subagent.list): id, activity, mode, whether they have children, plus diagnostics for unreadable ones.',
+		description: 'List the direct children of a session from its `subagentCatalog` projection (session/projections): id, mode, label, and whether prompt/interrupt are accepted.',
 		annotations: { readOnlyHint: true, openWorldHint: true },
 		inputSchema: {
 			type: 'object',
@@ -371,7 +371,7 @@ export const TOOL_SCHEMAS = [
 		title: 'Message a subagent',
 		group: 'subagents',
 		description:
-			'Send a message to a continuable subagent (subagent.prompt — session.prompt is rejected with agent-busy for child sessions). Returns the delivery receipt (messageId).',
+			'Send a message to a continuable subagent (subagents/prompt — session/prompt is rejected for child sessions). Returns the delivery receipt (messageId).',
 		annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
 		inputSchema: {
 			type: 'object',
@@ -389,7 +389,7 @@ export const TOOL_SCHEMAS = [
 		name: 'dsh_interrupt_subagent',
 		title: 'Interrupt a subagent',
 		group: 'subagents',
-		description: 'Interrupt a subagent\'s current turn (subagent.interrupt). Fire-and-return: re-check activity with dsh_list_subagents, or pass wait_ms to have this call watch the flip for you.',
+		description: 'Interrupt a subagent\'s current turn (subagents/interruptByParent). Fire-and-return: re-check with dsh_list_subagents / dsh_list_sessions, or pass wait_ms to have this call watch the child go idle.',
 		annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
 		inputSchema: {
 			type: 'object',
@@ -411,7 +411,7 @@ export const TOOL_SCHEMAS = [
 		name: 'dsh_read_subagent_history',
 		title: 'Read subagent history',
 		group: 'subagents',
-		description: 'Read a subagent transcript (subagent.history) with the same paging/flattening options as dsh_read_history.',
+		description: 'Read a subagent transcript with the same paging/flattening options as dsh_read_history (session/page with a subagent SessionAddress).',
 		annotations: { readOnlyHint: true, openWorldHint: true },
 		inputSchema: {
 			type: 'object',
@@ -437,10 +437,10 @@ export const TOOL_SCHEMAS = [
 		inputSchema: {
 			type: 'object',
 			properties: {
-				method: str('DSH RPC method, e.g. "session.list".'),
+				method: str('DSH endpoint as "<namespace>/<method>", e.g. "session/list" or "session/modelCatalog".'),
 				payload: {
 					type: 'object',
-					description: 'Payload object for the method (default {}).',
+					description: 'Named wire arguments for the endpoint (the new API sends them as payload.args; default {}).',
 					default: {},
 				},
 				raw: bool('Return the whole envelope (carrier status + echo + result) instead of just result (default false).', {

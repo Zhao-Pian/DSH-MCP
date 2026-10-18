@@ -9,7 +9,7 @@ hand tasks to them, wait for the turn to settle, take the answer back**, cancel,
 manage workspaces, and drive subagents — all against a DSH instance reached over HTTP(S).
 
 ```
-MCP host  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<method> (JSON-RPC envelope)──▶  DSH host (URL configurable)
+MCP host  ──stdio/HTTP(MCP)──▶  dsh-mcp  ──POST /api/<namespace>/<method> {"args":{…}}──▶  DSH 0.2.x host (URL configurable)
 ```
 
 * **23 tools**, generated from a single schema array (`src/schema.js`).
@@ -110,44 +110,44 @@ take an explicit budget.
 ### Host
 | tool | DSH method | notes |
 |---|---|---|
-| `dsh_host_info` | `host.describe` | version / cwd / provider / model / attached sessions **+ the base URL actually used** |
-| `dsh_ping` | `host.describe` | never throws; returns `ok`, latency, or the exact error |
+| `dsh_host_info` | `session/list` + `session/modelCatalog` + `session/canOpenWorkspacePath` | composed host view (0.2.x has no host-version endpoint, so `version` is `null`) **+ the base URL actually used** |
+| `dsh_ping` | `session/list` | never throws; returns `ok`, latency, or the exact error |
 
 ### Sessions
 | tool | DSH method | notes |
 |---|---|---|
 | `dsh_list_sessions` | `session.list` | filter by `cwd`, `running_only`, optional title resolution |
-| `dsh_read_history` | `session.history` / `subagent.history` | event-level, `max`/`before` paging, `text_only` flattening |
-| `dsh_session_overview` | `session.list` + `history` + `models` | one-stop summary: title, running, model, event histogram |
-| `dsh_create_session` | `session.create` | `workspace` (path or id) *or* `cwd` (see §7 caveat) |
-| `dsh_send_message` | `session.prompt` | `queue` / `steer`; the core "make the other AI work" primitive |
-| `dsh_wait_for_turn` | polls `session.list` | returns `settled` **or** `timed_out` + `next_call` (never an error) |
-| `dsh_dispatch_task` | `session.create` + `prompt` | non-blocking; returns `session_id` + `baseline_updated_at` |
+| `dsh_read_history` | `session/page` (session **or** subagent address) | event-level, `max`/`before` paging, `text_only` flattening |
+| `dsh_session_overview` | `session/list` + `session/page` + `session/modelCatalog` | one-stop summary: title, running, model, event histogram |
+| `dsh_create_session` | `session/create` | `workspace` (path or id) *or* `cwd` (see §7 caveat) |
+| `dsh_send_message` | `session/prompt` | `queue` / `steer`; the tool mints the required `requestId` |
+| `dsh_wait_for_turn` | polls `session/list` | returns `settled` **or** `timed_out` + `next_call` (never an error) |
+| `dsh_dispatch_task` | `session/create` + `session/prompt` | non-blocking; returns `session_id` + `baseline_updated_at` |
 | `dsh_run_task` | dispatch + wait | one call, hard budget, same non-error timeout contract |
-| `dsh_cancel_turn` | `session.cancel` | fire-and-return (`accepted` ≠ already idle) |
-| `dsh_rename_session` | `session.rename` | pins a title |
-| `dsh_fork_session` | `session.fork` | forks after a completed turn |
-| `dsh_archive_session` | `workspace.archiveSession` | the only cleanup primitive DSH has |
+| `dsh_cancel_turn` | `session/cancel` | fire-and-return (`accepted` ≠ already idle) |
+| `dsh_rename_session` | `session/rename` | pins a title |
+| `dsh_fork_session` | `session/fork` | forks after a completed turn |
+| `dsh_archive_session` | `workspace/archiveSession` | the only cleanup primitive DSH has |
 
 ### Models
 | tool | DSH method | notes |
 |---|---|---|
-| `dsh_list_models` | `session.models` | current + routable + provider groups + failures |
-| `dsh_select_model` | `session.selectModel` | ⚠️ **also writes the deployment default model** (see §8) |
+| `dsh_list_models` | `session/modelCatalog` + `session/projections` | default/current selection + routable providers + groups + failures |
+| `dsh_select_model` | `session/selectModel` | ⚠️ **also writes the deployment default model** (see §8) |
 
 ### Workspaces
 | tool | DSH method | notes |
 |---|---|---|
-| `dsh_list_workspaces` | `workspace.list` | ledger + archived session count |
-| `dsh_create_workspace` | `workspace.create` | idempotent; **never mkdirs** |
+| `dsh_list_workspaces` | `workspace/follow` (opening `baseline` frame) | ledger + archived/pinned session ids; falls back to idempotent `workspace/create` derivation without WebSocket |
+| `dsh_create_workspace` | `workspace/create` | idempotent; **never mkdirs** |
 
 ### Subagents
 | tool | DSH method | notes |
 |---|---|---|
-| `dsh_list_subagents` | `subagent.list` | children + diagnostics, `parentAvailable`, and per-child `readable_via` / `messageable` |
-| `dsh_read_subagent_history` | `subagent.history`, with automatic `session.history` fallback | same paging/flattening as session history; works for one-shot children too |
-| `dsh_message_subagent` | `subagent.prompt` | the only way to talk to a **continuable** child (`session.prompt` → `agent-busy`) |
-| `dsh_interrupt_subagent` | `subagent.interrupt` | optional `wait_ms` to watch `running → inactive` |
+| `dsh_list_subagents` | `session/projections` → `values.subagentCatalog` | direct children with mode/label and per-child `promptable` / `interruptible` |
+| `dsh_read_subagent_history` | `session/page` with a subagent `SessionAddress` (falls back to the child session log) | same paging/flattening as session history; works for one-shot children too |
+| `dsh_message_subagent` | `subagents/prompt` | continuable children only; the tool mints the required `requestId` |
+| `dsh_interrupt_subagent` | `subagents/interruptByParent` | optional `wait_ms` to watch the child go idle |
 
 ### Raw (opt-in)
 | tool | notes |
@@ -222,8 +222,8 @@ instance answered.
 
 **Retries** are deliberately narrow, because `session.prompt` is not idempotent:
 
-* read-only methods (`session.list`, `session.history`, `host.describe`, …) retry on transport
-  failures and `502/503/504/429`;
+* read-only endpoints (`session/list`, `session/page`, `session/projections`, `session/modelCatalog`,
+  `workspace/follow`, …) retry on transport failures and `502/503/504/429`;
 * mutating methods retry **only** when the failure provably happened before the request reached DSH
   (`ECONNREFUSED`, `ENOTFOUND`, `EAI_AGAIN`, bad port) — never on a timeout or a reset after send,
   which could double-deliver a task.
@@ -244,18 +244,14 @@ wait/run tools is a *budget*, and exhaustion yields `timed_out: true` + `next_ca
    carries `global_side_effect: true` and a warning.
 4. **`session.search` is disabled on this deployment** (`internal: session search is disabled: … openAt
    "never"`), so no search tool is exposed.
-5. **One-shot vs. continuable children — measured asymmetry.** Against host 0.0.1:
-   * child ids in `subagent.list` are **bare uuids** (`31bf59a5-…`, no `session-` prefix) — pass them verbatim;
-   * `subagent.prompt` and `subagent.history` only serve **continuable** direct children; a one-shot child
-     (the usual product of the model's own `subagent` tool) answers
-     `subagent-not-found: … is not a continuable direct child of …`;
-   * **`subagent.interrupt` is accepted for one-shot children too** (`{accepted:true}`);
-   * a one-shot child's transcript **is** readable, because `session.history` and `subagent.history` share
-     `readSessionState()`. `dsh_read_subagent_history` therefore catches `subagent-not-found` and retries
-     through `session.history`, reporting `method` + `fallback` in the result — one read path, both child kinds;
-   * `session.prompt` / `session.cancel` on a child answer `agent-busy` while it is alive and
-     `session-not-found` once cold (implementation order in `api-proxy.js`), which is why the
-     `subagent.*` tools exist at all.
+5. **One-shot vs. continuable children (0.2.x).**
+   * direct children come from the parent's `subagentCatalog` projection (`session/projections`); their ids
+     are bare session ids — pass them verbatim together with `parent_session_id`;
+   * `subagents/prompt` and `subagents/interruptByParent` require the **continuable** address
+     (`mode: "continuable"`); a one-shot child answers a structured `subagent/*` error;
+   * every child transcript **is** readable through `session/page` with a subagent `SessionAddress`;
+     a mode mismatch falls back to the child's own session log, reporting `method` + `fallback`;
+   * `session/prompt` on a child is rejected, which is why the `subagents/*` tools exist.
 6. **`dsh_ping`/`dsh_host_info` prove the base URL**, but everything else is only as reachable as the
    `Host` header rule of `/api` allows: DSH's own RPC gate accepts loopback or declared `trustedHosts`.
    Binding the MCP HTTP transport publicly is **your** responsibility — use `--http-token` and a proxy.

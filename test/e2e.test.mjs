@@ -120,7 +120,8 @@ after(async () => {
 test('S1 dsh_host_info reports the live host and the base URL actually used', async () => {
 	const body = await call(primary.client, 'dsh_host_info', {}, { label: 'dsh_host_info' });
 	assert.equal(body.base_url, DSH_BASE);
-	assert.ok(body.version, 'host version must be present');
+	// 0.2.x exposes no host-version endpoint; the composed host view reports null.
+	assert.ok('version' in body, 'version key must be present (null on the Typert Remote API)');
 	assert.ok(body.provider && body.model, 'provider/model must be present');
 	assert.ok(Number.isInteger(body.attachedSessions));
 	note(`host: version=${body.version} provider=${body.provider} model=${body.model} attached=${body.attachedSessions} base_url_source=${body.base_url_source}`);
@@ -542,12 +543,12 @@ test('S22 subagent tools on a child this test spawned itself (list / read / mess
 		// but subagent.interrupt IS accepted. Both halves are the contract, so assert both.
 		const refused = await call(primary.client, 'dsh_message_subagent', { parent_session_id: parent, child_session_id: child.session_id, text: 'ping' }, { expectError: true, label: 'dsh_message_subagent (one-shot child, expect isError)' });
 		assert.equal(refused.error.kind, 'rpc');
-		assert.equal(refused.error.code, 'subagent-not-found');
+		assert.match(refused.error.code, /^subagent\//);
 		assert.match(refused.hint, /continuable/);
 
 		const interrupted = await call(primary.client, 'dsh_interrupt_subagent', { parent_session_id: parent, child_session_id: child.session_id, wait_ms: 10_000 }, { label: 'dsh_interrupt_subagent (one-shot child)' });
 		assert.equal(interrupted.accepted, true, 'subagent.interrupt is accepted even for one-shot children');
-		note(`SKIP-EVIDENCE: this run produced a "${child.mode}" child, so the successful subagent.prompt path was not reachable; prompt returned the structured subagent-not-found error, interrupt was accepted (observed activity: ${interrupted.observed_activity}), and the transcript was read through the session.history fallback.`);
+		note(`SKIP-EVIDENCE: this run produced a "${child.mode}" child, so the successful subagents/prompt path was not reachable; prompt returned the structured subagent/* error, interrupt was accepted (observed activity: ${interrupted.observed_activity}), and the transcript was read through session/page.`);
 		return;
 	}
 
