@@ -4,6 +4,11 @@
 **被控目标**：真实 DSH 宿主 `http://127.0.0.1:3080`（host version `0.0.1`，provider `local-gateway`）
 **状态**：完成。MCP 协议测试 **13/13 通过**；对真实 DSH 的端到端测试 **26/26 通过**（合计 39 项，全部真跑）。
 
+> **历史说明（2026-10）**：本报告记录的是针对 DSH **0.0.1** 点号 RPC（`/api/session.prompt`）的实测输出。
+> 适配层现已迁移到 **DSH 0.2.x Typert Remote**（`/api/<namespace>/<method>` + `{args}`）。
+> 接口逐项映射见 [`DSH-0.2-MIGRATION.md`](DSH-0.2-MIGRATION.md)，当前测试方式见 [`TESTING.md`](TESTING.md)。
+> 下文关于 `host.describe` / `session.history` / `subagent.list` 的段落属于历史实现记录。
+
 ---
 
 ## 1. 交付了什么
